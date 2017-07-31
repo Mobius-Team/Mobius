@@ -1,0 +1,2 @@
+Opensimulator for osCore2
+
