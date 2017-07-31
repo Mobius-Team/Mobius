@@ -1,0 +1,13 @@
+﻿:VERSION 3
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `Avatars` (
+  `PrincipalID` char(36) NOT NULL,
+  `Name` varchar(32) NOT NULL,
+  `Value` text,
+  PRIMARY KEY (`PrincipalID`,`Name`),
+  KEY `PrincipalID` (`PrincipalID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;
