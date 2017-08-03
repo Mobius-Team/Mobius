@@ -1,0 +1,56 @@
+﻿2017-08-03 04:13:43,575 INFO  - OpenSim.Framework.Servers.ServerBase [SERVER BASE]: Starting in /home/jenkins/workspace/osCore2/bin
+2017-08-03 04:13:43,585 INFO  - OpenSim.Framework.Servers.ServerBase [SERVER BASE]: OpenSimulator version: OpenSim 0.9.1.0 Dev_osCore2
+2017-08-03 04:13:43,586 INFO  - OpenSim.Framework.Servers.ServerBase [SERVER BASE]: Operating system version: Unix 4.10.0.28, .NET platform Unix, 64-bit
+2017-08-03 04:13:43,589 INFO  - OpenSim.Framework.Servers.ServerBase [SERVER BASE]: Logging started to file /home/jenkins/workspace/osCore2/bin/Robust.Tests.log
+2017-08-03 04:13:43,596 INFO  - OpenSim.Framework.Servers.HttpServer.BaseHttpServer [BASE HTTP SERVER]: Starting HTTP server on port 8888
+2017-08-03 04:13:43,625 DEBUG - OpenSim.Framework.Monitoring.Watchdog [WATCHDOG]: Started tracking thread PollServiceWorkerThread 0:8888, ID 337
+2017-08-03 04:13:43,626 DEBUG - OpenSim.Framework.Monitoring.Watchdog [WATCHDOG]: Started tracking thread PollServiceWorkerThread 1:8888, ID 338
+2017-08-03 04:13:43,626 DEBUG - OpenSim.Framework.Monitoring.Watchdog [WATCHDOG]: Started tracking thread PollServiceWatcherThread:8888, ID 339
+2017-08-03 04:13:43,628 INFO  - OpenSim.Server.OpenSimServer [SERVER]: Loading GridServiceConnector on port 8888
+2017-08-03 04:13:43,634 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Starting...
+2017-08-03 04:13:43,639 INFO  - OpenSim.Server.OpenSimServer [SERVER]: GridServiceConnector loaded successfully
+2017-08-03 04:13:43,639 INFO  - OpenSim.Server.OpenSimServer [SERVER]: Loading PresenceServiceConnector on port 8888
+2017-08-03 04:13:43,641 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: Starting presence service
+2017-08-03 04:13:43,641 INFO  - OpenSim.Server.OpenSimServer [SERVER]: PresenceServiceConnector loaded successfully
+2017-08-03 04:13:43,641 INFO  - OpenSim.Server.OpenSimServer [SERVER]: Loading InstantMessageServerConnector on port 8888
+2017-08-03 04:13:43,644 DEBUG - OpenSim.Services.HypergridService.HGInstantMessageService [HG IM SERVICE]: Starting... InRobust? True
+2017-08-03 04:13:43,644 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Starting...
+2017-08-03 04:13:43,645 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: Starting presence service
+2017-08-03 04:13:43,645 WARN  - OpenSim.Services.HypergridService.HGInstantMessageService [HG IM SERVICE]: Unable to create User Agent Service. Missing config var  in [HGInstantMessageService]?
+2017-08-03 04:13:43,647 INFO  - OpenSim.Server.OpenSimServer [SERVER]: InstantMessageServerConnector loaded successfully
+2017-08-03 04:13:43,647 INFO  - OpenSim.Server.OpenSimServer [SERVER]: Loading UserAccountServiceConnector on port 8888
+2017-08-03 04:13:43,650 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Starting...
+2017-08-03 04:13:43,654 DEBUG - OpenSim.Data.Null.NullUserAccountData [NULL USER ACCOUNT DATA]: Storing user account GRID SERVICES 6571e388-6218-4574-87db-f9379718315e 2044274475
+2017-08-03 04:13:43,655 INFO  - OpenSim.Server.OpenSimServer [SERVER]: UserAccountServiceConnector loaded successfully
+2017-08-03 04:13:43,655 INFO  - OpenSim.Server.OpenSimServer [SERVER]: Loading XInventoryInConnector on port 8888
+2017-08-03 04:13:43,656 DEBUG - OpenSim.Server.Handlers.Inventory.XInventoryInConnector [XInventoryInConnector]: Starting with config name InventoryService
+2017-08-03 04:13:43,657 INFO  - OpenSim.Server.OpenSimServer [SERVER]: XInventoryInConnector loaded successfully
+2017-08-03 04:13:46,606 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Region Test Region 1 (52a118dd-54e7-4004-8b65-35f6a2e522f5, 256x256) registered at 1000,1000 with flags RegionOnline
+2017-08-03 04:13:46,634 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Region Test Region 2 (46f9f886-e031-4170-825b-3a68888e688c, 256x256) registered at 1001,1000 with flags RegionOnline
+2017-08-03 04:13:46,638 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Region Test Region 3 (02c2b652-d7d3-424d-ac46-a09ad10baf22, 256x256) registered at 1005,1000 with flags RegionOnline
+2017-08-03 04:13:46,640 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Deregistering region Test Region 3 (02c2b652-d7d3-424d-ac46-a09ad10baf22) at 1005-1000
+2017-08-03 04:13:46,643 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Region Test Region 3 (02c2b652-d7d3-424d-ac46-a09ad10baf22, 256x256) registered at 1005,1000 with flags RegionOnline
+2017-08-03 04:13:46,674 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Deregistering region Test Region 1 (52a118dd-54e7-4004-8b65-35f6a2e522f5) at 1000-1000
+2017-08-03 04:13:46,675 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Deregistering region Test Region 2 (46f9f886-e031-4170-825b-3a68888e688c) at 1001-1000
+2017-08-03 04:13:46,677 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: Deregistering region Test Region 3 (02c2b652-d7d3-424d-ac46-a09ad10baf22) at 1005-1000
+2017-08-03 04:13:46,702 DEBUG - OpenSim.Services.HypergridService.HGInstantMessageService [HG IM SERVICE]: User is not present. Checking location with User Agent service
+2017-08-03 04:13:46,703 WARN  - OpenSim.Services.HypergridService.HGInstantMessageService [HG IM SERVICE]: LocateUser call failed 
+System.NullReferenceException: Object reference not set to an instance of an object
+  at OpenSim.Services.HypergridService.HGInstantMessageService.TrySendInstantMessage (OpenSim.Framework.GridInstantMessage im, System.Object previousLocation, System.Boolean firstTime, System.Boolean foreigner) [0x00145] in <1ceada14f7ea4473aa07dea29d460f67>:0 
+2017-08-03 04:13:46,707 DEBUG - OpenSim.Services.HypergridService.HGInstantMessageService [HG IM SERVICE]: Unable to locate user 00000000-0000-0000-0000-000000000000
+2017-08-03 04:13:46,756 INFO  - OpenSim.Framework.SynchronousRestFormsRequester [FORMS]: Error sending request to http://localhost:8888/xinventory: Cannot access a disposed object.
+Object name: 'System.Net.Sockets.NetworkStream'.. Request: METHOD=ADDITEM&AssetID=e20fdd6f-ce5d-439c-a4e2-04609f3f523e&AssetType=25&Name=Link+to+Objects+folder&Owner=00000000-0000-0000-0000-333333333333&ID=50000000-0000-0000-0000-000000000005&InvType=0&Folder
+2017-08-03 04:13:46,832 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: LoginAgent: session eb2eec22-3482-4b1b-ab42-c806b7220994, user 5ac9ae6e-5b08-46a4-937e-ef8b811989a6, region 00000000-0000-0000-0000-000000000000, secure session 00000000-0000-0000-0000-000000000000
+2017-08-03 04:13:46,838 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: ReportAgent: session eb2eec22-3482-4b1b-ab42-c806b7220994, user 5ac9ae6e-5b08-46a4-937e-ef8b811989a6, region ac6560e8-9b83-4351-b19f-7b0b8cfff9aa. Previously: region ac6560e8-9b83-4351-b19f-7b0b8cfff9aa
+2017-08-03 04:13:46,841 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: LogoutAgent: session eb2eec22-3482-4b1b-ab42-c806b7220994, user 5ac9ae6e-5b08-46a4-937e-ef8b811989a6, region ac6560e8-9b83-4351-b19f-7b0b8cfff9aa
+2017-08-03 04:13:46,846 DEBUG - OpenSim.Services.PresenceService.PresenceService [PRESENCE SERVICE]: ReportAgent failed: session eb2eec22-3482-4b1b-ab42-c806b7220994, user , region ebcb950e-447e-4eab-9f18-ab4f4836ed56. Previously: not logged-in
+2017-08-03 04:13:46,854 DEBUG - OpenSim.Data.Null.NullUserAccountData [NULL USER ACCOUNT DATA]: Storing user account Completely Clueless e2748999-1e42-46ca-8fec-e1b041e84ba5 2044274475
+2017-08-03 04:13:46,855 DEBUG - OpenSim.Services.GridService.GridService [GRID SERVICE]: GetDefaultRegions returning 0 regions
+2017-08-03 04:13:46,855 WARN  - OpenSim.Services.UserAccountService.UserAccountService [USER ACCOUNT SERVICE]: Unable to set home for account Completely Clueless.
+2017-08-03 04:13:46,856 DEBUG - OpenSim.Services.UserAccountService.UserAccountService [USER ACCOUNT SERVICE]: Created user inventory for Completely Clueless
+2017-08-03 04:13:46,858 DEBUG - OpenSim.Services.UserAccountService.UserAccountService [USER ACCOUNT SERVICE]: Creating default appearance items for e2748999-1e42-46ca-8fec-e1b041e84ba5
+2017-08-03 04:13:46,860 INFO  - OpenSim.Services.UserAccountService.UserAccountService [USER ACCOUNT SERVICE]: Account Completely Clueless e2748999-1e42-46ca-8fec-e1b041e84ba5 created successfully
+2017-08-03 04:13:46,869 DEBUG - OpenSim.Data.Null.NullUserAccountData [NULL USER ACCOUNT DATA]: Storing user account Completely Clueless e2748999-1e42-46ca-8fec-e1b041e84ba5 2044274475
+2017-08-03 04:13:46,876 DEBUG - OpenSim.Services.Connectors.UserAccountServicesConnector [ACCOUNTS CONNECTOR]: Null value for UserTitle
+2017-08-03 04:13:46,876 DEBUG - OpenSim.Services.Connectors.UserAccountServicesConnector [ACCOUNTS CONNECTOR]: Null value for UserCountry
+2017-08-03 04:13:46,879 INFO  - OpenSim.Server.Base.ServicesServerBase [CONSOLE] Quitting
