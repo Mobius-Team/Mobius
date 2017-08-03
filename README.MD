@@ -1,4 +1,4 @@
-#Opensimulator for osCore2
+ #Opensimulator fork osCore2
 
 
 
