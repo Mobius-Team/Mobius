@@ -111,7 +111,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected AsyncCommandManager AsyncCommands = null;
         protected float m_ScriptDelayFactor = 1.0f;
         protected float m_ScriptDistanceFactor = 1.0f;
-        protected float m_MinTimerInterval = 0.5f;
+        protected float m_MinTimerInterval = 0.001f;
         protected float m_recoilScaleFactor = 0.0f;
 
         protected double m_timer = Util.GetTimeStampMS();
