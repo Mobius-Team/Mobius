@@ -2,7 +2,7 @@
 	<PropertyGroup>
 	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 	  <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	  <ReferencePath>/home/jenkins/workspace/osCore2/bin/</ReferencePath>
+	  <ReferencePath>/home/test/opensim/bin/</ReferencePath>
 	  <LastOpenVersion>9.0.30729</LastOpenVersion>
 	  <ProjectView>ProjectFiles</ProjectView>
 	  <ProjectTrust>0</ProjectTrust>
