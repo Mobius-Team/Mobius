@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/test/opensim/bin/OpenSim.Region.ScriptEngine.Tests.dll" total="170" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2017-08-14" time="21:14:37">
+  <environment nunit-version="2.6.4.0" clr-version="4.0.30319.42000" os-version="Unix 4.10.0.28" platform="Unix" cwd="/home/test/opensim" machine-name="regions5.opensim.life" user="root" user-domain="regions5.opensim.life" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="/home/test/opensim/bin/OpenSim.Region.ScriptEngine.Tests.dll" executed="True" result="Success" success="True" time="74.615" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="OpenSim" executed="True" result="Success" success="True" time="74.608" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Region" executed="True" result="Success" success="True" time="74.608" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="ScriptEngine" executed="True" result="Success" success="True" time="74.608" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="Shared" executed="True" result="Success" success="True" time="73.737" asserts="0">
+                    <results>
+                      <test-suite type="Namespace" name="CodeTools" executed="True" result="Success" success="True" time="1.935" asserts="0">
+                        <results>
+                          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="1.935" asserts="0">
+                            <results>
+                              <test-suite type="TestFixture" name="CompilerTest" executed="True" result="Success" success="True" time="0.375" asserts="0">
+                                <results>
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CompilerTest.TestCastAndConcatString" executed="True" result="Success" success="True" time="0.368" asserts="1" />
+                                </results>
+                              </test-suite>
+                              <test-suite type="TestFixture" name="CSCodeGeneratorTest" executed="True" result="Success" success="True" time="1.554" asserts="0">
+                                <results>
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestAdditionSubtractionOperator" executed="True" result="Success" success="True" time="0.033" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestAssignmentInIfWhileDoWhile" executed="True" result="Success" success="True" time="0.033" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestAssignments" executed="True" result="Success" success="True" time="0.034" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestBinaryExpression" executed="True" result="Success" success="True" time="0.037" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestComments" executed="True" result="Success" success="True" time="0.028" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestCStyleComments" executed="True" result="Success" success="True" time="0.031" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestCustomState" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestDefaultState" executed="True" result="Success" success="True" time="0.030" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestDoWhileLoop" executed="True" result="Success" success="True" time="0.039" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestDoWhileLoopWithNoBody" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestEventWithArguments" executed="True" result="Success" success="True" time="0.033" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestExpressionInParentheses" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestFloatConstants" executed="True" result="Success" success="True" time="0.037" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestFloatsWithTrailingDecimal" executed="True" result="Success" success="True" time="0.039" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestForLoop" executed="True" result="Success" success="True" time="0.031" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestForLoopWithNoAssignment" executed="True" result="Success" success="True" time="0.031" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestForLoopWithNoBody" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestForLoopWithOnlyIdentInAssignment" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestGlobalDeclaredVariables" executed="True" result="Success" success="True" time="0.038" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestGlobalDefinedFunctions" executed="True" result="Success" success="True" time="0.035" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestHexIntegerConstants" executed="True" result="Success" success="True" time="0.028" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIfElseStatement" executed="True" result="Success" success="True" time="0.035" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIfElseWithNoBody" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIfStatement" executed="True" result="Success" success="True" time="0.036" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIfWithNoBody" executed="True" result="Success" success="True" time="0.033" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestImplicitVariableInitialization" executed="True" result="Success" success="True" time="0.036" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIncrementDecrementOperator" executed="True" result="Success" success="True" time="0.028" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestIntegerDeclaration" executed="True" result="Success" success="True" time="0.028" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestJumps" executed="True" result="Success" success="True" time="0.035" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestLists" executed="True" result="Success" success="True" time="0.036" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestLoneIdent" executed="True" result="Success" success="True" time="0.028" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestLSLListHack" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestMoreAssignments" executed="True" result="Success" success="True" time="0.034" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestMultipleEqualsExpression" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestStates" executed="True" result="Success" success="True" time="0.030" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestStrings" executed="True" result="Success" success="True" time="0.041" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestStringsWithEscapedQuotesAndComments" executed="True" result="Success" success="True" time="0.031" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestSyntaxError" executed="True" result="Success" success="True" time="0.030" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestSyntaxErrorDeclaringVariableInForLoop" executed="True" result="Success" success="True" time="0.030" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestTypecasts" executed="True" result="Success" success="True" time="0.035" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestUnaryAndBinaryOperators" executed="True" result="Success" success="True" time="0.037" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestUnaryExpressionLastInVectorConstant" executed="True" result="Success" success="True" time="0.030" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestVectorConstantNotation" executed="True" result="Success" success="True" time="0.032" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestVectorMemberAccess" executed="True" result="Success" success="True" time="0.029" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestVectorMemberPlusEquals" executed="True" result="Success" success="True" time="0.031" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestWhileLoop" executed="True" result="Success" success="True" time="0.035" asserts="1" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.CodeTools.Tests.CSCodeGeneratorTest.TestWhileLoopWithNoBody" executed="True" result="Success" success="True" time="0.033" asserts="1" />
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                      <test-suite type="Namespace" name="Instance" executed="True" result="Success" success="True" time="11.258" asserts="0">
+                        <results>
+                          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="11.258" asserts="0">
+                            <results>
+                              <test-suite type="TestFixture" name="CoopTerminationTests" executed="True" result="Success" success="True" time="11.258" asserts="0">
+                                <results>
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestNoStopOnSingleStatementDoWhileLoop" executed="True" result="Success" success="True" time="0.725" asserts="3" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestNoStopOnSingleStatementForLoop" executed="True" result="Success" success="True" time="0.245" asserts="3" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestNoStopOnSingleStatementWhileLoop" executed="True" result="Success" success="True" time="0.253" asserts="3" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnInfiniteJumpLoop" executed="True" result="Success" success="True" time="1.279" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongCompoundStatementDoWhileLoop" executed="True" result="Success" success="True" time="1.236" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongCompoundStatementForLoop" executed="True" result="Success" success="True" time="1.237" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongCompoundStatementWhileLoop" executed="True" result="Success" success="True" time="1.249" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongSingleStatementDoWhileLoop" executed="True" result="Success" success="True" time="1.257" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongSingleStatementForLoop" executed="True" result="Success" success="True" time="1.239" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongSingleStatementWhileLoop" executed="True" result="Success" success="True" time="1.245" asserts="2" />
+                                  <test-case name="OpenSim.Region.ScriptEngine.Shared.Instance.Tests.CoopTerminationTests.TestStopOnLongSleep" executed="True" result="Success" success="True" time="1.287" asserts="2" />
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                      <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="60.506" asserts="0">
+                        <results>
+                          <test-suite type="TestFixture" name="LSL_ApiAvatarTests" executed="True" result="Success" success="True" time="0.014" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiAvatarTests.TestllSetLinkPrimitiveParamsForAgent" executed="True" result="Success" success="True" time="0.014" asserts="0" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiHttpTests" executed="True" result="Success" success="True" time="27.030" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiHttpTests.TestLlReleaseUrl" executed="True" result="Success" success="True" time="26.019" asserts="6" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiHttpTests.TestLlRequestUrl" executed="True" result="Success" success="True" time="1.009" asserts="15" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiInventoryTests" executed="True" result="Success" success="True" time="21.139" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiInventoryTests.TestLlGiveInventoryO2DifferentAvatar" executed="True" result="Success" success="True" time="3.082" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiInventoryTests.TestLlGiveInventoryO2DifferentAvatarNoMod" executed="True" result="Success" success="True" time="3.016" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiInventoryTests.TestLlGiveInventoryO2ODifferentOwners" executed="True" result="Success" success="True" time="0.014" asserts="5" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiInventoryTests.TestLlGiveInventoryO2OSameOwner" executed="True" result="Success" success="True" time="0.010" asserts="3" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiInventoryTests.TestLlRemoteLoadScriptPin" executed="True" result="Success" success="True" time="15.015" asserts="6" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiLinkingTests" executed="True" result="Success" success="True" time="0.054" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiLinkingTests.TestllBreakAllLinks" executed="True" result="Success" success="True" time="0.018" asserts="6" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiLinkingTests.TestllBreakLink" executed="True" result="Success" success="True" time="0.013" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiLinkingTests.TestllCreateLink" executed="True" result="Success" success="True" time="0.021" asserts="2" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiListTests" executed="True" result="Success" success="True" time="0.020" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiListTests.TestllListFindList" executed="True" result="Success" success="True" time="0.020" asserts="8" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiNotecardTests" executed="True" result="Success" success="True" time="0.050" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiNotecardTests.TestLlGetNotecardLine" executed="True" result="Success" success="True" time="0.031" asserts="42" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiNotecardTests.TestLlGetNotecardLine_NoNotecard" executed="True" result="Success" success="True" time="0.009" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiNotecardTests.TestLlGetNotecardLine_NotANotecard" executed="True" result="Success" success="True" time="0.008" asserts="2" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiObjectTests" executed="True" result="Success" success="True" time="1.274" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiObjectTests.TestllGetLinkPrimitiveParams" executed="True" result="Success" success="True" time="0.021" asserts="5" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiObjectTests.TestllSetPrimitiveParams" executed="True" result="Success" success="True" time="1.253" asserts="103" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiTest" executed="True" result="Success" success="True" time="0.033" asserts="0">
+                            <categories>
+                              <category name="Long Running Test" />
+                            </categories>
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiTest.TestllAngleBetween" executed="True" result="Success" success="True" time="0.011" asserts="24" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiTest.TestllRot2Euler" executed="True" result="Success" success="True" time="0.011" asserts="153" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiTest.TestllVecNorm" executed="True" result="Success" success="True" time="0.009" asserts="15" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_ApiUserTests" executed="True" result="Success" success="True" time="0.616" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_ApiUserTests.TestLlRequestAgentDataOnline" executed="True" result="Success" success="True" time="0.615" asserts="16" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_EventTests" executed="True" result="Success" success="True" time="3.173" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestAtRotTargetEvent" executed="True" result="Success" success="True" time="0.146" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestAttachEvent" executed="True" result="Success" success="True" time="0.144" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestAtTargetEvent" executed="True" result="Success" success="True" time="0.150" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestBadEvent" executed="True" result="Success" success="True" time="0.037" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestChangedEvent" executed="True" result="Success" success="True" time="0.134" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestCollisionEndEvent" executed="True" result="Success" success="True" time="0.137" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestCollisionEvent" executed="True" result="Success" success="True" time="0.151" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestCollisionStartEvent" executed="True" result="Success" success="True" time="0.149" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestControlEvent" executed="True" result="Success" success="True" time="0.134" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestLandCollisionEndEvent" executed="True" result="Success" success="True" time="0.139" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestLandCollisionEvent" executed="True" result="Success" success="True" time="0.143" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestLandCollisionStartEvent" executed="True" result="Success" success="True" time="0.139" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestMovingEndEvent" executed="True" result="Success" success="True" time="0.064" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestMovingStartEvent" executed="True" result="Success" success="True" time="0.075" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestNoSensorEvent" executed="True" result="Success" success="True" time="0.072" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestNotAtRotTargetEvent" executed="True" result="Success" success="True" time="0.066" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestNotAtTargetEvent" executed="True" result="Success" success="True" time="0.079" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestObjectRezEvent" executed="True" result="Success" success="True" time="0.133" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestOnRezEvent" executed="True" result="Success" success="True" time="0.145" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestRunTimePermissionsEvent" executed="True" result="Success" success="True" time="0.146" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestSensorEvent" executed="True" result="Success" success="True" time="0.130" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestStateEntryEvent" executed="True" result="Success" success="True" time="0.070" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestStateExitEvent" executed="True" result="Success" success="True" time="0.065" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestTimerEvent" executed="True" result="Success" success="True" time="0.082" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestTouchEndEvent" executed="True" result="Success" success="True" time="0.133" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestTouchEvent" executed="True" result="Success" success="True" time="0.144" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_EventTests.TestTouchStartEvent" executed="True" result="Success" success="True" time="0.146" asserts="4" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_TypesTestList" executed="True" result="Success" success="True" time="0.046" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestCastLSLFloatItemToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestCastLSLIntegerItemToLSLInteger" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestCastLSLStringItemToLSLString" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestCastQuaternionItemToQuaternion" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestCastVector3ItemToVector3" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestConcatenateDouble" executed="True" result="Success" success="True" time="0.002" asserts="6" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestConcatenateInteger" executed="True" result="Success" success="True" time="0.002" asserts="6" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestConcatenateString" executed="True" result="Success" success="True" time="0.002" asserts="6" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetKeyItemForKeyItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetLSLFloatItemForLSLFloatItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetLSLFloatItemForLSLIntegerItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetLSLIntegerItemForLSLIntegerItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetLSLStringItemForKeyItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetLSLStringItemForLSLStringItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetQuaternionItemForQuaternionItem" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestList.TestGetVector3ItemForVector3Item" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_TypesTestLSLFloat" executed="True" result="Success" success="True" time="0.092" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestAddTwoLSLFloats" executed="True" result="Success" success="True" time="0.003" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestConstructFromDouble" executed="True" result="Success" success="True" time="0.002" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestConstructFromInt" executed="True" result="Success" success="True" time="0.002" asserts="7" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestDecrementOperator" executed="True" result="Success" success="True" time="0.003" asserts="54" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestDivideTwoLSLFloats" executed="True" result="Success" success="True" time="0.002" asserts="18" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestEqualsOperator" executed="True" result="Success" success="True" time="0.002" asserts="36" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastLSLFloatToFloat" executed="True" result="Success" success="True" time="0.002" asserts="18" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastLSLFloatToInt" executed="True" result="Success" success="True" time="0.003" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastLSLFloatToUint" executed="True" result="Success" success="True" time="0.003" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastLSLIntegerToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="7" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastLSLStringToLSLFloat" executed="True" result="Success" success="True" time="0.006" asserts="28" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestExplicitCastStringToLSLFloat" executed="True" result="Success" success="True" time="0.004" asserts="28" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastBooleanToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastDoubleToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="18" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastIntToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="7" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastLSLFloatToBooleanFalse" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastLSLFloatToBooleanTrue" executed="True" result="Success" success="True" time="0.002" asserts="18" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastLSLFloatToDouble" executed="True" result="Success" success="True" time="0.002" asserts="18" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestImplicitCastLSLIntegerToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="7" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestIncrementOperator" executed="True" result="Success" success="True" time="0.002" asserts="54" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestMultiplyTwoLSLFloats" executed="True" result="Success" success="True" time="0.002" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestNotEqualOperator" executed="True" result="Success" success="True" time="0.002" asserts="36" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestSubtractTwoLSLFloats" executed="True" result="Success" success="True" time="0.002" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLFloat.TestToString" executed="True" result="Success" success="True" time="0.006" asserts="19" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_TypesTestLSLInteger" executed="True" result="Success" success="True" time="0.013" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLInteger.TestExplicitCastLSLFloatToLSLInteger" executed="True" result="Success" success="True" time="0.002" asserts="7" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLInteger.TestExplicitCastLSLStringToLSLInteger" executed="True" result="Success" success="True" time="0.003" asserts="17" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLInteger.TestExplicitCastStringToLSLInteger" executed="True" result="Success" success="True" time="0.002" asserts="17" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLInteger.TestImplicitCastBooleanToLSLInteger" executed="True" result="Success" success="True" time="0.002" asserts="4" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_TypesTestLSLString" executed="True" result="Success" success="True" time="0.014" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLString.TestConstructFromLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLString.TestExplicitCastLSLFloatToLSLString" executed="True" result="Success" success="True" time="0.004" asserts="19" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLString.TestExplicitCastLSLStringToQuaternion" executed="True" result="Success" success="True" time="0.003" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestLSLString.TestImplicitCastBooleanToLSLFloat" executed="True" result="Success" success="True" time="0.002" asserts="4" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="LSL_TypesTestVector3" executed="True" result="Success" success="True" time="0.003" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.LSL_TypesTestVector3.TestDotProduct" executed="True" result="Success" success="True" time="0.003" asserts="2" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="OSSL_ApiAppearanceTest" executed="True" result="Success" success="True" time="1.057" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_ApiAppearanceTest.TestOsAgentSaveAppearance" executed="True" result="Success" success="True" time="0.545" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_ApiAppearanceTest.TestOsOwnerSaveAppearance" executed="True" result="Success" success="True" time="0.511" asserts="4" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="OSSL_ApiAttachmentTests" executed="True" result="Success" success="True" time="2.093" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_ApiAttachmentTests.TestOsForceAttachToAvatarFromInventory" executed="True" result="Success" success="True" time="0.564" asserts="9" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_ApiAttachmentTests.TestOsForceAttachToAvatarFromInventoryNotObject" executed="True" result="Success" success="True" time="0.511" asserts="4" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_ApiAttachmentTests.TestOsForceAttachToOtherAvatarFromInventory" executed="True" result="Success" success="True" time="1.016" asserts="13" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="OSSL_NpcApiAppearanceTest" executed="True" result="Success" success="True" time="3.744" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcCreateNotExistingNotecard" executed="True" result="Success" success="True" time="0.012" asserts="1" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcCreateUsingAppearanceFromAvatar" executed="True" result="Success" success="True" time="0.538" asserts="3" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcCreateUsingAppearanceFromNotecard" executed="True" result="Success" success="True" time="0.534" asserts="3" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcLoadAppearance" executed="True" result="Success" success="True" time="0.562" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcLoadAppearanceNotExistingNotecard" executed="True" result="Success" success="True" time="0.530" asserts="3" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcRemoveOwned" executed="True" result="Success" success="True" time="1.034" asserts="2" />
+                              <test-case name="OpenSim.Region.ScriptEngine.Shared.Tests.OSSL_NpcApiAppearanceTest.TestOsNpcRemoveUnowned" executed="True" result="Success" success="True" time="0.529" asserts="1" />
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite type="Namespace" name="XEngine" executed="True" result="Success" success="True" time="0.805" asserts="0">
+                    <results>
+                      <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.805" asserts="0">
+                        <results>
+                          <test-suite type="TestFixture" name="XEngineBasicTests" executed="True" result="Success" success="True" time="0.245" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.XEngine.Tests.XEngineBasicTests.TestCompileAndStartScript" executed="True" result="Success" success="True" time="0.237" asserts="4" />
+                            </results>
+                          </test-suite>
+                          <test-suite type="TestFixture" name="XEngineCrossingTests" executed="True" result="Success" success="True" time="0.559" asserts="0">
+                            <results>
+                              <test-case name="OpenSim.Region.ScriptEngine.XEngine.Tests.XEngineCrossingTests.TestScriptCrossOnSameSimulator" executed="True" result="Success" success="True" time="0.558" asserts="7" />
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

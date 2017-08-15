@@ -46,6 +46,12 @@ namespace OpenSim.Tests.Permissions
         [SetUp]
         public void SetUp()
         {
+            // In case we're dealing with some older version of nunit
+            if (Common.TheInstance == null)
+            {
+                Common.TheInstance = new Common();
+                Common.TheInstance.SetUp();
+            }
             Common.TheInstance.DeleteObjectsFolders();
         }
 
@@ -101,6 +107,7 @@ namespace OpenSim.Tests.Permissions
 
         private void TakeOneBox(List<SceneObjectGroup> objs, string name, PermissionMask mask)
         {
+            // Find the object inworld
             SceneObjectGroup box = objs.Find(sog => sog.Name == name && sog.OwnerID == Common.TheAvatars[0].UUID);
             Assert.That(box, Is.Not.Null, name);
 
