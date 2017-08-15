@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/test/opensim/bin/OpenSim.Framework.Tests.dll" total="32" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2017-08-14" time="21:13:15">
+  <environment nunit-version="2.6.4.0" clr-version="4.0.30319.42000" os-version="Unix 4.10.0.28" platform="Unix" cwd="/home/test/opensim" machine-name="regions5.opensim.life" user="root" user-domain="regions5.opensim.life" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="/home/test/opensim/bin/OpenSim.Framework.Tests.dll" executed="True" result="Success" success="True" time="0.278" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="OpenSim" executed="True" result="Success" success="True" time="0.273" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Framework" executed="True" result="Success" success="True" time="0.273" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.273" asserts="0">
+                <results>
+                  <test-suite type="TestFixture" name="AgentCircuitDataTest" executed="True" result="Success" success="True" time="0.122" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitDataTest.HistoricalAgentCircuitDataOSDConversion" executed="True" result="Success" success="True" time="0.093" asserts="12" />
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitDataTest.TestAgentCircuitDataOSDConversion" executed="True" result="Success" success="True" time="0.020" asserts="12" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AgentCircuitManagerTests" executed="True" result="Success" success="True" time="0.008" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitManagerTests.AddAgentCircuitTest" executed="True" result="Success" success="True" time="0.004" asserts="12" />
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitManagerTests.ChangeAgentCircuitCodeTest" executed="True" result="Success" success="True" time="0.001" asserts="3" />
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitManagerTests.RemoveAgentCircuitTest" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.AgentCircuitManagerTests.ValidateLoginTest" executed="True" result="Success" success="True" time="0.001" asserts="6" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AnimationTests" executed="True" result="Success" success="True" time="0.002" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.AnimationTests.AnimationOSDTest" executed="True" result="Success" success="True" time="0.002" asserts="11" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AssetBaseTest" executed="True" result="Success" success="True" time="0.013" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.AssetBaseTest.TestContainsReferences" executed="True" result="Success" success="True" time="0.012" asserts="19" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="CacheTests" executed="True" result="Success" success="True" time="0.009" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.CacheTests.CacheItemMundane" executed="True" result="Success" success="True" time="0.004" asserts="4" />
+                      <test-case name="OpenSim.Framework.Tests.CacheTests.ClearCacheTest" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.CacheTests.ExpireItemManually" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.CacheTests.TestNotInCache" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.CacheTests.TestRetreive" executed="True" result="Success" success="True" time="0.000" asserts="2" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="LocationTest" executed="True" result="Success" success="True" time="0.002" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.LocationTest.locationRegionHandleRegionHandle" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="OpenSim.Framework.Tests.LocationTest.locationXYRegionHandle" executed="True" result="Success" success="True" time="0.001" asserts="11" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="MundaneFrameworkTests" executed="True" result="Success" success="True" time="0.034" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.AgentPositionTest01" executed="True" result="Success" success="True" time="0.004" asserts="14" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.AssetMetaDataNonNullContentTypeTest01" executed="True" result="Success" success="True" time="0.006" asserts="3" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.AsssetBaseConstructorTest01" executed="True" result="Success" success="True" time="0.007" asserts="8" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.ChildAgentDataUpdate01" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.CultureSetCultureTest01" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.EstateSettingsMundateTests" executed="True" result="Success" success="True" time="0.004" asserts="11" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.InventoryFolderBaseConstructorTest01" executed="True" result="Success" success="True" time="0.001" asserts="3" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.InventoryItemBaseConstructorTest01" executed="True" result="Success" success="True" time="0.001" asserts="6" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.RegionLightShareDataCloneSaveTest01" executed="True" result="Success" success="True" time="0.003" asserts="2" />
+                      <test-case name="OpenSim.Framework.Tests.MundaneFrameworkTests.RegionSettingsTest01" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="PrimeNumberHelperTests" executed="True" result="Success" success="True" time="0.003" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.PrimeNumberHelperTests.Test1000SmallPrimeNumbers" executed="True" result="Success" success="True" time="0.001" asserts="1101" />
+                      <test-case name="OpenSim.Framework.Tests.PrimeNumberHelperTests.TestGetPrime" executed="True" result="Success" success="True" time="0.000" asserts="4" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="UtilTests" executed="True" result="Success" success="True" time="0.065" asserts="0">
+                    <results>
+                      <test-case name="OpenSim.Framework.Tests.UtilTests.FakeParcelIDTests" executed="True" result="Success" success="True" time="0.046" asserts="17" />
+                      <test-case name="OpenSim.Framework.Tests.UtilTests.GetHashGuidTests" executed="True" result="Success" success="True" time="0.004" asserts="4" />
+                      <test-case name="OpenSim.Framework.Tests.UtilTests.SLUtilTypeConvertTests" executed="True" result="Success" success="True" time="0.002" asserts="89" />
+                      <test-case name="OpenSim.Framework.Tests.UtilTests.UUIDTests" executed="True" result="Success" success="True" time="0.007" asserts="5" />
+                      <test-case name="OpenSim.Framework.Tests.UtilTests.VectorOperationTests" executed="True" result="Success" success="True" time="0.003" asserts="13" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

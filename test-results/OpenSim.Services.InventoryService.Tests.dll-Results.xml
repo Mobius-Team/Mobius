@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/test/opensim/bin/OpenSim.Services.InventoryService.Tests.dll" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2017-08-14" time="21:17:28">
+  <environment nunit-version="2.6.4.0" clr-version="4.0.30319.42000" os-version="Unix 4.10.0.28" platform="Unix" cwd="/home/test/opensim" machine-name="regions5.opensim.life" user="root" user-domain="regions5.opensim.life" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="/home/test/opensim/bin/OpenSim.Services.InventoryService.Tests.dll" executed="True" result="Success" success="True" time="0.102" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="OpenSim" executed="True" result="Success" success="True" time="0.096" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Services" executed="True" result="Success" success="True" time="0.096" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="InventoryService" executed="True" result="Success" success="True" time="0.096" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.095" asserts="0">
+                    <results>
+                      <test-suite type="TestFixture" name="XInventoryServiceTests" executed="True" result="Success" success="True" time="0.095" asserts="0">
+                        <results>
+                          <test-case name="OpenSim.Services.InventoryService.Tests.XInventoryServiceTests.TestAddItem" executed="True" result="Success" success="True" time="0.080" asserts="9" />
+                          <test-case name="OpenSim.Services.InventoryService.Tests.XInventoryServiceTests.TestUpdateItem" executed="True" result="Success" success="True" time="0.006" asserts="13" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
