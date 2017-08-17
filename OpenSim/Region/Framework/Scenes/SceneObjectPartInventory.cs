@@ -250,7 +250,7 @@ namespace OpenSim.Region.Framework.Scenes
             }
 
             foreach (TaskInventoryItem item in m_items.Values)
-                item.GroupID = groupID;
+                    item.GroupID = groupID;
 
             m_items.LockItemsForWrite(false);
         }
@@ -1454,7 +1454,7 @@ namespace OpenSim.Region.Framework.Scenes
             {
                 if (item.InvType == (int)InventoryType.LSL)
                     count++;
-            }
+                }
             m_items.LockItemsForRead(false);
             return count;
         }
@@ -1479,9 +1479,9 @@ namespace OpenSim.Region.Framework.Scenes
                     {
                         if (engine.GetScriptState(item.ItemID))
                             count++;
+                        }
                     }
                 }
-            }
             return count;
         }
 
