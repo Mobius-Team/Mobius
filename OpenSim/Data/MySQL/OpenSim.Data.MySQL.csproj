@@ -1,259 +1,271 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-	<PropertyGroup>
-	  <ProjectType>Local</ProjectType>
-	  <ProductVersion>9.0.30729</ProductVersion>
-	  <SchemaVersion>2.0</SchemaVersion>
-	  <ProjectGuid>{1E894ECD-0000-0000-0000-000000000000}</ProjectGuid>
-	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	  <ApplicationIcon></ApplicationIcon>
-	  <AssemblyKeyContainerName>
-	  </AssemblyKeyContainerName>
-	  <AssemblyName>OpenSim.Data.MySQL</AssemblyName>
-	  <DefaultClientScript>JScript</DefaultClientScript>
-	  <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-	  <DefaultTargetSchema>IE50</DefaultTargetSchema>
-	  <DelaySign>false</DelaySign>
-	  <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	  <OutputType>Library</OutputType>
-	  <AppDesignerFolder></AppDesignerFolder>
-	  <RootNamespace>OpenSim.Data.MySQL</RootNamespace>
-	  <StartupObject></StartupObject>
-	  <StartArguments></StartArguments>
-	  <FileUpgradeFlags>
-	  </FileUpgradeFlags>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	  <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	  <BaseAddress>285212672</BaseAddress>
-	  <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-	  <ConfigurationOverrideFile>
-	  </ConfigurationOverrideFile>
-	  <DefineConstants>TRACE;DEBUG</DefineConstants>
-	  <DocumentationFile></DocumentationFile>
-	  <DebugSymbols>True</DebugSymbols>
-	  <FileAlignment>4096</FileAlignment>
-	  <Optimize>False</Optimize>
-	  <OutputPath>../../../bin/</OutputPath>
-	  <RegisterForComInterop>False</RegisterForComInterop>
-	  <RemoveIntegerChecks>False</RemoveIntegerChecks>
-	  <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-	  <WarningLevel>4</WarningLevel>
-	  <NoStdLib>False</NoStdLib>
-	  <NoWarn></NoWarn>
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	  <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	  <BaseAddress>285212672</BaseAddress>
-	  <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-	  <ConfigurationOverrideFile>
-	  </ConfigurationOverrideFile>
-	  <DefineConstants>TRACE</DefineConstants>
-	  <DocumentationFile></DocumentationFile>
-	  <DebugSymbols>False</DebugSymbols>
-	  <FileAlignment>4096</FileAlignment>
-	  <Optimize>True</Optimize>
-	  <OutputPath>../../../bin/</OutputPath>
-	  <RegisterForComInterop>False</RegisterForComInterop>
-	  <RemoveIntegerChecks>False</RemoveIntegerChecks>
-	  <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-	  <WarningLevel>4</WarningLevel>
-	  <NoStdLib>False</NoStdLib>
-	  <NoWarn></NoWarn>
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-	<ItemGroup>
-	  <Reference Include="log4net" >
-		  <Name>log4net</Name>
-		<HintPath>../../../bin/log4net.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="Mono.Addins" >
-		  <Name>Mono.Addins</Name>
-		<HintPath>../../../bin/Mono.Addins.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="MySql.Data" >
-		  <Name>MySql.Data</Name>
-		<HintPath>../../../bin/MySql.Data.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="OpenMetaverse" >
-		  <Name>OpenMetaverse</Name>
-		<HintPath>../../../bin/OpenMetaverse.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="OpenMetaverse.StructuredData" >
-		  <Name>OpenMetaverse.StructuredData</Name>
-		<HintPath>../../../bin/OpenMetaverse.StructuredData.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="OpenMetaverseTypes" >
-		  <Name>OpenMetaverseTypes</Name>
-		<HintPath>../../../bin/OpenMetaverseTypes.dll</HintPath>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="System" >
-		  <Name>System</Name>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="System.Core" >
-		  <Name>System.Core</Name>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="System.Data" >
-		  <Name>System.Data</Name>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="System.Drawing" >
-		  <Name>System.Drawing</Name>
-		<Private>False</Private>
-	  </Reference>
-	  <Reference Include="System.Xml" >
-		  <Name>System.Xml</Name>
-		<Private>False</Private>
-	  </Reference>
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="../OpenSim.Data.csproj">
-		<Name>OpenSim.Data</Name>
-		<Project>{7E218E2D-0000-0000-0000-000000000000}</Project>
-		<Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-		<Private>False</Private>
-	  </ProjectReference>
-	  <ProjectReference Include="../../Framework/OpenSim.Framework.csproj">
-		<Name>OpenSim.Framework</Name>
-		<Project>{BCCDBB55-0000-0000-0000-000000000000}</Project>
-		<Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-		<Private>False</Private>
-	  </ProjectReference>
-	  <ProjectReference Include="../../Framework/Console/OpenSim.Framework.Console.csproj">
-		<Name>OpenSim.Framework.Console</Name>
-		<Project>{0ED8EBE8-0000-0000-0000-000000000000}</Project>
-		<Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-		<Private>False</Private>
-	  </ProjectReference>
-	  <ProjectReference Include="../../Region/Framework/OpenSim.Region.Framework.csproj">
-		<Name>OpenSim.Region.Framework</Name>
-		<Project>{C98F6D97-0000-0000-0000-000000000000}</Project>
-		<Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-		<Private>False</Private>
-	  </ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Include="MySQLAgentPreferencesData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLAssetData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLAuthenticationData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLAvatarData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLEstateData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLFSAssetData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLFramework.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLFriendsData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLGenericTableHandler.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLGridUserData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLGroupsData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLHGTravelData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLInventoryData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLMigrations.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLOfflineIMData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLPresenceData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLRegionData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLSimulationData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLUserAccountData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLUserProfilesData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLXAssetData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="MySQLXInventoryData.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="Properties\AssemblyInfo.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <EmbeddedResource Include="Resources\AgentPrefs.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\AssetStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\AuthStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\Avatar.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\EstateStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\FSAssetStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\FriendsStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\GridStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\GridUserStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\HGTravelStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\IM_Store.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\InventoryStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\LogStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\Presence.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\RegionStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\UserAccount.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\UserProfiles.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\XAssetStore.migrations">
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\os_groups_Store.migrations">
-	  </EmbeddedResource>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E894ECD-0000-0000-0000-000000000000}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>OpenSim.Data.MySQL</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>OpenSim.Data.MySQL</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <StartArguments>
+    </StartArguments>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>False</Optimize>
+    <OutputPath>..\..\..\bin\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>False</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>True</Optimize>
+    <OutputPath>..\..\..\bin\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>False</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <Name>log4net</Name>
+      <HintPath>..\..\..\bin\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Addins">
+      <Name>Mono.Addins</Name>
+      <HintPath>..\..\..\bin\Mono.Addins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <Name>MySql.Data</Name>
+      <HintPath>..\..\..\bin\MySql.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenMetaverse">
+      <Name>OpenMetaverse</Name>
+      <HintPath>..\..\..\bin\OpenMetaverse.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenMetaverse.StructuredData">
+      <Name>OpenMetaverse.StructuredData</Name>
+      <HintPath>..\..\..\bin\OpenMetaverse.StructuredData.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenMetaverseTypes">
+      <Name>OpenMetaverseTypes</Name>
+      <HintPath>..\..\..\bin\OpenMetaverseTypes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Name>System.Core</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
-	<Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-	<PropertyGroup>
-	  <PreBuildEvent>
-	  </PreBuildEvent>
-	  <PostBuildEvent>
-	  </PostBuildEvent>
-	</PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenSim.Data.csproj">
+      <Name>OpenSim.Data</Name>
+      <Project>{7E218E2D-0000-0000-0000-000000000000}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\OpenSim.Framework.csproj">
+      <Name>OpenSim.Framework</Name>
+      <Project>{BCCDBB55-0000-0000-0000-000000000000}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Console\OpenSim.Framework.Console.csproj">
+      <Name>OpenSim.Framework.Console</Name>
+      <Project>{0ED8EBE8-0000-0000-0000-000000000000}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Region\Framework\OpenSim.Region.Framework.csproj">
+      <Name>OpenSim.Region.Framework</Name>
+      <Project>{C98F6D97-0000-0000-0000-000000000000}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MySQLAgentPreferencesData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLAssetData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLAuthenticationData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLAvatarData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLEstateData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLFramework.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLFriendsData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLFSAssetData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLGenericTableHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLGridUserData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLGroupsData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLHGTravelData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLInventoryData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLMigrations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLOfflineIMData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLPresenceData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLRegionData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLSimulationData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLUserAccountData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLUserProfilesData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLXAssetData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MySQLXInventoryData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Resources\AgentPrefs.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AssetStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AuthStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Avatar.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\EstateStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\FriendsStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\FSAssetStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GridStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GridUserStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HGTravelStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\IM_Store.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InventoryStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\LogStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\os_groups_Store.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Presence.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\RegionStore.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\UserAccount.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\UserProfiles.migrations">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\XAssetStore.migrations">
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

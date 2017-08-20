@@ -10,20 +10,20 @@
 				  <include name="Resources/AuthStore.migrations" />
 				  <include name="Resources/Avatar.migrations" />
 				  <include name="Resources/EstateStore.migrations" />
-				  <include name="Resources/FSAssetStore.migrations" />
 				  <include name="Resources/FriendsStore.migrations" />
+				  <include name="Resources/FSAssetStore.migrations" />
 				  <include name="Resources/GridStore.migrations" />
 				  <include name="Resources/GridUserStore.migrations" />
 				  <include name="Resources/HGTravelStore.migrations" />
 				  <include name="Resources/IM_Store.migrations" />
 				  <include name="Resources/InventoryStore.migrations" />
 				  <include name="Resources/LogStore.migrations" />
+				  <include name="Resources/os_groups_Store.migrations" />
 				  <include name="Resources/Presence.migrations" />
 				  <include name="Resources/RegionStore.migrations" />
 				  <include name="Resources/UserAccount.migrations" />
 				  <include name="Resources/UserProfiles.migrations" />
 				  <include name="Resources/XAssetStore.migrations" />
-				  <include name="Resources/os_groups_Store.migrations" />
 			  </resources>
 			  <sources failonempty="true">
 				  <include name="MySQLAgentPreferencesData.cs" />
@@ -31,9 +31,9 @@
 				  <include name="MySQLAuthenticationData.cs" />
 				  <include name="MySQLAvatarData.cs" />
 				  <include name="MySQLEstateData.cs" />
-				  <include name="MySQLFSAssetData.cs" />
 				  <include name="MySQLFramework.cs" />
 				  <include name="MySQLFriendsData.cs" />
+				  <include name="MySQLFSAssetData.cs" />
 				  <include name="MySQLGenericTableHandler.cs" />
 				  <include name="MySQLGridUserData.cs" />
 				  <include name="MySQLGroupsData.cs" />

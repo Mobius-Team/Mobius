@@ -15,12 +15,13 @@
 				  <include name="IAuthenticationData.cs" />
 				  <include name="IAvatarData.cs" />
 				  <include name="IEstateDataStore.cs" />
-				  <include name="IFSAssetData.cs" />
 				  <include name="IFriendsData.cs" />
+				  <include name="IFSAssetData.cs" />
 				  <include name="IGridUserData.cs" />
 				  <include name="IGroupsData.cs" />
 				  <include name="IHGTravelingData.cs" />
 				  <include name="IInventoryData.cs" />
+				  <include name="IniConfig.cs" />
 				  <include name="IOfflineIMData.cs" />
 				  <include name="IPresenceData.cs" />
 				  <include name="IProfilesData.cs" />
@@ -29,7 +30,6 @@
 				  <include name="IXAssetDataPlugin.cs" />
 				  <include name="IXGroupData.cs" />
 				  <include name="IXInventoryData.cs" />
-				  <include name="IniConfig.cs" />
 				  <include name="Migration.cs" />
 				  <include name="Properties/AssemblyInfo.cs" />
 			  </sources>

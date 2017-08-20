@@ -17,13 +17,13 @@
 				  <include name="Resources/IM_Store.migrations" />
 				  <include name="Resources/InventoryStore.migrations" />
 				  <include name="Resources/LogStore.migrations" />
+				  <include name="Resources/os_groups_Store.migrations" />
 				  <include name="Resources/Presence.migrations" />
 				  <include name="Resources/RegionStore.migrations" />
 				  <include name="Resources/UserAccount.migrations" />
 				  <include name="Resources/UserProfiles.migrations" />
 				  <include name="Resources/UserStore.migrations" />
 				  <include name="Resources/XAssetStore.migrations" />
-				  <include name="Resources/os_groups_Store.migrations" />
 			  </resources>
 			  <sources failonempty="true">
 				  <include name="PGSQLAgentPreferencesData.cs" />

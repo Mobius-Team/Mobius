@@ -2,7 +2,7 @@
 	<PropertyGroup>
 	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 	  <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	  <ReferencePath>/home/test/opensim/bin/</ReferencePath>
+	  <ReferencePath>E:\core2\osCore2_2\bin\</ReferencePath>
 	  <LastOpenVersion>9.0.30729</LastOpenVersion>
 	  <ProjectView>ProjectFiles</ProjectView>
 	  <ProjectTrust>0</ProjectTrust>

@@ -36,8 +36,8 @@
 				  <include name="Mock/TestHttpRequest.cs" />
 				  <include name="Mock/TestHttpResponse.cs" />
 				  <include name="Mock/TestInventoryDataPlugin.cs" />
-				  <include name="Mock/TestLLUDPServer.cs" />
 				  <include name="Mock/TestLandChannel.cs" />
+				  <include name="Mock/TestLLUDPServer.cs" />
 				  <include name="Mock/TestOSHttpRequest.cs" />
 				  <include name="Mock/TestOSHttpResponse.cs" />
 				  <include name="Mock/TestScene.cs" />

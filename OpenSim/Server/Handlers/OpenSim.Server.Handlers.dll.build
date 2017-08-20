@@ -40,9 +40,9 @@
 				  <include name="GridUser/GridUserServerPostHandler.cs" />
 				  <include name="Hypergrid/AgentHandlers.cs" />
 				  <include name="Hypergrid/GatekeeperServerConnector.cs" />
+				  <include name="Hypergrid/HeloServerConnector.cs" />
 				  <include name="Hypergrid/HGFriendServerConnector.cs" />
 				  <include name="Hypergrid/HGFriendsServerPostHandler.cs" />
-				  <include name="Hypergrid/HeloServerConnector.cs" />
 				  <include name="Hypergrid/HomeAgentHandlers.cs" />
 				  <include name="Hypergrid/HypergridHandlers.cs" />
 				  <include name="Hypergrid/InstantMessageServerConnector.cs" />

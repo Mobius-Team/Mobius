@@ -7,13 +7,13 @@
 			  <resources prefix="OpenSim.Region.ScriptEngine.Shared.CodeTools" dynamicprefix="true" >
 			  </resources>
 			  <sources failonempty="true">
+				  <include name="Compiler.cs" />
 				  <include name="CSCodeGenerator.cs" />
 				  <include name="CSReservedWords.cs" />
-				  <include name="Compiler.cs" />
 				  <include name="ICodeConverter.cs" />
-				  <include name="LSL2CSCodeTransformer.cs" />
 				  <include name="lsl.lexer.cs" />
 				  <include name="lsl.parser.cs" />
+				  <include name="LSL2CSCodeTransformer.cs" />
 				  <include name="Properties/AssemblyInfo.cs" />
 			  </sources>
 			  <references basedir="${project::get-base-directory()}">

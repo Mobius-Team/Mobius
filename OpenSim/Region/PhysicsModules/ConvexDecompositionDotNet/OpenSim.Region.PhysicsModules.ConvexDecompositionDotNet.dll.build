@@ -7,26 +7,26 @@
 			  <resources prefix="OpenSim.Region.PhysicsModules.ConvexDecompositionDotNet" dynamicprefix="true" >
 			  </resources>
 			  <sources failonempty="true">
-				  <include name="CTri.cs" />
 				  <include name="Concavity.cs" />
 				  <include name="ConvexBuilder.cs" />
 				  <include name="ConvexDecomposition.cs" />
 				  <include name="ConvexResult.cs" />
-				  <include name="HullClasses.cs" />
-				  <include name="HullTriangle.cs" />
-				  <include name="HullUtils.cs" />
-				  <include name="Plane.cs" />
-				  <include name="PlaneTri.cs" />
-				  <include name="Quaternion.cs" />
-				  <include name="SplitPlane.cs" />
-				  <include name="VertexLookup.cs" />
+				  <include name="CTri.cs" />
 				  <include name="float2.cs" />
 				  <include name="float3.cs" />
 				  <include name="float3x3.cs" />
 				  <include name="float4.cs" />
 				  <include name="float4x4.cs" />
+				  <include name="HullClasses.cs" />
+				  <include name="HullTriangle.cs" />
+				  <include name="HullUtils.cs" />
 				  <include name="int3.cs" />
 				  <include name="int4.cs" />
+				  <include name="Plane.cs" />
+				  <include name="PlaneTri.cs" />
+				  <include name="Quaternion.cs" />
+				  <include name="SplitPlane.cs" />
+				  <include name="VertexLookup.cs" />
 				  <include name="Properties/AssemblyInfo.cs" />
 			  </sources>
 			  <references basedir="${project::get-base-directory()}">

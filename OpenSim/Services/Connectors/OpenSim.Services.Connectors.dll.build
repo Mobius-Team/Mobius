@@ -21,8 +21,8 @@
 				  <include name="Grid/GridServicesConnector.cs" />
 				  <include name="GridUser/GridUserServicesConnector.cs" />
 				  <include name="Hypergrid/GatekeeperServiceConnector.cs" />
-				  <include name="Hypergrid/HGFriendsServicesConnector.cs" />
 				  <include name="Hypergrid/HeloServicesConnector.cs" />
+				  <include name="Hypergrid/HGFriendsServicesConnector.cs" />
 				  <include name="Hypergrid/UserAgentServiceConnector.cs" />
 				  <include name="InstantMessage/InstantMessageServiceConnector.cs" />
 				  <include name="Inventory/XInventoryServicesConnector.cs" />

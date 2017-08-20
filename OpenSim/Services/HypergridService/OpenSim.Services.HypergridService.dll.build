@@ -9,8 +9,8 @@
 			  <sources failonempty="true">
 				  <include name="GatekeeperService.cs" />
 				  <include name="HGAssetService.cs" />
-				  <include name="HGFSAssetService.cs" />
 				  <include name="HGFriendsService.cs" />
+				  <include name="HGFSAssetService.cs" />
 				  <include name="HGInstantMessageService.cs" />
 				  <include name="HGInventoryService.cs" />
 				  <include name="HGRemoteAssetService.cs" />

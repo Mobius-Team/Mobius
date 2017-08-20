@@ -12,9 +12,9 @@
 				  <include name="ODECharacter.cs" />
 				  <include name="ODEDynamics.cs" />
 				  <include name="ODEModule.cs" />
+				  <include name="OdePhysicsJoint.cs" />
 				  <include name="ODEPrim.cs" />
 				  <include name="ODERayCastRequestManager.cs" />
-				  <include name="OdePhysicsJoint.cs" />
 				  <include name="OdeScene.cs" />
 			  </sources>
 			  <references basedir="${project::get-base-directory()}">

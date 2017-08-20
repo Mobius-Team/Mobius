@@ -7,16 +7,16 @@
 			  <resources prefix="OpenSim.Region.PhysicsModule.BulletS" dynamicprefix="true" >
 			  </resources>
 			  <sources failonempty="true">
-				  <include name="BSAPIUnman.cs" />
-				  <include name="BSAPIXNA.cs" />
 				  <include name="BSActorAvatarMove.cs" />
 				  <include name="BSActorHover.cs" />
 				  <include name="BSActorLockAxis.cs" />
 				  <include name="BSActorMoveToTarget.cs" />
+				  <include name="BSActors.cs" />
 				  <include name="BSActorSetForce.cs" />
 				  <include name="BSActorSetTorque.cs" />
-				  <include name="BSActors.cs" />
 				  <include name="BSApiTemplate.cs" />
+				  <include name="BSAPIUnman.cs" />
+				  <include name="BSAPIXNA.cs" />
 				  <include name="BSCharacter.cs" />
 				  <include name="BSConstraint.cs" />
 				  <include name="BSConstraint6Dof.cs" />
