@@ -76,7 +76,6 @@ namespace OpenSim.Region.ClientStack.Linden
         {
             public Hashtable response;
             public int bytes;
-            public int lod;
         }
 
 
@@ -231,11 +230,12 @@ namespace OpenSim.Region.ClientStack.Linden
                     new List<Hashtable>();
             private Dictionary<UUID, aPollResponse> responses =
                     new Dictionary<UUID, aPollResponse>();
+            private HashSet<UUID> dropedResponses = new HashSet<UUID>();
 
             private Scene m_scene;
             private MeshCapsDataThrottler m_throttler;
             public PollServiceMeshEventArgs(string uri, UUID pId, Scene scene) :
-                base(null, uri, null, null, null, pId, int.MaxValue)
+                base(null, uri, null, null, null, null, pId, int.MaxValue)
             {
                 m_scene = scene;
                 m_throttler = new MeshCapsDataThrottler(100000);
@@ -249,6 +249,17 @@ namespace OpenSim.Region.ClientStack.Linden
 
                     }
                 };
+
+                Drop = (x, y) =>
+                {
+                    lock (responses)
+                    {
+                        responses.Remove(x);
+                        lock(dropedResponses)
+                            dropedResponses.Add(x);
+                    }
+                };
+
                 GetEvents = (x, y) =>
                 {
                     lock (responses)
@@ -307,30 +318,48 @@ namespace OpenSim.Region.ClientStack.Linden
                 if(m_scene.ShuttingDown)
                     return;
 
-                // If the avatar is gone, don't bother to get the texture
-                if (m_scene.GetScenePresence(Id) == null)
+               lock(responses)
                 {
-                    response = new Hashtable();
+                    lock(dropedResponses)
+                    {
+                        if(dropedResponses.Contains(requestID))
+                        {
+                            dropedResponses.Remove(requestID);
+                            return;
+                        }
+                    }
+                
+                    // If the avatar is gone, don't bother to get the texture
+                    if (m_scene.GetScenePresence(Id) == null)
+                    {
+                        response = new Hashtable();
 
-                    response["int_response_code"] = 500;
-                    response["str_response_string"] = "Script timeout";
-                    response["content_type"] = "text/plain";
-                    response["keepalive"] = false;
-                    response["reusecontext"] = false;
+                        response["int_response_code"] = 500;
+                        response["str_response_string"] = "Script timeout";
+                        response["content_type"] = "text/plain";
+                        response["keepalive"] = false;
+                        responses[requestID] = new aPollResponse() { bytes = 0, response = response};
 
-                    lock (responses)
-                        responses[requestID] = new aPollResponse() { bytes = 0, response = response, lod = 0 };
-
-                    return;
+                        return;
+                    }
                 }
 
                 response = m_getMeshHandler.Handle(requestinfo.request);
+
                 lock (responses)
                 {
+                    lock(dropedResponses)
+                    {
+                        if(dropedResponses.Contains(requestID))
+                        {
+                            dropedResponses.Remove(requestID);
+                            return;
+                        }
+                    }
+
                     responses[requestID] = new aPollResponse()
                     {
                         bytes = (int)response["int_bytes"],
-                        lod = (int)response["int_lod"],
                         response = response
                     };
 
@@ -443,7 +472,7 @@ namespace OpenSim.Region.ClientStack.Linden
                     return;
                 int add = (int)(ThrottleBytes * timeElapsed * 0.001);
                 if (add >= 1000)
-                {
+            {
                     lastTimeElapsed = currenttime;
                     BytesSent -= add;
                     if (BytesSent < 0) BytesSent = 0;
@@ -451,6 +480,6 @@ namespace OpenSim.Region.ClientStack.Linden
             }
 
             public int ThrottleBytes;
-        }
-    }
+            }
+                }
 }

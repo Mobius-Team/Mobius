@@ -258,7 +258,7 @@ namespace OpenSim.Region.CoreModules.Scripting.LSLHttp
                 string uri = "/lslhttp/" + urlcode.ToString() + "/";
 
                 PollServiceEventArgs args
-                    = new PollServiceEventArgs(HttpRequestHandler, uri, HasEvents, GetEvents, NoEvents, urlcode, 25000);
+                    = new PollServiceEventArgs(HttpRequestHandler, uri, HasEvents, GetEvents, NoEvents, Drop, urlcode, 25000);
                 args.Type = PollServiceEventArgs.EventType.LslHttp;
                 m_HttpServer.AddPollServiceHTTPHandler(uri, args);
 
@@ -316,7 +316,7 @@ namespace OpenSim.Region.CoreModules.Scripting.LSLHttp
                 string uri = "/lslhttps/" + urlcode.ToString() + "/";
 
                 PollServiceEventArgs args
-                    = new PollServiceEventArgs(HttpRequestHandler, uri, HasEvents, GetEvents, NoEvents, urlcode, 25000);
+                    = new PollServiceEventArgs(HttpRequestHandler, uri, HasEvents, GetEvents, NoEvents, Drop, urlcode, 25000);
                 args.Type = PollServiceEventArgs.EventType.LslHttp;
                 m_HttpsServer.AddPollServiceHTTPHandler(uri, args);
 
@@ -570,6 +570,28 @@ namespace OpenSim.Region.CoreModules.Scripting.LSLHttp
                 }
             }
         }
+
+        protected void Drop(UUID requestID, UUID sessionID)
+        {
+            UrlData url = null;
+            lock (m_RequestMap)
+            {
+                if (m_RequestMap.ContainsKey(requestID))
+                {
+                    url = m_RequestMap[requestID];
+                    m_RequestMap.Remove(requestID);
+                    if(url != null)
+                    {
+                        lock (url.requests)
+                        {
+                            if(url.requests.ContainsKey(requestID))
+                                url.requests.Remove(requestID);
+                        }
+                    }
+                }
+            }
+        }
+
         protected Hashtable GetEvents(UUID requestID, UUID sessionID)
         {
             UrlData url = null;
@@ -729,8 +751,8 @@ namespace OpenSim.Region.CoreModules.Scripting.LSLHttp
                                     else
                                     {
                                         queryString = queryString + val + "&";
-                                    }
                                 }
+                            }
                             }
                             if (queryString.Length > 1)
                                 queryString = queryString.Substring(0, queryString.Length - 1);

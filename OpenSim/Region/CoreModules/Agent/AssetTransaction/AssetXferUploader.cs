@@ -533,7 +533,7 @@ namespace OpenSim.Region.CoreModules.Agent.AssetTransaction
             if (m_asset.Type == (sbyte)AssetType.Clothing ||
                 m_asset.Type == (sbyte)AssetType.Bodypart)
             {
-                const uint texturesfullPermMask = (uint)(PermissionMask.Transfer | PermissionMask.Copy);
+                const uint texturesfullPermMask = (uint)(PermissionMask.Modify | PermissionMask.Transfer | PermissionMask.Copy);
                 string content = System.Text.Encoding.ASCII.GetString(m_asset.Data);
                 string[] lines = content.Split(new char[] {'\n'});
 
