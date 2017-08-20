@@ -432,7 +432,11 @@
     ;# {DefaultEstateOwnerName} {} {Default estate owner name?} {} FirstName LastName
     ;; Name for default estate owner
     ; DefaultEstateOwnerName = FirstName LastName
-
+	;;osCore2 Addition, in Robust mode (or standalone)set your estate info
+	;;for every region in this instance in config-include Estates.ini
+	;;this will allow the estates to be autocreated and regions added automatically.
+	
+	Include-Common = config-include/Estates.ini
 
     ; ** Standalone Estate Settings **
     ; The following parameters will only be used on a standalone system to 
