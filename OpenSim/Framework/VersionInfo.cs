@@ -32,18 +32,22 @@ namespace OpenSim
         public const string VersionNumber = "0.9.1.0";
         public const string AssemblyVersionNumber = "0.9.1.*";
 
-        private const Flavour VERSION_FLAVOUR = Flavour.Dev;
+<<<<<<< HEAD
+        public const Flavour VERSION_FLAVOUR = Flavour.Dev;
+=======
+        public const Flavour VERSION_FLAVOUR = Flavour.osCore2_Dev;
+>>>>>>> tmerge
 
         public enum Flavour
         {
             Unknown,
-            Dev,
-            RC1,
-            RC2,
-            RC3,
-            Release,
-            Post_Fixes,
-            Extended
+            osCore2_Dev,
+            osCore2_RC1,
+            osCore2_RC2,
+            osCore2_RC3,
+            osCore2,
+            osCore2_Post_Fixes,
+            osCore2_Extended
         }
 
         public static string Version

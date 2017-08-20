@@ -1,10 +1,3 @@
-# osCore2 an Opensimulator Fork
-
-
-
-This is only the beginning
-
-
 Welcome to OpenSim!
 
 # Overview
