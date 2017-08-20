@@ -126,7 +126,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         protected Dictionary<UUID, UserInfoCacheEntry> m_userInfoCache = new Dictionary<UUID, UserInfoCacheEntry>();
         protected int EMAIL_PAUSE_TIME = 20;  // documented delay value for smtp.
-<<<<<<< HEAD
         protected int m_sleepMsOnSetTexture = 20;
         protected int m_sleepMsOnSetLinkTexture = 20;
         protected int m_sleepMsOnScaleTexture = 20;
@@ -137,23 +136,10 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected int m_sleepMsOnSetLocalRot = 20;
         protected int m_sleepMsOnPreloadSound = 100;
         protected int m_sleepMsOnMakeExplosion = 10;
-=======
-        protected int m_sleepMsOnSetTexture = 200;
-        protected int m_sleepMsOnSetLinkTexture = 200;
-        protected int m_sleepMsOnScaleTexture = 200;
-        protected int m_sleepMsOnOffsetTexture = 200;
-        protected int m_sleepMsOnRotateTexture = 200;
-        protected int m_sleepMsOnSetPos = 200;
-        protected int m_sleepMsOnSetRot = 200;
-        protected int m_sleepMsOnSetLocalRot = 200;
-        protected int m_sleepMsOnPreloadSound = 1000;
-        protected int m_sleepMsOnMakeExplosion = 100;
->>>>>>> tmerge
         protected int m_sleepMsOnMakeFountain = 100;
         protected int m_sleepMsOnMakeSmoke = 100;
         protected int m_sleepMsOnMakeFire = 100;
         protected int m_sleepMsOnRezAtRoot = 100;
-<<<<<<< HEAD
         protected int m_sleepMsOnInstantMessage = 200;
         protected int m_sleepMsOnEmail = 2000;
         protected int m_sleepMsOnCreateLink = 100;
@@ -190,60 +176,17 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected int m_sleepMsOnSetPrimURL = 200;
         protected int m_sleepMsOnRefreshPrimURL = 2000;
         protected int m_sleepMsOnMapDestination = 100;
-=======
-        protected int m_sleepMsOnInstantMessage = 2000;
-        protected int m_sleepMsOnEmail = 20000;
-        protected int m_sleepMsOnCreateLink = 1000;
-        protected int m_sleepMsOnGiveInventory = 3000;
-        protected int m_sleepMsOnRequestAgentData = 100;
-        protected int m_sleepMsOnRequestInventoryData = 1000;
-        protected int m_sleepMsOnSetDamage = 5000;
-        protected int m_sleepMsOnTextBox = 1000;
-        protected int m_sleepMsOnAdjustSoundVolume = 100;
-        protected int m_sleepMsOnEjectFromLand = 5000;
-        protected int m_sleepMsOnAddToLandPassList = 100;
-        protected int m_sleepMsOnDialog = 1000;
-        protected int m_sleepMsOnRemoteLoadScript = 3000;
-        protected int m_sleepMsOnRemoteLoadScriptPin = 3000;
-        protected int m_sleepMsOnOpenRemoteDataChannel = 1000;
-        protected int m_sleepMsOnSendRemoteData = 3000;
-        protected int m_sleepMsOnRemoteDataReply = 3000;
-        protected int m_sleepMsOnCloseRemoteDataChannel = 1000;
-        protected int m_sleepMsOnSetPrimitiveParams = 200;
-        protected int m_sleepMsOnSetLinkPrimitiveParams = 200;
-        protected int m_sleepMsOnXorBase64Strings = 300;
-        protected int m_sleepMsOnSetParcelMusicURL = 2000;
-        protected int m_sleepMsOnGetPrimMediaParams = 1000;
-        protected int m_sleepMsOnGetLinkMedia = 1000;
-        protected int m_sleepMsOnSetPrimMediaParams = 1000;
-        protected int m_sleepMsOnSetLinkMedia = 1000;
-        protected int m_sleepMsOnClearPrimMedia = 1000;
-        protected int m_sleepMsOnClearLinkMedia = 1000;
-        protected int m_sleepMsOnRequestSimulatorData = 1000;
-        protected int m_sleepMsOnLoadURL = 10000;
-        protected int m_sleepMsOnParcelMediaCommandList = 2000;
-        protected int m_sleepMsOnParcelMediaQuery = 2000;
-        protected int m_sleepMsOnModPow = 1000;
-        protected int m_sleepMsOnSetPrimURL = 2000;
-        protected int m_sleepMsOnRefreshPrimURL = 20000;
-        protected int m_sleepMsOnMapDestination = 1000;
->>>>>>> tmerge
         protected int m_sleepMsOnAddToLandBanList = 100;
         protected int m_sleepMsOnRemoveFromLandPassList = 100;
         protected int m_sleepMsOnRemoveFromLandBanList = 100;
         protected int m_sleepMsOnResetLandBanList = 100;
         protected int m_sleepMsOnResetLandPassList = 100;
-<<<<<<< HEAD
         protected int m_sleepMsOnGetParcelPrimOwners = 200;
-=======
-        protected int m_sleepMsOnGetParcelPrimOwners = 2000;
->>>>>>> tmerge
         protected int m_sleepMsOnGetNumberOfNotecardLines = 100;
         protected int m_sleepMsOnGetNotecardLine = 100;
         protected string m_internalObjectHost = "lsl.opensim.local";
         protected bool m_restrictEmail = false;
         protected ISoundModule m_SoundModule = null;
-
         protected float m_avatarHeightCorrection = 0.2f;
         protected bool m_useSimpleBoxesInGetBoundingBox = false;
         protected bool m_addStatsInGetBoundingBox = false;
@@ -275,7 +218,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected float m_lABB1SitZ1 = -0.375f;
         protected float m_lABB2SitZ0 = -0.25f;
         protected float m_lABB2SitZ1 = 0.25f;
-
         protected float m_primSafetyCoeffX = 2.414214f;
         protected float m_primSafetyCoeffY = 2.414214f;
         protected float m_primSafetyCoeffZ = 1.618034f;
