@@ -31,7 +31,8 @@ if defined ValueName (
     @echo Value Type = %ValueType%
     @echo Value Value = %ValueValue%
     @echo Creating compile.bat
-    @echo %ValueValue%\msbuild opensim.sln > compile.bat
+    @echo %ValueValue%msbuild opensim.sln /m > compile.bat
+	@echo %ValueValue%msbuild opensim.sln /P:Config=Release /m > compilerelease.bat
 ) else (
     @echo %KEY_NAME%\%VALUE_NAME% not found.
     @echo Not creating compile.bat
