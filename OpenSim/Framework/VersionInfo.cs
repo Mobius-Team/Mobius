@@ -39,7 +39,7 @@ namespace OpenSim
         {
             Unknown,
             osCore2_Dev,
-			osCore2_Oberon,
+	    osCore2_Oberon,
             osCore2_RC1,
             osCore2_RC2,
             osCore2_RC3,
@@ -59,7 +59,7 @@ namespace OpenSim
             return versionString.PadRight(VERSIONINFO_VERSION_LENGTH);
         }
 
-        public const int VERSIONINFO_VERSION_LENGTH = 28;
+        public const int VERSIONINFO_VERSION_LENGTH = 38;
 
         /// <value>
         /// This is the external interface version.  It is separate from the OpenSimulator project version.
