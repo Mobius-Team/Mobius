@@ -701,7 +701,7 @@
     ;; Or, alternatively, use this one, which works for both standalones and grids
     ; OfflineMessageModule = "Offline Message Module V2"
     ;; Offline IM Receive Limit, default is 50
-     Max_Offline_IM = 250
+     Max_Offline_IM = 50
     ;# {OfflineMessageURL} {OfflineMessageModule:OfflineMessageModule Offline Message Module V2:Offline Message Module V2} {URL of offline messaging service} {}
     ;; URL of web service for offline message storage. Leave it commented if your service is local to the sim.
     ; OfflineMessageURL = ${Const|BaseURL}/Offline.php
