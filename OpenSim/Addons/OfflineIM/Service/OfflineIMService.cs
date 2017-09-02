@@ -47,7 +47,7 @@ namespace OpenSim.OfflineIM
     public class OfflineIMService : OfflineIMServiceBase, IOfflineIMService
     {
 //        private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private const int MAX_IM = 25;
+        private const int MAX_IM = 250;
 
         private XmlSerializer m_serializer;
         private static bool m_Initialized = false;
