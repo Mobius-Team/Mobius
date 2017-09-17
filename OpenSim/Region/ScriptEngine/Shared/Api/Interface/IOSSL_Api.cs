@@ -140,6 +140,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         void osRegionNotice(string msg);
         bool osConsoleCommand(string Command);
         void osSetParcelMediaURL(string url);
+		void osSetParcelMusicURL(string url);
         void osSetPrimFloatOnWater(int floatYN);
         void osSetParcelSIPAddress(string SIPAddress);
 
