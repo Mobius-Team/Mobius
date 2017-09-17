@@ -1797,17 +1797,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 		
 		public void osSetParcelMusicURL(string url)
         {
-            CheckThreatLevel(ThreatLevel.High, "osSetParcelMusicURL");
+            CheckThreatLevel(ThreatLevel.VeryLow, "osSetParcelMusicURL");
 
-            if (World.Permissions.IsGod(m_host.OwnerID))
-            {
-
-			ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
+            ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
 
 
 
             land.SetMusicUrl(url);
-			}
+			
 		}
 		
         public void osSetParcelMediaURL(string url)
