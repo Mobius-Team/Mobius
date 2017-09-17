@@ -1794,7 +1794,22 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
             return Convert.ToDouble(src.Data[index]);
         }
+		
+		public void osSetParcelMusicURL(string url)
+        {
+            CheckThreatLevel(ThreatLevel.High, "osSetParcelMusicURL");
 
+            if (World.Permissions.IsGod(m_host.OwnerID))
+            {
+
+			ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
+
+
+
+            land.SetMusicUrl(url);
+			}
+		}
+		
         public void osSetParcelMediaURL(string url)
         {
             // What actually is the difference to the LL function?
