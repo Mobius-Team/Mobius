@@ -3744,12 +3744,12 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_LSL_Api.SetPrimitiveParamsEx(prim, rules, "osSetPrimitiveParams");
         }
 
-		public void osSetLinkPrimitiveParams(LSL_Key prim,linknumber, LSL_List rules)
+	public void osSetLinkPrimitiveParams(LSL_Key prim, int linknumber, LSL_List rules)
        {
            CheckThreatLevel(ThreatLevel.High, "osSetLinkPrimitiveParams");
 
             InitLSL();
-            m_LSL_Api.SetLinkPrimitiveParamsEx(prim,linknumber, rules, "osSetLinkPrimitiveParams");
+            m_LSL_Api.SetLinkPrimitiveParamsEx(prim, linknumber, rules, "osSetLinkPrimitiveParams");
         }
 
         /// <summary>
