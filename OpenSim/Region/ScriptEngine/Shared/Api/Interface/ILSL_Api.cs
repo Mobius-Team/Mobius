@@ -439,8 +439,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
               void SetPrimitiveParamsEx(LSL_Key prim, LSL_List rules, string originFunc);
               void llSetKeyframedMotion(LSL_List frames, LSL_List options);
           LSL_List GetPrimitiveParamsEx(LSL_Key prim, LSL_List rules);
-	      void SetLinkPrimitiveParamsEx(LSL_Key prim, int linknumber, LSL_List rules, string originFunc);
-	  LSL_List llGetPhysicsMaterial();
+          LSL_List llGetPhysicsMaterial();
           void     llSetAnimationOverride(LSL_String animState, LSL_String anim);
               void llResetAnimationOverride(LSL_String anim_state);
         LSL_String llGetAnimationOverride(LSL_String anim_state);
