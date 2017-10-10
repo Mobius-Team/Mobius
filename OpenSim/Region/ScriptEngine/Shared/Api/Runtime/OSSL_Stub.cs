@@ -1031,6 +1031,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             m_OSSL_Functions.osSetPrimitiveParams(prim, rules);
         }
 
+        public void osSetLinkPrimitiveParams(LSL_Key prim, LSL_List rules);
+	{
+	    m_OSSL_Functions.osSetLinkPrimitiveParams(prim, rules);
+	}
+
         public void osSetProjectionParams(bool projection, LSL_Key texture, double fov, double focus, double amb)
         {
             m_OSSL_Functions.osSetProjectionParams(projection, texture, fov, focus, amb);
