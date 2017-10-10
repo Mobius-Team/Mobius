@@ -391,7 +391,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         void osForceOtherSit(string avatar);
         void osForceOtherSit(string avatar, string target);
         LSL_List osGetPrimitiveParams(LSL_Key prim, LSL_List rules);
-	LSL_List osSetLinkPrimitiveParams(LSL_Key prim, int linknumber, LSL_List rules);
 	void osSetLinkPrimitiveParams(LSL_Key prim, int linknumber, LSL_List rules);	
 	void osSetPrimitiveParams(LSL_Key prim, LSL_List rules);
         void osSetProjectionParams(bool projection, LSL_Key texture, double fov, double focus, double amb);
