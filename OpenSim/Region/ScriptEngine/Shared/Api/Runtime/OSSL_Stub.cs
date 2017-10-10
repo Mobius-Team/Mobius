@@ -1031,7 +1031,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             m_OSSL_Functions.osSetPrimitiveParams(prim, rules);
         }
 
-        public void osSetLinkPrimitiveParams(LSL_Key prim, LSL_List rules);
+        public void osSetLinkPrimitiveParams(LSL_Key prim, LSL_List rules)
 	{
 	    m_OSSL_Functions.osSetLinkPrimitiveParams(prim, rules);
 	}
