@@ -373,7 +373,7 @@ namespace OpenSim
             // FIXME: It's also possible that region ready status should be flipped during an OAR load since this
             // also makes heavy use of the CPU.
             SceneManager.OnRegionsReadyStatusChange
-                += sm => { MemoryWatchdog.Enabled = sm.AllRegionsReady; Watchdog.Enabled = sm.AllRegionsReady; };
+                += sm => { MemoryWatchdog.Enabled = false; Watchdog.Enabled = false; };
         }
 
         /// <summary>
