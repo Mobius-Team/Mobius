@@ -2288,6 +2288,13 @@ namespace OpenSim.Region.Framework.Scenes
                         }
                     }
 
+                    if(gotCrossUpdate)
+                    {
+                        if(IgnoredControls != ScriptControlled.CONTROL_ZERO)
+                            ControllingClient.SendTakeControls((int)IgnoredControls, false, true);
+                            
+                    }
+
                     m_log.DebugFormat("[CompleteMovement] attachments: {0}ms", Util.EnvironmentTickCountSubtract(ts));
                     if (openChildAgents)
                     {
@@ -5678,6 +5685,7 @@ namespace OpenSim.Region.Framework.Scenes
             {
                 IgnoredControls = ScriptControlled.CONTROL_ZERO;
                 obj.eventControls = (ScriptControlled)controls;
+                obj.ignoreControls = ScriptControlled.CONTROL_ZERO;
             }
 
             lock (scriptedcontrols)
@@ -5793,7 +5801,7 @@ namespace OpenSim.Region.Framework.Scenes
             {
                 if (scriptedcontrols.TryGetValue(Script_item_UUID, out takecontrols))
                 {
-                   ScriptControlled sctc = takecontrols.eventControls;
+                    ScriptControlled sctc = takecontrols.eventControls;
 
                     ControllingClient.SendTakeControls((int)sctc, false, false);
                     ControllingClient.SendTakeControls((int)sctc, true, false);
