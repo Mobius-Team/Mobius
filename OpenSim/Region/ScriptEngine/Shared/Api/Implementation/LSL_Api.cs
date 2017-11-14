@@ -6637,10 +6637,17 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         /// AGENT_LIST_PARCEL - all in the same parcel as the scripted object
         /// AGENT_LIST_PARCEL_OWNER - all in any parcel owned by the owner of the
         /// current parcel.
+        /// AGENT_LIST_EXCLUDENPC ignore NPCs (bit mask)
         /// </summary>
         public LSL_List llGetAgentList(LSL_Integer scope, LSL_List options)
         {
             m_host.AddScriptLPS(1);
+
+            // do our bit masks part
+            bool noNPC = (scope & ScriptBaseClass.AGENT_LIST_EXCLUDENPC) !=0;
+
+            // remove bit masks part
+            scope &= ~ ScriptBaseClass.AGENT_LIST_EXCLUDENPC;
 
             // the constants are 1, 2 and 4 so bits are being set, but you
             // get an error "INVALID_SCOPE" if it is anything but 1, 2 and 4
@@ -6682,6 +6689,9 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             World.ForEachRootScenePresence(
                 delegate (ScenePresence ssp)
                 {
+                    if(noNPC && ssp.IsNPC)
+                        return;
+
                     // Gods are not listed in SL
                     if (!ssp.IsDeleted && !ssp.IsViewerUIGod && !ssp.IsChildAgent)
                     {
