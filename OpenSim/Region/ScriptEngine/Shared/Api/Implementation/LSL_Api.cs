@@ -123,9 +123,9 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected bool m_scriptConsoleChannelEnabled = false;
         protected bool m_debuggerSafe = false;
         protected IUrlModule m_UrlModule = null;
-
+	protected bool delayconfigoverride = false;
         protected Dictionary<UUID, UserInfoCacheEntry> m_userInfoCache = new Dictionary<UUID, UserInfoCacheEntry>();
-       protected Dictionary<string, int> m_sleepMsOn = new Dictionary<string, int>{
+      	protected Dictionary<string, int> m_sleepMsOn = new Dictionary<string, int>{
         {"SetTexture" ,200},
         {"SetLinkTexture" ,200},
         {"ScaleTexture" ,200},
