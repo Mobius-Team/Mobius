@@ -125,7 +125,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected IUrlModule m_UrlModule = null;
 	protected bool delayconfigoverride = false;
         protected Dictionary<UUID, UserInfoCacheEntry> m_userInfoCache = new Dictionary<UUID, UserInfoCacheEntry>();
-      	protected Dictionary<string, int> m_sleepMsOn = new Dictionary<string, int>{
+        protected int EMAIL_PAUSE_TIME = 20;  // documented delay value for smtp.      
+	protected Dictionary<string, int> m_sleepMsOn = new Dictionary<string, int>{
         {"SetTexture" ,200},
         {"SetLinkTexture" ,200},
         {"ScaleTexture" ,200},
