@@ -125,67 +125,68 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         protected IUrlModule m_UrlModule = null;
 
         protected Dictionary<UUID, UserInfoCacheEntry> m_userInfoCache = new Dictionary<UUID, UserInfoCacheEntry>();
-        protected int EMAIL_PAUSE_TIME = 20;  // documented delay value for smtp.
-        protected int m_sleepMsOnSetTexture = 20;
-        protected int m_sleepMsOnSetLinkTexture = 20;
-        protected int m_sleepMsOnScaleTexture = 20;
-        protected int m_sleepMsOnOffsetTexture = 20;
-        protected int m_sleepMsOnRotateTexture = 20;
-        protected int m_sleepMsOnSetPos = 20;
-        protected int m_sleepMsOnSetRot = 20;
-        protected int m_sleepMsOnSetLocalRot = 20;
-        protected int m_sleepMsOnPreloadSound = 100;
-        protected int m_sleepMsOnMakeExplosion = 10;
-        protected int m_sleepMsOnMakeFountain = 100;
-        protected int m_sleepMsOnMakeSmoke = 100;
-        protected int m_sleepMsOnMakeFire = 100;
-        protected int m_sleepMsOnRezAtRoot = 100;
-        protected int m_sleepMsOnInstantMessage = 200;
-        protected int m_sleepMsOnEmail = 2000;
-        protected int m_sleepMsOnCreateLink = 100;
-        protected int m_sleepMsOnGiveInventory = 300;
-        protected int m_sleepMsOnRequestAgentData = 100;
-        protected int m_sleepMsOnRequestInventoryData = 1000;
-        protected int m_sleepMsOnSetDamage = 500;
-        protected int m_sleepMsOnTextBox = 100;
-        protected int m_sleepMsOnAdjustSoundVolume = 100;
-        protected int m_sleepMsOnEjectFromLand = 500;
-        protected int m_sleepMsOnAddToLandPassList = 10;
-        protected int m_sleepMsOnDialog = 100;
-        protected int m_sleepMsOnRemoteLoadScript = 300;
-        protected int m_sleepMsOnRemoteLoadScriptPin = 300;
-        protected int m_sleepMsOnOpenRemoteDataChannel = 100;
-        protected int m_sleepMsOnSendRemoteData = 300;
-        protected int m_sleepMsOnRemoteDataReply = 300;
-        protected int m_sleepMsOnCloseRemoteDataChannel = 100;
-        protected int m_sleepMsOnSetPrimitiveParams = 20;
-        protected int m_sleepMsOnSetLinkPrimitiveParams = 20;
-        protected int m_sleepMsOnXorBase64Strings = 30;
-        protected int m_sleepMsOnSetParcelMusicURL = 200;
-        protected int m_sleepMsOnGetPrimMediaParams = 100;
-        protected int m_sleepMsOnGetLinkMedia = 100;
-        protected int m_sleepMsOnSetPrimMediaParams = 100;
-        protected int m_sleepMsOnSetLinkMedia = 100;
-        protected int m_sleepMsOnClearPrimMedia = 100;
-        protected int m_sleepMsOnClearLinkMedia = 100;
-        protected int m_sleepMsOnRequestSimulatorData = 100;
-        protected int m_sleepMsOnLoadURL = 1000;
-        protected int m_sleepMsOnParcelMediaCommandList = 200;
-        protected int m_sleepMsOnParcelMediaQuery = 200;
-        protected int m_sleepMsOnModPow = 100;
-        protected int m_sleepMsOnSetPrimURL = 200;
-        protected int m_sleepMsOnRefreshPrimURL = 2000;
-        protected int m_sleepMsOnMapDestination = 100;
-        protected int m_sleepMsOnAddToLandBanList = 100;
-        protected int m_sleepMsOnRemoveFromLandPassList = 100;
-        protected int m_sleepMsOnRemoveFromLandBanList = 100;
-        protected int m_sleepMsOnResetLandBanList = 100;
-        protected int m_sleepMsOnResetLandPassList = 100;
-        protected int m_sleepMsOnGetParcelPrimOwners = 200;
-        protected int m_sleepMsOnGetNumberOfNotecardLines = 100;
-        protected int m_sleepMsOnGetNotecardLine = 100;
-        protected string m_internalObjectHost = "lsl.opensim.local";
-        protected bool m_restrictEmail = false;
+       protected Dictionary<string, int> m_sleepMsOn = new Dictionary<string, int>{
+        {"SetTexture" ,200},
+        {"SetLinkTexture" ,200},
+        {"ScaleTexture" ,200},
+        {"OffsetTexture" ,200},
+        {"RotateTexture" ,200},
+        {"SetPos" ,200},
+        {"SetRot" ,200},
+        {"SetLocalRot" ,200},
+        {"PreloadSound" ,1000},
+        {"MakeExplosion" ,100},
+        {"MakeFountain" ,100},
+        {"MakeSmoke" ,100},
+        {"MakeFire" ,100},
+        {"RezAtRoot" ,100},
+        {"InstantMessage" ,2000},
+        {"Email" ,20000},
+        {"CreateLink" ,1000},
+        {"GiveInventory" ,3000},
+        {"RequestAgentData" ,100},
+        {"RequestInventoryData" ,1000},
+        {"SetDamage" ,5000},
+        {"TextBox" ,1000},
+        {"AdjustSoundVolume" ,100},
+        {"EjectFromLand" ,5000},
+        {"AddToLandPassList" ,100},
+        {"Dialog" ,1000},
+        {"RemoteLoadScript" ,3000},
+        {"RemoteLoadScriptPin" ,3000},
+        {"OpenRemoteDataChannel" ,1000},
+        {"SendRemoteData" ,3000},
+        {"RemoteDataReply" ,3000},
+        {"CloseRemoteDataChannel" ,1000},
+        {"SetPrimitiveParams" ,200},
+        {"SetLinkPrimitiveParams" ,200},
+        {"XorBase64Strings" ,300},
+        {"SetParcelMusicURL" ,2000},
+        {"GetPrimMediaParams" ,1000},
+        {"GetLinkMedia" ,1000},
+        {"SetPrimMediaParams" ,1000},
+        {"SetLinkMedia" ,1000},
+        {"ClearPrimMedia" ,1000},
+        {"ClearLinkMedia" ,1000},
+        {"RequestSimulatorData" ,1000},
+        {"LoadURL" ,10000},
+        {"ParcelMediaCommandList" ,2000},
+        {"ParcelMediaQuery" ,2000},
+        {"ModPow" ,1000},
+        {"SetPrimURL" ,2000},
+        {"RefreshPrimURL" ,20000},
+        {"MapDestination" ,1000},
+        {"AddToLandBanList" ,100},
+        {"RemoveFromLandPassList" ,100},
+        {"RemoveFromLandBanList" ,100},
+        {"ResetLandBanList" ,100},
+        {"ResetLandPassList" ,100},
+        {"GetParcelPrimOwners" ,2000},
+        {"GetNumberOfNotecardLines" ,100},
+        {"GetNotecardLine" ,100}
+	      		};
+        protected string m_internalObjectHost = "lsl.opensim.local";       
+	protected bool m_restrictEmail = false;
         protected ISoundModule m_SoundModule = null;
         protected float m_avatarHeightCorrection = 0.2f;
         protected bool m_useSimpleBoxesInGetBoundingBox = false;
@@ -397,6 +398,74 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     m_msMaxInCastRay = lslConfig.GetInt("MaximumAvailableTimeInMsInLlCastRay", m_msMaxInCastRay);
                     m_useMeshCacheInCastRay = lslConfig.GetBoolean("UseMeshCacheInLlCastRay", m_useMeshCacheInCastRay);
                 }
+				
+				IConfig delayConfig = seConfigSource.Configs["LL-Delays"];
+                if (delayConfig != null)
+				{
+					delayconfigoverride = delayConfig.GetBoolean("OverrideDefaultDelay" , delayconfigoverride);
+					if (delayconfigoverride == true)
+					{
+						//Overwrite delays
+					    m_sleepMsOn["SetTexture"] = delayConfig.GetInt("SetTexture_Delay", m_sleepMsOn["SetTexture"]);
+					    m_sleepMsOn["SetLinkTexture"] = delayConfig.GetInt("SetLinkTexture_Delay", m_sleepMsOn["SetLinkTexture"]);
+					    m_sleepMsOn["ScaleTexture"] = delayConfig.GetInt("ScaleTexture_Delay", m_sleepMsOn["ScaleTexture"]);
+                        m_sleepMsOn["OffsetTexture"] = delayConfig.GetInt("OffsetTexture_Delay" , m_sleepMsOn["OffsetTexture"]);
+                        m_sleepMsOn["RotateTexture"] = delayConfig.GetInt("RotateTexture_Delay" , m_sleepMsOn["RotateTexture"]);
+                        m_sleepMsOn["SetPos"] = delayConfig.GetInt("SetPos_Delay" , m_sleepMsOn["SetPos"]);
+                        m_sleepMsOn["SetRot"] = delayConfig.GetInt("SetRot_Delay" , m_sleepMsOn["SetRot"]);
+                        m_sleepMsOn["SetLocalRot"] = delayConfig.GetInt("SetLocalRot_Delay", m_sleepMsOn["SetLocalRot"]);
+                        m_sleepMsOn["PreloadSound"] = delayConfig.GetInt("PreloadSound_Delay" , m_sleepMsOn["PreloadSound"]);
+                        m_sleepMsOn["MakeExplosion"] = delayConfig.GetInt("MakeExplosion_Delay" , m_sleepMsOn["MakeExplosion"]);
+                        m_sleepMsOn["MakeFountain"] = delayConfig.GetInt("MakeFountain_Delay" , m_sleepMsOn["MakeFountain"]);
+                        m_sleepMsOn["MakeSmoke"] = delayConfig.GetInt("MakeSmoke_Delay" , m_sleepMsOn["MakeSmoke"]);
+                        m_sleepMsOn["MakeFire"] = delayConfig.GetInt("MakeFire_Delay" , m_sleepMsOn["MakeFire"]);
+                        m_sleepMsOn["RezAtRoot"] = delayConfig.GetInt("RezAtRoot_Delay" , m_sleepMsOn["RezAtRoot"]);
+                        m_sleepMsOn["InstantMessage"] = delayConfig.GetInt("InstantMessage_Delay" , m_sleepMsOn["InstantMessage"]);
+                        m_sleepMsOn["Email"] = delayConfig.GetInt("OnEmail_Delay" , m_sleepMsOn["Email"]);
+                        m_sleepMsOn["CreateLink"] = delayConfig.GetInt("CreateLink_Delay" , m_sleepMsOn["CreateLink"]);
+                        m_sleepMsOn["GiveInventory"] = delayConfig.GetInt("GiveInventory_Delay" , m_sleepMsOn["GiveInventory"]);
+                        m_sleepMsOn["RequestAgentData"] = delayConfig.GetInt("RequestAgentData_Delay" , m_sleepMsOn["RequestAgentData"]);
+                        m_sleepMsOn["RequestInventoryData"] = delayConfig.GetInt("RequestInventoryData_Delay" , m_sleepMsOn["RequestInventoryData"]);
+                        m_sleepMsOn["SetDamage"] = delayConfig.GetInt("SetDamage_Delay" , m_sleepMsOn["SetDamage"]);
+                        m_sleepMsOn["TextBox"] = delayConfig.GetInt("TextBox_Delay" , m_sleepMsOn["TextBox"]);
+                        m_sleepMsOn["AdjustSoundVolume"] = delayConfig.GetInt("AdjustSoundVolume_Delay" , m_sleepMsOn["AdjustSoundVolume"]);
+                        m_sleepMsOn["EjectFromLand"] = delayConfig.GetInt("EjectFromLand_Delay" , m_sleepMsOn["EjectFromLand"]);
+                        m_sleepMsOn["AddToLandPassList"] = delayConfig.GetInt("AddToLandPassList_Delay" , m_sleepMsOn["AddToLandPassList"]);
+                        m_sleepMsOn["Dialog"] = delayConfig.GetInt("Dialog_Delay" , m_sleepMsOn["Dialog"]);
+                        m_sleepMsOn["RemoteLoadScript"] = delayConfig.GetInt("RemoteLoadScript_Delay" , m_sleepMsOn["RemoteLoadScript"]);
+                        m_sleepMsOn["RemoteLoadScriptPin"] = delayConfig.GetInt("RemoteLoadScriptPin_Delay" , m_sleepMsOn["RemoteLoadScriptPin"]);
+                        m_sleepMsOn["OpenRemoteDataChannel"] = delayConfig.GetInt("OpenRemoteDataChannel_Delay" , m_sleepMsOn["OpenRemoteDataChannel"]);
+                        m_sleepMsOn["SendRemoteData"] = delayConfig.GetInt("SendRemoteData_Delay", m_sleepMsOn["SendRemoteData"]);
+                        m_sleepMsOn["RemoteDataReply"] = delayConfig.GetInt("RemoteDataReply_Delay" , m_sleepMsOn["RemoteDataReply"]);
+                        m_sleepMsOn["CloseRemoteDataChannel"] = delayConfig.GetInt("CloseRemoteDataChannel_Delay" , m_sleepMsOn["CloseRemoteDataChannel"]);
+                        m_sleepMsOn["SetPrimitiveParams"] = delayConfig.GetInt("SetPrimitiveParams_Delay" , m_sleepMsOn["SetPrimitiveParams"]);
+                        m_sleepMsOn["SetLinkPrimitiveParams"] = delayConfig.GetInt("SetLinkPrimitiveParams_Delay" , m_sleepMsOn["SetLinkPrimitiveParams"]);
+                        m_sleepMsOn["XorBase64Strings"] = delayConfig.GetInt("XorBase64Strings_Delay" , m_sleepMsOn["XorBase64Strings"]);
+                        m_sleepMsOn["SetParcelMusicURL"] = delayConfig.GetInt("SetParcelMusicURL_Delay" , m_sleepMsOn["SetParcelMusicURL"]);
+                        m_sleepMsOn["GetPrimMediaParams"] = delayConfig.GetInt("GetPrimMediaParams_Delay" , m_sleepMsOn["GetPrimMediaParams"]);
+                        m_sleepMsOn["GetLinkMedia"] = delayConfig.GetInt("GetLinkMedia_Delay" , m_sleepMsOn["GetLinkMedia"]);
+                        m_sleepMsOn["SetPrimMediaParams"] = delayConfig.GetInt("SetPrimMediaParams_Delay" , m_sleepMsOn["SetPrimMediaParams"]);
+                        m_sleepMsOn["SetLinkMedia"] = delayConfig.GetInt("SetLinkMedia_Delay" , m_sleepMsOn["SetLinkMedia"]);
+                        m_sleepMsOn["ClearPrimMedia"] = delayConfig.GetInt("ClearPrimMedia_Delay" , m_sleepMsOn["ClearPrimMedia"]);
+                        m_sleepMsOn["ClearLinkMedia"] = delayConfig.GetInt("mClearLinkMedia_Delay" , m_sleepMsOn["ClearLinkMedia"]);
+                        m_sleepMsOn["RequestSimulatorData"] = delayConfig.GetInt("RequestSimulatorData_Delay", m_sleepMsOn["RequestSimulatorData"]);
+                        m_sleepMsOn["LoadURL"] = delayConfig.GetInt("LoadURL_Delay" , m_sleepMsOn["LoadURL"]);
+                        m_sleepMsOn["ParcelMediaCommandList"] = delayConfig.GetInt("ParcelMediaCommandList_Delay" , m_sleepMsOn["ParcelMediaCommandList"]);
+                        m_sleepMsOn["ParcelMediaQuery"] = delayConfig.GetInt("ParcelMediaQuery_Delay", m_sleepMsOn["ParcelMediaQuery"]);
+                        m_sleepMsOn["ModPow"] = delayConfig.GetInt("ModPow_Delay" , m_sleepMsOn["ModPow"]);
+                        m_sleepMsOn["SetPrimURL"] = delayConfig.GetInt("SetPrimURL_Delay" , m_sleepMsOn["SetPrimURL"]);
+                        m_sleepMsOn["RefreshPrimURL"] = delayConfig.GetInt("RefreshPrimURL_Delay" , m_sleepMsOn["RefreshPrimURL"]);
+                        m_sleepMsOn["MapDestination"] = delayConfig.GetInt("MapDestination_Delay" , m_sleepMsOn["MapDestination"]);
+                        m_sleepMsOn["AddToLandBanList"] = delayConfig.GetInt("AddToLandBanList_Delay" , m_sleepMsOn["AddToLandBanList"]);
+                        m_sleepMsOn["RemoveFromLandPassList"] = delayConfig.GetInt("RemoveFromLandPassList_Delay" , m_sleepMsOn["RemoveFromLandPassList"]);
+                        m_sleepMsOn["RemoveFromLandBanList"] = delayConfig.GetInt("RemoveFromLandBanList_Delay" , m_sleepMsOn["RemoveFromLandBanList"]);
+                        m_sleepMsOn["ResetLandBanList"] = delayConfig.GetInt("ResetLandBanList_Delay" , m_sleepMsOn["ResetLandBanList"]);
+                        m_sleepMsOn["ResetLandPassList"] = delayConfig.GetInt("ResetLandPassList_Delay" , m_sleepMsOn["ResetLandPassList"]);
+                        m_sleepMsOn["GetParcelPrimOwners"] = delayConfig.GetInt("GetParcelPrimOwners_Delay" , m_sleepMsOn["GetParcelPrimOwners"]);
+                        m_sleepMsOn["GetNumberOfNotecardLines"] = delayConfig.GetInt("GetNumberOfNotecardLines_Delay" , m_sleepMsOn["GetNumberOfNotecardLines"]);
+						m_sleepMsOn["GetNotecardLine"] = delayConfig.GetInt("GetNotecardLine_Delay" , m_sleepMsOn["GetNotecardLine"]);
+					}
+				}				
 
                 IConfig smtpConfig = seConfigSource.Configs["SMTP"];
                 if (smtpConfig != null)
@@ -405,9 +474,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     EMAIL_PAUSE_TIME = smtpConfig.GetInt("email_pause_time", EMAIL_PAUSE_TIME);
 
                     m_internalObjectHost = smtpConfig.GetString("internal_object_host", m_internalObjectHost);
+					
+					//Don't allow for setting lower than smtp setting
+					if (m_sleepMsOn["Email"] < (EMAIL_PAUSE_TIME * 1000))
+					{
+						m_sleepMsOn["Email"] = EMAIL_PAUSE_TIME * 1000;
+					}					
                 }
             }
-            m_sleepMsOnEmail = EMAIL_PAUSE_TIME * 1000;
         }
 
         public override Object InitializeLifetimeService()
@@ -2410,7 +2484,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             SetTexture(m_host, texture, face);
-            ScriptSleep(m_sleepMsOnSetTexture);
+            ScriptSleep(m_sleepMsOn["SetTexture"]);
         }
 
         public void llSetLinkTexture(int linknumber, string texture, int face)
@@ -2427,7 +2501,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 }
                 finally { }
              }
-            ScriptSleep(m_sleepMsOnSetLinkTexture);
+			ScriptSleep(m_sleepMsOn["SetLinkTexture"]);
         }
 
         protected void SetTexture(SceneObjectPart part, string texture, int face)
@@ -2474,7 +2548,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.AddScriptLPS(1);
 
             ScaleTexture(m_host, u, v, face);
-            ScriptSleep(m_sleepMsOnScaleTexture);
+            ScriptSleep(m_sleepMsOn["ScaleTexture"]);
         }
 
         protected void ScaleTexture(SceneObjectPart part, double u, double v, int face)
@@ -2513,7 +2587,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             OffsetTexture(m_host, u, v, face);
-            ScriptSleep(m_sleepMsOnOffsetTexture);
+            ScriptSleep(m_sleepMsOn["OffsetTexture"]);
         }
 
         protected void OffsetTexture(SceneObjectPart part, double u, double v, int face)
@@ -2552,7 +2626,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             RotateTexture(m_host, rotation, face);
-            ScriptSleep(m_sleepMsOnRotateTexture);
+            ScriptSleep(m_sleepMsOn["RotateTexture"]);
         }
 
         protected void RotateTexture(SceneObjectPart part, double rotation, int face)
@@ -2630,7 +2704,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             SetPos(m_host, pos, true);
 
-            ScriptSleep(m_sleepMsOnSetPos);
+            ScriptSleep(m_sleepMsOn["SetPos"]);
         }
 
         /// <summary>
@@ -2811,14 +2885,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 }
             }
 
-            ScriptSleep(m_sleepMsOnSetRot);
+            ScriptSleep(m_sleepMsOn["SetRot"]);
         }
 
         public void llSetLocalRot(LSL_Rotation rot)
         {
             m_host.AddScriptLPS(1);
             SetRot(m_host, rot);
-            ScriptSleep(m_sleepMsOnSetLocalRot);
+            ScriptSleep(m_sleepMsOn["SetLocalRot"]);
         }
 
         protected void SetRot(SceneObjectPart part, Quaternion rot)
@@ -3223,7 +3297,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.AddScriptLPS(1);
             if (m_SoundModule != null)
                 m_SoundModule.PreloadSound(m_host.UUID, ScriptUtils.GetAssetIdFromKeyOrItemName(m_host, sound), 0);
-            ScriptSleep(m_sleepMsOnPreloadSound);
+            ScriptSleep(m_sleepMsOn["PreloadSound"]);
         }
 
         /// <summary>
@@ -3500,28 +3574,28 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             Deprecated("llMakeExplosion", "Use llParticleSystem instead");
-            ScriptSleep(m_sleepMsOnMakeExplosion);
+            ScriptSleep(m_sleepMsOn["MakeExplosion"]);
         }
 
         public void llMakeFountain(int particles, double scale, double vel, double lifetime, double arc, int bounce, string texture, LSL_Vector offset, double bounce_offset)
         {
             m_host.AddScriptLPS(1);
             Deprecated("llMakeFountain", "Use llParticleSystem instead");
-            ScriptSleep(m_sleepMsOnMakeFountain);
+            ScriptSleep(m_sleepMsOn["MakeFountain"]);
         }
 
         public void llMakeSmoke(int particles, double scale, double vel, double lifetime, double arc, string texture, LSL_Vector offset)
         {
             m_host.AddScriptLPS(1);
             Deprecated("llMakeSmoke", "Use llParticleSystem instead");
-            ScriptSleep(m_sleepMsOnMakeSmoke);
+            ScriptSleep(m_sleepMsOn["MakeSmoke"]);
         }
 
         public void llMakeFire(int particles, double scale, double vel, double lifetime, double arc, string texture, LSL_Vector offset)
         {
             m_host.AddScriptLPS(1);
             Deprecated("llMakeFire", "Use llParticleSystem instead");
-            ScriptSleep(m_sleepMsOnMakeFire);
+            ScriptSleep(m_sleepMsOn["MakeFire"]);
         }
 
         public void llRezAtRoot(string inventory, LSL_Vector pos, LSL_Vector vel, LSL_Rotation rot, int param)
@@ -3600,7 +3674,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }, null, "LSL_Api.doObjectRez");
 
             //ScriptSleep((int)((groupmass * velmag) / 10));
-            ScriptSleep(m_sleepMsOnRezAtRoot);
+            ScriptSleep(m_sleepMsOn["RezAtRoot"]);
         }
 
         public void llRezObject(string inventory, LSL_Vector pos, LSL_Vector vel, LSL_Rotation rot, int param)
@@ -3917,7 +3991,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 m_TransferModule.SendInstantMessage(msg, delegate(bool success) {});
             }
 
-            ScriptSleep(m_sleepMsOnInstantMessage);
+            ScriptSleep(m_sleepMsOn["InstantMessage"]);
       }
 
         public void llEmail(string address, string subject, string message)
@@ -3955,7 +4029,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
 
             emailModule.SendEmail(m_host.UUID, address, subject, message);
-            ScriptSleep(m_sleepMsOnEmail);
+            ScriptSleep(m_sleepMsOn["Email"]);
         }
 
         public void llGetNextEmail(string address, string subject)
@@ -4426,7 +4500,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if (client != null)
                 parentPrim.SendPropertiesToClient(client);
 
-            ScriptSleep(m_sleepMsOnCreateLink);
+            ScriptSleep(m_sleepMsOn["CreateLink"]);
         }
 
         public void llBreakLink(int linknum)
@@ -4780,7 +4854,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 }
 
                 //This delay should only occur when giving inventory to avatars.
-                ScriptSleep(m_sleepMsOnGiveInventory);
+                ScriptSleep(m_sleepMsOn["GiveInventory"]);
             }
         }
 
@@ -4933,7 +5007,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 AsyncCommands.
                 DataserverPlugin.DataserverReply(rq.ToString(), reply);
 
-                ScriptSleep(m_sleepMsOnRequestAgentData);
+                ScriptSleep(m_sleepMsOn["RequestAgentData"]);
                 return tid.ToString();
             }
             else
@@ -4972,12 +5046,12 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                                                              reply);
                         });
 
-                    ScriptSleep(m_sleepMsOnRequestInventoryData);
+                    ScriptSleep(m_sleepMsOn["RequestInventoryData"]);
                     return tid.ToString();
                 }
             }
 
-            ScriptSleep(m_sleepMsOnRequestInventoryData);
+            ScriptSleep(m_sleepMsOn["RequestInventoryData"]);
             return String.Empty;
         }
 
@@ -5017,7 +5091,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 }
             }
 
-            ScriptSleep(m_sleepMsOnSetDamage);
+            ScriptSleep(m_sleepMsOn["SetDamage"]);
         }
 
         public void llTeleportAgent(string agent, string destination, LSL_Vector targetPos, LSL_Vector targetLookAt)
@@ -5149,7 +5223,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             else
             {
                 dm.SendTextBoxToUser(av, message, chatChannel, m_host.Name, m_host.UUID, m_host.OwnerID);
-                ScriptSleep(m_sleepMsOnTextBox);
+                ScriptSleep(m_sleepMsOn["TextBox"]);
             }
         }
 
@@ -6726,7 +6800,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             m_host.AdjustSoundGain(volume);
-            ScriptSleep(m_sleepMsOnAdjustSoundVolume);
+            ScriptSleep(m_sleepMsOn["AdjustSoundVolume"]);
         }
 
         public void llSetSoundRadius(double radius)
@@ -6840,7 +6914,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     }
                 }
             }
-            ScriptSleep(m_sleepMsOnEjectFromLand);
+            ScriptSleep(m_sleepMsOn["EjectFromLand"]);
         }
 
         public LSL_List llParseString2List(string str, LSL_List separators, LSL_List in_spacers)
@@ -7887,7 +7961,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     World.EventManager.TriggerLandObjectUpdated((uint)land.LandData.LocalID, land);
                 }
             }
-            ScriptSleep(m_sleepMsOnAddToLandPassList);
+            ScriptSleep(m_sleepMsOn["AddToLandPassList"]);
         }
 
         public void llSetTouchText(string text)
@@ -8038,7 +8112,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 av, m_host.Name, m_host.UUID, m_host.OwnerID,
                 message, new UUID("00000000-0000-2222-3333-100000001000"), chat_channel, buts);
 
-            ScriptSleep(m_sleepMsOnDialog);
+            ScriptSleep(m_sleepMsOn["Dialog"]);
         }
 
         public void llVolumeDetect(int detect)
@@ -8053,7 +8127,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             Deprecated("llRemoteLoadScript", "Use llRemoteLoadScriptPin instead");
-            ScriptSleep(m_sleepMsOnRemoteLoadScript);
+            ScriptSleep(m_sleepMsOn["RemoteLoadScript"]);
         }
 
         public void llSetRemoteScriptAccessPin(int pin)
@@ -8103,7 +8177,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 }
             }
             // this will cause the delay even if the script pin or permissions were wrong - seems ok
-            ScriptSleep(m_sleepMsOnRemoteLoadScriptPin);
+            ScriptSleep(m_sleepMsOn["RemoteLoadScriptPin"]);
         }
 
         public void llOpenRemoteDataChannel()
@@ -8134,14 +8208,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 m_ScriptEngine.PostScriptEvent(m_item.ItemID, new EventParams("remote_data", resobj,
                                                                          new DetectParams[0]));
             }
-            ScriptSleep(m_sleepMsOnOpenRemoteDataChannel);
+            ScriptSleep(m_sleepMsOn["OpenRemoteDataChannel"]);
         }
 
         public LSL_String llSendRemoteData(string channel, string dest, int idata, string sdata)
         {
             m_host.AddScriptLPS(1);
             IXMLRPC xmlrpcMod = m_ScriptEngine.World.RequestModuleInterface<IXMLRPC>();
-            ScriptSleep(m_sleepMsOnSendRemoteData);
+            ScriptSleep(m_sleepMsOn["SendRemoteData"]);
             if (xmlrpcMod == null)
                 return "";
             return (xmlrpcMod.SendRemoteData(m_host.LocalId, m_item.ItemID, channel, dest, idata, sdata)).ToString();
@@ -8153,7 +8227,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             IXMLRPC xmlrpcMod = m_ScriptEngine.World.RequestModuleInterface<IXMLRPC>();
             if (xmlrpcMod != null)
                 xmlrpcMod.RemoteDataReply(channel, message_id, sdata, idata);
-            ScriptSleep(m_sleepMsOnRemoteDataReply);
+            ScriptSleep(m_sleepMsOn["RemoteDataReply"]);
         }
 
         public void llCloseRemoteDataChannel(string channel)
@@ -8169,7 +8243,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             IXMLRPC xmlrpcMod = m_ScriptEngine.World.RequestModuleInterface<IXMLRPC>();
             if (xmlrpcMod != null)
                 xmlrpcMod.CloseXMLRPCChannel((UUID)channel);
-            ScriptSleep(m_sleepMsOnCloseRemoteDataChannel);
+            ScriptSleep(m_sleepMsOn["CloseRemoteDataChannel"]);
         }
 
         public LSL_String llMD5String(string src, int nonce)
@@ -8576,7 +8650,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             SetLinkPrimParams(ScriptBaseClass.LINK_THIS, rules, "llSetPrimitiveParams");
 
-            ScriptSleep(m_sleepMsOnSetPrimitiveParams);
+            ScriptSleep(m_sleepMsOn["SetPrimitiveParams"]);
         }
 
         public void llSetLinkPrimitiveParams(int linknumber, LSL_List rules)
@@ -8585,7 +8659,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             SetLinkPrimParams(linknumber, rules, "llSetLinkPrimitiveParams");
 
-            ScriptSleep(m_sleepMsOnSetLinkPrimitiveParams);
+            ScriptSleep(m_sleepMsOn["SetLinkPrimitiveParams"]);
         }
 
         public void llSetLinkPrimitiveParamsFast(int linknumber, LSL_List rules)
@@ -10519,7 +10593,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             land.SetMusicUrl(url);
 
-            ScriptSleep(m_sleepMsOnSetParcelMusicURL);
+            ScriptSleep(m_sleepMsOn["SetParcelMusicURL"]);
         }
 
         public LSL_String llGetParcelMusicURL()
@@ -11447,14 +11521,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_List llGetPrimMediaParams(int face, LSL_List rules)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnGetPrimMediaParams);
+            ScriptSleep(m_sleepMsOn["GetPrimMediaParams"]);
             return GetPrimMediaParams(m_host, face, rules);
         }
 
         public LSL_List llGetLinkMedia(LSL_Integer link, LSL_Integer face, LSL_List rules)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnGetLinkMedia);
+            ScriptSleep(m_sleepMsOn["GetLinkMedia"]);
             if (link == ScriptBaseClass.LINK_ROOT)
                 return GetPrimMediaParams(m_host.ParentGroup.RootPart, face, rules);
             else if (link == ScriptBaseClass.LINK_THIS)
@@ -11574,14 +11648,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_Integer llSetPrimMediaParams(LSL_Integer face, LSL_List rules)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnSetPrimMediaParams);
+            ScriptSleep(m_sleepMsOn["SetPrimMediaParams"]);
             return SetPrimMediaParams(m_host, face, rules);
         }
 
         public LSL_Integer llSetLinkMedia(LSL_Integer link, LSL_Integer face, LSL_List rules)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnSetLinkMedia);
+            ScriptSleep(m_sleepMsOn["SetLinkMedia"]);
             if (link == ScriptBaseClass.LINK_ROOT)
                 return SetPrimMediaParams(m_host.ParentGroup.RootPart, face, rules);
             else if (link == ScriptBaseClass.LINK_THIS)
@@ -11700,14 +11774,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_Integer llClearPrimMedia(LSL_Integer face)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnClearPrimMedia);
+            ScriptSleep(m_sleepMsOn["ClearPrimMedia"]);
             return ClearPrimMedia(m_host, face);
         }
 
         public LSL_Integer llClearLinkMedia(LSL_Integer link, LSL_Integer face)
         {
             m_host.AddScriptLPS(1);
-            ScriptSleep(m_sleepMsOnClearLinkMedia);
+            ScriptSleep(m_sleepMsOn["ClearLinkMedia"]);
             if (link == ScriptBaseClass.LINK_ROOT)
                 return ClearPrimMedia(m_host.ParentGroup.RootPart, face);
             else if (link == ScriptBaseClass.LINK_THIS)
@@ -12363,7 +12437,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     case ScriptBaseClass.DATA_SIM_POS:
                         if (info == null)
                         {
-                            ScriptSleep(m_sleepMsOnRequestSimulatorData);
+                            ScriptSleep(m_sleepMsOn["RequestSimulatorData"]);
                             return UUID.Zero.ToString();
                         }
 
@@ -12410,7 +12484,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     case ScriptBaseClass.DATA_SIM_RATING:
                         if (info == null)
                         {
-                            ScriptSleep(m_sleepMsOnRequestSimulatorData);
+                            ScriptSleep(m_sleepMsOn["RequestSimulatorData"]);
                             return UUID.Zero.ToString();
                         }
                         int access = info.Maturity;
@@ -12429,7 +12503,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                         reply = "OpenSim";
                         break;
                     default:
-                        ScriptSleep(m_sleepMsOnRequestSimulatorData);
+                        ScriptSleep(m_sleepMsOn["RequestSimulatorData"]);
                         return UUID.Zero.ToString(); // Raise no event
                 }
                 UUID rq = UUID.Random();
@@ -12440,7 +12514,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 AsyncCommands.
                     DataserverPlugin.DataserverReply(rq.ToString(), reply);
 
-                ScriptSleep(m_sleepMsOnRequestSimulatorData);
+                ScriptSleep(m_sleepMsOn["RequestSimulatorData"]);
                 return tid.ToString();
             }
             catch(Exception)
@@ -12589,7 +12663,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 dm.SendUrlToUser(
                     new UUID(avatar_id), m_host.Name, m_host.UUID, m_host.OwnerID, false, message, url);
 
-            ScriptSleep(m_sleepMsOnLoadURL);
+            ScriptSleep(m_sleepMsOn["LoadURL"]);
         }
 
         public void llParcelMediaCommandList(LSL_List commandList)
@@ -12830,7 +12904,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                                             (ParcelMediaCommandEnum)commandToSend, time);
                 }
             }
-            ScriptSleep(m_sleepMsOnParcelMediaCommandList);
+            ScriptSleep(m_sleepMsOn["ParcelMediaCommandList"]);
         }
 
         public LSL_List llParcelMediaQuery(LSL_List aList)
@@ -12870,7 +12944,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
                 }
             }
-            ScriptSleep(m_sleepMsOnParcelMediaQuery);
+            ScriptSleep(m_sleepMsOn["ParcelMediaQuery"]);
             return list;
         }
 
@@ -12879,7 +12953,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.AddScriptLPS(1);
             Int64 tmp = 0;
             Math.DivRem(Convert.ToInt64(Math.Pow(a, b)), c, out tmp);
-            ScriptSleep(m_sleepMsOnModPow);
+            ScriptSleep(m_sleepMsOn["ModPow"]);
             return Convert.ToInt32(tmp);
         }
 
@@ -12968,14 +13042,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             Deprecated("llSetPrimURL", "Use llSetPrimMediaParams instead");
-            ScriptSleep(m_sleepMsOnSetPrimURL);
+            ScriptSleep(m_sleepMsOn["SetPrimURL"]);
         }
 
         public void llRefreshPrimURL()
         {
             m_host.AddScriptLPS(1);
             Deprecated("llRefreshPrimURL");
-            ScriptSleep(m_sleepMsOnRefreshPrimURL);
+            ScriptSleep(m_sleepMsOn["RefreshPrimURL"]);
         }
 
         public LSL_String llEscapeURL(string url)
@@ -13027,7 +13101,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 avatar.ControllingClient.SendScriptTeleportRequest(m_host.Name,
                     simname, pos, lookAt);
             }
-            ScriptSleep(m_sleepMsOnMapDestination);
+            ScriptSleep(m_sleepMsOn["MapDestination"]);
         }
 
         public void llAddToLandBanList(string avatar, double hours)
@@ -13068,7 +13142,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     World.EventManager.TriggerLandObjectUpdated((uint)land.LandData.LocalID, land);
                 }
             }
-            ScriptSleep(m_sleepMsOnAddToLandBanList);
+            ScriptSleep(m_sleepMsOn["AddToLandBanList"]);
         }
 
         public void llRemoveFromLandPassList(string avatar)
@@ -13095,7 +13169,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     }
                 }
             }
-            ScriptSleep(m_sleepMsOnRemoveFromLandPassList);
+            ScriptSleep(m_sleepMsOn["RemoveFromLandPassList"]);
         }
 
         public void llRemoveFromLandBanList(string avatar)
@@ -13122,7 +13196,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     }
                 }
             }
-            ScriptSleep(m_sleepMsOnRemoveFromLandBanList);
+            ScriptSleep(m_sleepMsOn["RemoveFromLandBanList"]);
         }
 
         public void llSetCameraParams(LSL_List rules)
@@ -13614,7 +13688,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     }
                 }
             }
-            ScriptSleep(m_sleepMsOnResetLandBanList);
+            ScriptSleep(m_sleepMsOn["ResetLandBanList"]);
         }
 
         public void llResetLandPassList()
@@ -13631,7 +13705,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     }
                 }
             }
-            ScriptSleep(m_sleepMsOnResetLandPassList);
+            ScriptSleep(m_sleepMsOn["ResetLandPassList"]);
         }
 
         public LSL_Integer llGetParcelPrimCount(LSL_Vector pos, int category, int sim_wide)
@@ -13689,7 +13763,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     ret.Add(new LSL_Integer(detectedParams.Value));
                 }
             }
-            ScriptSleep(m_sleepMsOnGetParcelPrimOwners);
+            ScriptSleep(m_sleepMsOn["GetParcelPrimOwners"]);
             return ret;
         }
 
@@ -14283,7 +14357,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             {
                 AsyncCommands.DataserverPlugin.DataserverReply(reqIdentifier, NotecardCache.GetLines(assetID).ToString());
 
-                ScriptSleep(m_sleepMsOnGetNumberOfNotecardLines);
+                ScriptSleep(m_sleepMsOn["GetNumberOfNotecardLines"]);
                 return tid.ToString();
             }
 
@@ -14299,7 +14373,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 AsyncCommands.DataserverPlugin.DataserverReply(reqIdentifier, NotecardCache.GetLines(id).ToString());
             });
 
-            ScriptSleep(m_sleepMsOnGetNumberOfNotecardLines);
+            ScriptSleep(m_sleepMsOn["GetNumberOfNotecardLines"]);
             return tid.ToString();
         }
 
@@ -14335,7 +14409,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 AsyncCommands.DataserverPlugin.DataserverReply(
                     reqIdentifier, NotecardCache.GetLine(assetID, line, m_notecardLineReadCharsMax));
 
-                ScriptSleep(m_sleepMsOnGetNotecardLine);
+                ScriptSleep(m_sleepMsOn["GetNotecardLine"]);
                 return tid.ToString();
             }
 
@@ -14354,7 +14428,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                                 reqIdentifier, NotecardCache.GetLine(assetID, line, m_notecardLineReadCharsMax));
                          });
 
-            ScriptSleep(m_sleepMsOnGetNotecardLine);
+            ScriptSleep(m_sleepMsOn["GetNotecardLine"]);
             return tid.ToString();
         }
 
