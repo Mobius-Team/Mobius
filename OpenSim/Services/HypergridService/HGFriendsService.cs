@@ -55,6 +55,7 @@ namespace OpenSim.Services.HypergridService
 
         static bool m_Initialized = false;
 
+        protected static IConfigSource m_config;
         protected static IGridUserService m_GridUserService;
         protected static IGridService m_GridService;
         protected static IGatekeeperService m_GatekeeperService;
@@ -74,6 +75,8 @@ namespace OpenSim.Services.HypergridService
             if (!m_Initialized)
             {
                 m_Initialized = true;
+
+                m_config = config;
 
                 if (configName != String.Empty)
                     m_ConfigName = configName;
@@ -251,6 +254,25 @@ namespace OpenSim.Services.HypergridService
                 }
             }
 
+            // In the next round add all current presents HG users.
+            foreach (string uui in friends)
+            {
+                UUID RemoteUserID;
+                string secret = string.Empty, tmp = string.Empty;
+                if (Util.ParseUniversalUserIdentifier(uui, out RemoteUserID, out tmp, out tmp, out tmp, out secret))
+                {
+                    if (!usersToBeNotified.Contains(RemoteUserID.ToString()))
+                    {
+                        UserAccount _acc = m_UserAccountService.GetUserAccount(UUID.Zero, RemoteUserID);
+
+                        if (_acc == null)
+                        {
+                            usersToBeNotified.Add(RemoteUserID.ToString());
+                        }
+                    }
+                }
+            }
+
             // Now, let's send the notifications
             //m_log.DebugFormat("[HGFRIENDS SERVICE]: Status notification: user has {0} local friends", usersToBeNotified.Count);
 
@@ -277,19 +299,23 @@ namespace OpenSim.Services.HypergridService
                 }
             }
 
-//            // Lastly, let's notify the rest who may be online somewhere else
-//            foreach (string user in usersToBeNotified)
-//            {
-//                UUID id = new UUID(user);
-//                //m_UserAgentService.LocateUser(id);
-//                //etc...
-//                //if (m_TravelingAgents.ContainsKey(id) && m_TravelingAgents[id].GridExternalName != m_GridName)
-//                //{
-//                //    string url = m_TravelingAgents[id].GridExternalName;
-//                //    // forward
-//                //}
-//                //m_log.WarnFormat("[HGFRIENDS SERVICE]: User {0} is visiting another grid. HG Status notifications still not implemented.", user);
-//            }
+            // And then forward the message to all others grid with HG avatars
+            UserAgentService _userAgentService = new UserAgentService(m_config);
+            foreach (String user in usersToBeNotified)
+            {
+                UUID _userUUID = UUID.Zero;
+                UUID.TryParse(user, out _userUUID);
+
+                if (_userUUID != UUID.Zero)
+                {
+                    Uri _gridURL = new Uri(_userAgentService.LocateUser(_userUUID));
+
+                    HGFriendsServicesConnector _HGConnector = new HGFriendsServicesConnector("http://" + _gridURL.Authority);
+                    localFriendsOnline.AddRange(_HGConnector.StatusNotification(friends, foreignUserID, online));
+
+                    m_log.InfoFormat("[HGFRIENDS SERVICE]: User {0} is in '{1}'. Forward HG status notifications.", user, _gridURL.Authority);
+                }
+            }
 
             // and finally, let's send the online friends
             if (online)
