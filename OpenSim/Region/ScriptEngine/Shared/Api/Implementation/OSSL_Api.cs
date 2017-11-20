@@ -900,11 +900,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
-                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
-                {
-                    ScriptSleep(500);
-                    return;
-                }
 
                 if(regionName == World.RegionInfo.RegionName)
                 {
@@ -949,11 +944,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
-                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
-                {
-                    ScriptSleep(500);
-                    return;
-                }
 
                 Util.FireAndForget(
                     o => World.RequestTeleportLocation(
@@ -975,11 +965,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
-                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
-                {
-                    ScriptSleep(500);
-                    return;
-                }
 
                 World.RequestTeleportLocation(presence.ControllingClient, World.RegionInfo.RegionName, position,
                     lookat, (uint)TPFlags.ViaLocation);
