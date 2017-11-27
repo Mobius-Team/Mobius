@@ -1196,7 +1196,16 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_OSSL_Functions.osTeleportObject(objectUUID, targetPos, targetrotation, flags);
         }
 
-        public LSL_Integer osGetLinkNumber(LSL_String name)
+	public LSL_Integer osStringStartsWith(string input, string startsWith)
+        {
+             return m_OSSL_Functions.osStringStartsWith(input, startsWith);
+        }
+       public LSL_Integer osStringEndsWith(string input, string endsWith)
+        {
+             return m_OSSL_Functions.osStringEndsWith(input, endsWith);
+        }
+
+	public LSL_Integer osGetLinkNumber(LSL_String name)
         {
             return m_OSSL_Functions.osGetLinkNumber(name);
         }

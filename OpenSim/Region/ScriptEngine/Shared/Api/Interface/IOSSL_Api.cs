@@ -297,7 +297,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_String osFormatString(string str, LSL_List strings);
         LSL_List osMatchString(string src, string pattern, int start);
         LSL_String osReplaceString(string src, string pattern, string replace, int count, int start);
-
+       LSL_Integer osStringStartsWith(string input, string startsWith);
+       LSL_Integer osStringEndsWith(string input, string endsWith);
         // Information about data loaded into the region
         string osLoadedCreationDate();
         string osLoadedCreationTime();
