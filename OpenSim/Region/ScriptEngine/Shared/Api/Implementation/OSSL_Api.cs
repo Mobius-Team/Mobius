@@ -2093,6 +2093,75 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sceneOG.RezzerID == m_host.ParentGroup.UUID)
                 World.DeleteSceneObject(sceneOG, false);
         }
+public void osMakeScript(string scriptName, LSL_Types.list contents)
+        {
+            CheckThreatLevel(ThreatLevel.Severe, "osMakeScript");
+
+            StringBuilder scriptData = new StringBuilder();
+
+            for (int i = 0; i < contents.Length; i++)
+                scriptData.Append((string)(contents.GetLSLStringItem(i) + "\n"));
+
+            SaveScript(scriptName, "Script generated script", scriptData.ToString(), false);
+        }
+		
+		
+		protected TaskInventoryItem SaveScript(string name, string description, string data, bool forceSameName)
+        {
+            // Create new asset
+            AssetBase asset = new AssetBase(UUID.Random(), name, (sbyte)AssetType.LSLText, m_host.OwnerID.ToString());
+            asset.Description = description;
+            byte[] a;
+            byte[] b;
+            byte[] c;
+
+            b = Util.UTF8.GetBytes(data);
+
+            a = Util.UTF8.GetBytes(
+                "Linden LSLText version 2\n{\nLLEmbeddedItems version 1\n{\ncount 0\n}\nText length " + b.Length.ToString() + "\n");
+
+            c = Util.UTF8.GetBytes("}");
+
+            byte[] d = new byte[a.Length + b.Length + c.Length];
+            Buffer.BlockCopy(a, 0, d, 0, a.Length);
+            Buffer.BlockCopy(b, 0, d, a.Length, b.Length);
+            Buffer.BlockCopy(c, 0, d, a.Length + b.Length, c.Length);
+
+            asset.Data = d;
+            World.AssetService.Store(asset);
+
+            // Create Task Entry
+            TaskInventoryItem taskItem = new TaskInventoryItem();
+
+            taskItem.ResetIDs(m_host.UUID);
+            taskItem.ParentID = m_host.UUID;
+            taskItem.CreationDate = (uint)Util.UnixTimeSinceEpoch();
+            taskItem.Name = name;
+            taskItem.Description = description;
+            taskItem.Type = (int)AssetType.LSLText;
+            taskItem.InvType = (int)InventoryType.LSL;
+            taskItem.OwnerID = m_host.OwnerID;
+            taskItem.CreatorID = m_host.OwnerID;
+            taskItem.BasePermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
+            taskItem.CurrentPermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
+            taskItem.EveryonePermissions = 0;
+            taskItem.NextPermissions = (uint)PermissionMask.All;
+            taskItem.GroupID = m_host.GroupID;
+            taskItem.GroupPermissions = 0;
+            taskItem.Flags = 0;
+            taskItem.PermsGranter = UUID.Zero;
+            taskItem.PermsMask = 0;
+            taskItem.AssetID = asset.FullID;
+
+            if (forceSameName)
+                m_host.Inventory.AddInventoryItemExclusive(taskItem, false);
+            else
+                m_host.Inventory.AddInventoryItem(taskItem, false);
+            m_host.ParentGroup.InvalidateDeepEffectivePerms();
+
+            return taskItem;
+        }
+		
 
         /// <summary>
         /// Write a notecard directly to the prim's inventory.
@@ -2725,26 +2794,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             // Find matches beginning at start position
             Regex matcher = new Regex(pattern);
             return matcher.Replace(src,replace,count,start);
-        }
-
-        public LSL_Integer osStringStartsWith(string input, string startsWith)
-        {
-            CheckThreatLevel(ThreatLevel.None, "osStringStartsWith");
-            m_host.AddScriptLPS(1);
-
-            if (input.StartsWith(startsWith))
-                return true;
-            return false;
-        }
-
-        public LSL_Integer osStringEndsWith(string input, string endsWith)
-        {
-            CheckThreatLevel(ThreatLevel.None, "osStringEndsWith");
-            m_host.AddScriptLPS(1);
-
-            if (input.EndsWith(endsWith))
-                return true;
-            return false;
         }
 
         public string osLoadedCreationDate()

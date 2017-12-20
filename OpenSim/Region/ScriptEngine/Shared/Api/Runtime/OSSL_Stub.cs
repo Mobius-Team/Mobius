@@ -500,7 +500,10 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         {
             m_OSSL_Functions.osMakeNotecard(notecardName, contents);
         }
-
+public void osMakeScript(string scriptName, LSL_Types.list contents)
+        {
+            m_OSSL_Functions.osMakeScript(scriptName, contents);
+        }
         public string osGetNotecardLine(string name, int line)
         {
             return m_OSSL_Functions.osGetNotecardLine(name, line);
@@ -1196,16 +1199,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_OSSL_Functions.osTeleportObject(objectUUID, targetPos, targetrotation, flags);
         }
 
-	public LSL_Integer osStringStartsWith(string input, string startsWith)
-        {
-             return m_OSSL_Functions.osStringStartsWith(input, startsWith);
-        }
-       public LSL_Integer osStringEndsWith(string input, string endsWith)
-        {
-             return m_OSSL_Functions.osStringEndsWith(input, endsWith);
-        }
-
-	public LSL_Integer osGetLinkNumber(LSL_String name)
+        public LSL_Integer osGetLinkNumber(LSL_String name)
         {
             return m_OSSL_Functions.osGetLinkNumber(name);
         }
