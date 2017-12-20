@@ -2111,23 +2111,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             // Create new asset
             AssetBase asset = new AssetBase(UUID.Random(), name, (sbyte)AssetType.LSLText, m_host.OwnerID.ToString());
             asset.Description = description;
-            byte[] a;
-            byte[] b;
-            byte[] c;
-
-            b = Util.UTF8.GetBytes(data);
-
-            a = Util.UTF8.GetBytes(
-                "Linden LSLText version 2\n{\nLLEmbeddedItems version 1\n{\ncount 0\n}\nText length " + b.Length.ToString() + "\n");
-
-            c = Util.UTF8.GetBytes("}");
-
-            byte[] d = new byte[a.Length + b.Length + c.Length];
-            Buffer.BlockCopy(a, 0, d, 0, a.Length);
-            Buffer.BlockCopy(b, 0, d, a.Length, b.Length);
-            Buffer.BlockCopy(c, 0, d, a.Length + b.Length, c.Length);
-
-            asset.Data = d;
+    
             World.AssetService.Store(asset);
 
             // Create Task Entry
