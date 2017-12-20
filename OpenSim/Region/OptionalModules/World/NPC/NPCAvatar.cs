@@ -1314,10 +1314,6 @@ namespace OpenSim.Region.OptionalModules.World.NPC
         {
         }
 
-        public void SendEmpytMuteList()
-        {
-        }
-
         public void SendMuteListUpdate(string filename)
         {
         }

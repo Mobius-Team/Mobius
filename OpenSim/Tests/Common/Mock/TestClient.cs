@@ -1315,10 +1315,6 @@ namespace OpenSim.Tests.Common
         {
         }
 
-        public void SendEmpytMuteList()
-        {
-        }
-
         public void SendMuteListUpdate(string filename)
         {
         }

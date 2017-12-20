@@ -2307,23 +2307,11 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             OutPacket(remove, ThrottleOutPacketType.Asset);
         }
 
-/*
-        private uint adjustControls(int input)
-        {
-            uint ret = (uint)input;
-            uint masked = ret & 0x0f;
-            masked <<= 19;
-            ret |= masked;
-            return ret;
-        }
-*/
-
         public void SendTakeControls(int controls, bool passToAgent, bool TakeControls)
         {
             ScriptControlChangePacket scriptcontrol = (ScriptControlChangePacket)PacketPool.Instance.GetPacket(PacketType.ScriptControlChange);
             ScriptControlChangePacket.DataBlock[] data = new ScriptControlChangePacket.DataBlock[1];
             ScriptControlChangePacket.DataBlock ddata = new ScriptControlChangePacket.DataBlock();
-//            ddata.Controls = adjustControls(controls);
             ddata.Controls = (uint)controls;
             ddata.PassToAgent = passToAgent;
             ddata.TakeControls = TakeControls;
@@ -3772,22 +3760,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             useCachedMuteList.AgentData.AgentID = AgentId;
 
             OutPacket(useCachedMuteList, ThrottleOutPacketType.Task);
-        }
-
-       public void SendEmpytMuteList()
-        {
-            GenericMessagePacket gmp = new GenericMessagePacket();
-
-            gmp.AgentData.AgentID = AgentId;
-            gmp.AgentData.SessionID = m_sessionId;
-            gmp.AgentData.TransactionID = UUID.Zero;
-
-            gmp.MethodData.Method = Util.StringToBytes256("emptymutelist");
-            gmp.ParamList = new GenericMessagePacket.ParamListBlock[1];
-            gmp.ParamList[0] = new GenericMessagePacket.ParamListBlock();
-            gmp.ParamList[0].Parameter = new byte[0];
-
-            OutPacket(gmp, ThrottleOutPacketType.Task);
         }
 
         public void SendMuteListUpdate(string filename)
@@ -11036,12 +11008,9 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             }
             else
             {
-                 if(muteListRequest.MuteData.MuteCRC == 0)
-                    SendEmpytMuteList();
-                else
-                    SendUseCachedMuteList();
+                SendUseCachedMuteList();
             }
-            return true;           
+            return true;
         }
 
         private bool HandleUpdateMuteListEntry(IClientAPI client, Packet Packet)
