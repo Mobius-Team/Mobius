@@ -114,13 +114,18 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         internal bool m_randomizeNick = true; // add random suffix
         internal string m_baseNick = null;      // base name for randomizing
         internal string m_nick = null;          // effective nickname
+		internal string m_fromwhere = "@IRC";    //to be appended to messages from IRC
 
         public string Nick                        // Public property
         {
             get { return m_nick; }
             set { m_nick = value; }
         }
-
+        public string fromwhere                       // Public property
+        {
+            get { return m_fromwhere; }
+            set { m_fromwhere = value; }
+        }
         private bool m_enabled = false;            // connector enablement
         public bool Enabled
         {
@@ -506,7 +511,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
                             c.Message = data["msg"];
                             c.Type = ChatTypeEnum.Region;
                             c.Position = CenterOfRegion;
-                            c.From =  data["nick"] + "@IRC";
+                            c.From =  data["nick"] + "@" +fromwhere;
                             c.Sender = null;
                             c.SenderUUID = UUID.Zero;
 
