@@ -161,6 +161,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
             m_log.DebugFormat("[IRC-Channel-{0}] Initial request by Region {1} to connect to IRC", cs.idn, rs.Region);
 
             cs.Server = Substitute(rs, config.GetString("server", null));
+			cs.fromwhere = Substitute(rs, config.GetString("fromwhere", null));
             m_log.DebugFormat("[IRC-Channel-{0}] Server : <{1}>", cs.idn, cs.Server);
             cs.Password = Substitute(rs, config.GetString("password", null));
             // probably not a good idea to put a password in the log file
