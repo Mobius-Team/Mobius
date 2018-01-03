@@ -61,7 +61,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         private static int PING_PERIOD = 15;       // WD intervals per PING
        // private static int ICCD_PERIOD = 30;       // WD intervals between Connects
         private static int L_TIMEOUT = 25;       // Login time out interval
-
+		public int ICCD_PERIOD = 30;       // WD intervals between Connects
         private static int _idk_ = 0;        // core connector identifier
         private static int _pdk_ = 0;        // ping interval counter
         private static int _icc_ = ICCD_PERIOD; // IRC connect counter
@@ -114,9 +114,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         internal bool m_randomizeNick = true; // add random suffix
         internal string m_baseNick = null;      // base name for randomizing
         internal string m_nick = null;          // effective nickname
-		public string m_fromwhere = "IRC";    //to be appended to messages from IRC
 
-		public int ICCD_PERIOD = 30;       // WD intervals between Connects
 		
         public int reconnect                        // Public property
         {
@@ -129,9 +127,11 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
             get { return m_nick; }
             set { m_nick = value; }
         }
+		private string m_fromwhere = "IRC";
         public string fromwhere                       // Public property
         {
             get { return m_fromwhere; }
+			set { m_fromwhere = value; }
         }
         private bool m_enabled = false;            // connector enablement
         public bool Enabled
