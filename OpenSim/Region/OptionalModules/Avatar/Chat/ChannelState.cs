@@ -61,6 +61,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         internal string BaseNickname = "OSimBot";
         internal uint Port = 6667;
         internal string User = null;
+		internal string fromwhere ="IRC";
 
         internal bool ClientReporting = true;
         internal bool RelayChat = true;
