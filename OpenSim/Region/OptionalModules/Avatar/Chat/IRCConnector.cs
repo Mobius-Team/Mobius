@@ -216,7 +216,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
             m_ircChannel = cs.IrcChannel;
             m_port = cs.Port;
             m_user = cs.User;
-			m_fromwhere = cs.fromwhere
+			m_fromwhere = cs.fromwhere;
 			
             if (m_watchdog == null)
             {
