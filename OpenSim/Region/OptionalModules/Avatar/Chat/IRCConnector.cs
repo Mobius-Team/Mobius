@@ -59,7 +59,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
 
         private const int WD_INTERVAL = 1000;     // base watchdog interval
         private static int PING_PERIOD = 15;       // WD intervals per PING
-        private static int ICCD_PERIOD = 10;       // WD intervals between Connects
+       // private static int ICCD_PERIOD = 30;       // WD intervals between Connects
         private static int L_TIMEOUT = 25;       // Login time out interval
 
         private static int _idk_ = 0;        // core connector identifier
@@ -114,9 +114,17 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         internal bool m_randomizeNick = true; // add random suffix
         internal string m_baseNick = null;      // base name for randomizing
         internal string m_nick = null;          // effective nickname
-		internal string m_fromwhere = "@IRC";    //to be appended to messages from IRC
+		public string m_fromwhere = "IRC";    //to be appended to messages from IRC
 
-        public string Nick                        // Public property
+		public int ICCD_PERIOD = 30;       // WD intervals between Connects
+		
+        public int reconnect                        // Public property
+        {
+            get { return ICCD_PERIOD; }
+            set { ICCD_PERIOD = value; }
+        }
+		
+		public string Nick                        // Public property
         {
             get { return m_nick; }
             set { m_nick = value; }
@@ -124,7 +132,6 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
         public string fromwhere                       // Public property
         {
             get { return m_fromwhere; }
-            set { m_fromwhere = value; }
         }
         private bool m_enabled = false;            // connector enablement
         public bool Enabled
@@ -209,7 +216,8 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
             m_ircChannel = cs.IrcChannel;
             m_port = cs.Port;
             m_user = cs.User;
-
+			m_fromwhere = cs.fromwhere
+			
             if (m_watchdog == null)
             {
                 // Non-differentiating
@@ -511,7 +519,7 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
                             c.Message = data["msg"];
                             c.Type = ChatTypeEnum.Region;
                             c.Position = CenterOfRegion;
-                            c.From =  data["nick"] + "@" +fromwhere;
+                            c.From =  data["nick"] + "@" +m_fromwhere;
                             c.Sender = null;
                             c.SenderUUID = UUID.Zero;
 
