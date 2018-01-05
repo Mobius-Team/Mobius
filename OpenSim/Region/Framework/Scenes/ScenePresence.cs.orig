@@ -2309,6 +2309,13 @@ namespace OpenSim.Region.Framework.Scenes
                         }
                     }
 
+                    if(gotCrossUpdate)
+                    {
+                        if(IgnoredControls != ScriptControlled.CONTROL_ZERO)
+                            ControllingClient.SendTakeControls((int)IgnoredControls, false, true);
+                            
+                    }
+
                     m_log.DebugFormat("[CompleteMovement] attachments: {0}ms", Util.EnvironmentTickCountSubtract(ts));
                     if (openChildAgents)
                     {
@@ -2608,12 +2615,11 @@ namespace OpenSim.Region.Framework.Scenes
                 }
 
                 bool update_movementflag = false;
-                bool mvToTarget = m_movingToTarget;
+
                 if (agentData.UseClientAgentPosition)
                 {
-                    m_movingToTarget = (agentData.ClientAgentPosition - AbsolutePosition).LengthSquared() > 0.04f;
-                    m_moveToPositionTarget = agentData.ClientAgentPosition;
-                    m_moveToSpeed = -1f;
+                    MovingToTarget = (agentData.ClientAgentPosition - AbsolutePosition).Length() > 0.2f;
+                    MoveToPositionTarget = agentData.ClientAgentPosition;
                 }
 
                 int i = 0;
@@ -2626,8 +2632,6 @@ namespace OpenSim.Region.Framework.Scenes
                     newFlying = true;
                 else if (FlyDisabled)
                     newFlying = false;
-                else if(mvToTarget)
-                    newFlying = actor.Flying;
                 else
                     newFlying = ((flags & AgentManager.ControlFlags.AGENT_CONTROL_FLY) != 0);
 
@@ -3092,36 +3096,29 @@ namespace OpenSim.Region.Framework.Scenes
 //                "[SCENE PRESENCE]: Avatar {0} set move to target {1} (terrain height {2}) in {3}",
 //                Name, pos, terrainHeight, m_scene.RegionInfo.RegionName);
 
-            terrainHeight += Appearance.AvatarHeight; // so 1.5 * AvatarHeight above ground at target
-            bool shouldfly = Flying;
             if (noFly)
-                shouldfly = false;
+                Flying = false;
             else if (pos.Z > terrainHeight || Flying)
-                shouldfly = true;
+                Flying = true;
 
-            Vector3 localVectorToTarget3D = pos - AbsolutePosition;
-
-//            m_log.DebugFormat("[SCENE PRESENCE]: Local vector to target is {0},[1}", localVectorToTarget3D.X,localVectorToTarget3D.Y);
- 
-            m_movingToTarget = true;
             LandAtTarget = landAtTarget;
-            m_moveToPositionTarget = pos;
-            if(tau > 0)
-            {
-                if(tau < Scene.FrameTime)
-                    tau = Scene.FrameTime;
-                m_moveToSpeed = localVectorToTarget3D.Length() / tau;
-                if(m_moveToSpeed < 0.5f) //to tune
-                    m_moveToSpeed = 0.5f;
-                else if(m_moveToSpeed > 50f)
-                    m_moveToSpeed = 50f;
+            MovingToTarget = true;
+            MoveToPositionTarget = pos;
 
-                SetAlwaysRun = false;
-            }
-            else
-                m_moveToSpeed = 4.096f * m_speedModifier;
+            // Rotate presence around the z-axis to point in same direction as movement.
+            // Ignore z component of vector
+            Vector3 localVectorToTarget3D = pos - AbsolutePosition;
+            Vector3 localVectorToTarget2D = new Vector3((float)(localVectorToTarget3D.X), (float)(localVectorToTarget3D.Y), 0f);
 
-            Flying = shouldfly;
+//            m_log.DebugFormat("[SCENE PRESENCE]: Local vector to target is {0}", localVectorToTarget2D);
+
+            // Calculate the yaw.
+            Vector3 angle = new Vector3(0, 0, (float)(Math.Atan2(localVectorToTarget2D.Y, localVectorToTarget2D.X)));
+
+//            m_log.DebugFormat("[SCENE PRESENCE]: Angle is {0}", angle);
+
+            Rotation = Quaternion.CreateFromEulers(angle);
+//            m_log.DebugFormat("[SCENE PRESENCE]: Body rot for {0} set to {1}", Name, Rotation);
 
             Vector3 control = Vector3.Zero;
             if(HandleMoveToTargetUpdate(1f, ref control))
@@ -5711,6 +5708,7 @@ namespace OpenSim.Region.Framework.Scenes
             {
                 IgnoredControls = ScriptControlled.CONTROL_ZERO;
                 obj.eventControls = (ScriptControlled)controls;
+                obj.ignoreControls = ScriptControlled.CONTROL_ZERO;
             }
 
             lock (scriptedcontrols)
@@ -5826,7 +5824,7 @@ namespace OpenSim.Region.Framework.Scenes
             {
                 if (scriptedcontrols.TryGetValue(Script_item_UUID, out takecontrols))
                 {
-                   ScriptControlled sctc = takecontrols.eventControls;
+                    ScriptControlled sctc = takecontrols.eventControls;
 
                     ControllingClient.SendTakeControls((int)sctc, false, false);
                     ControllingClient.SendTakeControls((int)sctc, true, false);
