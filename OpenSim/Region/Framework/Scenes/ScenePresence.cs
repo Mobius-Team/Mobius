@@ -2308,7 +2308,12 @@ namespace OpenSim.Region.Framework.Scenes
                             }
                         }
                     }
-
+						if(gotCrossUpdate)
+                    {
+                        if(IgnoredControls != ScriptControlled.CONTROL_ZERO)
+                            ControllingClient.SendTakeControls((int)IgnoredControls, false, true);
+                            
+                    }
                     m_log.DebugFormat("[CompleteMovement] attachments: {0}ms", Util.EnvironmentTickCountSubtract(ts));
                     if (openChildAgents)
                     {
