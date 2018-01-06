@@ -1,3 +1,0 @@
-C:\sims\ossource\openmod\OpenSim\Addons\jOpenSimProfile\obj\Release\OpenSim.Addons.jOpenSimProfile.csprojResolveAssemblyReference.cache
-C:\sims\ossource\openmod\bin\OpenSim.Addons.jOpenSimProfile.dll
-C:\sims\ossource\openmod\OpenSim\Addons\jOpenSimProfile\obj\Release\OpenSim.Addons.jOpenSimProfile.dll
