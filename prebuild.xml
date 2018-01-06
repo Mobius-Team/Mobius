@@ -2292,7 +2292,102 @@
     </Project>
 
     <!-- Addons -->
+ <Project frameworkVersion="v4_5" name="OpenSim.Addons.jOpenSimProfile" path="OpenSim/Addons/jOpenSimProfile" type="Library">
+     <Configuration name="Debug">
+        <Options>
+          <OutputPath>../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Reference name="XMLRPC" path="../../../bin/"/>
+      <ReferencePath>../../../bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Web"/>
+      <Reference name="System.Xml"/>
 
+      <Reference name="Nini" path="../../../bin/"/>
+      <Reference name="Mono.Addins" path="../../../bin/"/>
+      <Reference name="log4net" path="../../../bin/"/>
+      <Reference name="OpenMetaverse" path="../../../bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../bin/"/>
+     <Reference name="OpenSim.Framework.Monitoring"/>
+      <Reference name="OpenSim.Framework"/>
+      <Reference name="OpenSim.Data"/>
+      <Reference name="OpenSim.Data.MySQL"/>
+      <Reference name="OpenSim.Framework.Servers.HttpServer"/>
+      <Reference name="OpenSim.Services.Base"/>
+      <Reference name="OpenSim.Services.Interfaces"/>
+      <Reference name="OpenSim.Region.Framework"/>
+      <Reference name="OpenSim.Server.Base"/>
+      <Reference name="OpenSim.Server.Handlers"/>
+	  <Reference name="OpenSim.Framework.Console"/>
+    <Reference name="OpenSim.Region.CoreModules"/>
+	      <Reference name="OpenSim.Services.Connectors"/>
+	  <Reference name="OpenSim.Framework.Nwc"/>
+	  <Reference name="OpenSim.Framework.Commander"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude pattern="Tests" />
+        </Match>
+        <Match buildAction="EmbeddedResource" path="Resources" pattern="*.migrations"/>
+      </Files>
+    </Project>
+    <Project frameworkVersion="v4_5" name="OpenSim.Addons.jOpenSimSearch" path="OpenSim/Addons/jOpenSimSearch" type="Library">
+     <Configuration name="Debug">
+        <Options>
+          <OutputPath>../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Reference name="XMLRPC" path="../../../bin/"/>
+      <ReferencePath>../../../bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Web"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Nini" path="../../../bin/"/>
+      <Reference name="Mono.Addins" path="../../../bin/"/>
+      <Reference name="log4net" path="../../../bin/"/>
+      <Reference name="OpenMetaverse" path="../../../bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../bin/"/>
+     <Reference name="OpenSim.Framework.Monitoring"/>
+      <Reference name="OpenSim.Framework"/>
+      <Reference name="OpenSim.Data"/>
+      <Reference name="OpenSim.Data.MySQL"/>
+      <Reference name="OpenSim.Framework.Servers.HttpServer"/>
+      <Reference name="OpenSim.Services.Base"/>
+      <Reference name="OpenSim.Services.Interfaces"/>
+      <Reference name="OpenSim.Region.Framework"/>
+      <Reference name="OpenSim.Server.Base"/>
+      <Reference name="OpenSim.Server.Handlers"/>
+	  <Reference name="OpenSim.Framework.Console"/>
+    <Reference name="OpenSim.Region.CoreModules"/>
+	      <Reference name="OpenSim.Services.Connectors"/>
+	  <Reference name="OpenSim.Framework.Nwc"/>
+	  <Reference name="OpenSim.Framework.Commander"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude pattern="Tests" />
+        </Match>
+        <Match buildAction="EmbeddedResource" path="Resources" pattern="*.migrations"/>
+      </Files>
+    </Project>
     <Project frameworkVersion="v4_5" name="OpenSim.Addons.OfflineIM" path="OpenSim/Addons/OfflineIM" type="Library">
       <Configuration name="Debug">
         <Options>
@@ -2342,6 +2437,7 @@
 
     <Project frameworkVersion="v4_5" name="OpenSim.Addons.Groups" path="OpenSim/Addons/Groups" type="Library">
       <Configuration name="Debug">
+	  
         <Options>
           <OutputPath>../../../bin/</OutputPath>
         </Options>
@@ -2388,6 +2484,7 @@
       </Files>
 
     </Project>
+
 
 
     <!-- Tools -->
