@@ -1,0 +1,576 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+	<PropertyGroup>
+	  <ProjectType>Local</ProjectType>
+	  <ProductVersion>14.0.23107.0</ProductVersion>
+	  <SchemaVersion>2.0</SchemaVersion>
+	  <ProjectGuid>{BCCDBB55-0000-0000-0000-000000000000}</ProjectGuid>
+	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	  <ApplicationIcon></ApplicationIcon>
+	  <AssemblyKeyContainerName>
+	  </AssemblyKeyContainerName>
+	  <AssemblyName>OpenSim.Framework</AssemblyName>
+	  <DefaultClientScript>JScript</DefaultClientScript>
+	  <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+	  <DefaultTargetSchema>IE50</DefaultTargetSchema>
+	  <DelaySign>false</DelaySign>
+	  <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	  <OutputType>Library</OutputType>
+	  <AppDesignerFolder></AppDesignerFolder>
+	  <RootNamespace>OpenSim.Framework</RootNamespace>
+	  <StartupObject></StartupObject>
+	  <StartArguments></StartArguments>
+	  <FileUpgradeFlags>
+	  </FileUpgradeFlags>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	  <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	  <BaseAddress>285212672</BaseAddress>
+	  <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+	  <ConfigurationOverrideFile>
+	  </ConfigurationOverrideFile>
+	  <DefineConstants>TRACE;DEBUG;</DefineConstants>
+	  <DocumentationFile></DocumentationFile>
+	  <DebugSymbols>True</DebugSymbols>
+	  <FileAlignment>4096</FileAlignment>
+	  <Optimize>False</Optimize>
+	  <OutputPath>../../bin/</OutputPath>
+	  <RegisterForComInterop>False</RegisterForComInterop>
+	  <RemoveIntegerChecks>False</RemoveIntegerChecks>
+	  <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+	  <WarningLevel>4</WarningLevel>
+	  <NoStdLib>False</NoStdLib>
+	  <NoWarn></NoWarn>
+	  <PlatformTarget>AnyCPU</PlatformTarget>
+	  <Prefer32Bit>False</Prefer32Bit>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	  <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	  <BaseAddress>285212672</BaseAddress>
+	  <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+	  <ConfigurationOverrideFile>
+	  </ConfigurationOverrideFile>
+	  <DefineConstants>TRACE;</DefineConstants>
+	  <DocumentationFile></DocumentationFile>
+	  <DebugSymbols>False</DebugSymbols>
+	  <FileAlignment>4096</FileAlignment>
+	  <Optimize>True</Optimize>
+	  <OutputPath>../../bin/</OutputPath>
+	  <RegisterForComInterop>False</RegisterForComInterop>
+	  <RemoveIntegerChecks>False</RemoveIntegerChecks>
+	  <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+	  <WarningLevel>4</WarningLevel>
+	  <NoStdLib>False</NoStdLib>
+	  <NoWarn></NoWarn>
+	  <PlatformTarget>AnyCPU</PlatformTarget>
+	  <Prefer32Bit>False</Prefer32Bit>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Reference Include="log4net" >
+		  <Name>log4net</Name>
+		<HintPath>../../bin/log4net.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="LukeSkywalker.IPNetwork" >
+		  <Name>LukeSkywalker.IPNetwork</Name>
+		<HintPath>../../bin/LukeSkywalker.IPNetwork.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Addins" >
+		  <Name>Mono.Addins</Name>
+		<HintPath>../../bin/Mono.Addins.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="Mono.Addins.Setup" >
+		  <Name>Mono.Addins.Setup</Name>
+		<HintPath>../../bin/Mono.Addins.Setup.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="Nini" >
+		  <Name>Nini</Name>
+		<HintPath>../../bin/Nini.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="OpenMetaverse" >
+		  <Name>OpenMetaverse</Name>
+		<HintPath>../../bin/OpenMetaverse.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="OpenMetaverse.StructuredData" >
+		  <Name>OpenMetaverse.StructuredData</Name>
+		<HintPath>../../bin/OpenMetaverse.StructuredData.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="OpenMetaverseTypes" >
+		  <Name>OpenMetaverseTypes</Name>
+		<HintPath>../../bin/OpenMetaverseTypes.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System" >
+		  <Name>System</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Core" >
+		  <Name>System.Core</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Data" >
+		  <Name>System.Data</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Drawing" >
+		  <Name>System.Drawing</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Web" >
+		  <Name>System.Web</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Xml" >
+		  <Name>System.Xml</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Xml.Linq" >
+		  <Name>System.Xml.Linq</Name>
+		<Private>False</Private>
+	  </Reference>
+	  <Reference Include="XMLRPC" >
+		  <Name>XMLRPC</Name>
+		<HintPath>../../bin/XMLRPC.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="../../ThirdParty/SmartThreadPool/SmartThreadPool.csproj">
+		<Name>SmartThreadPool</Name>
+		<Project>{8C618053-0000-0000-0000-000000000000}</Project>
+		<Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+		<Private>False</Private>
+	  </ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Include="AgentCircuitData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AgentCircuitManager.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AgentUpdateArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Animation.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AnimationSet.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AssemblyInfo.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AssetBase.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AssetLandmark.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AssetPermissions.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AssetRequestToClient.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AuthenticateResponse.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarAppearance.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarAttachment.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarPickerAvatar.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarPickerReplyAgentDataArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarPickerReplyDataArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarWearable.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="AvatarWearingArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="BasicDOSProtector.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="BlockingQueue.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Cache.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CachedTextureEventArg.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CapsUtil.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ChatTypeEnum.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ChildAgentDataUpdate.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CircularBuffer.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ClientInfo.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ClientManager.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CnmMemoryCache.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CnmSynchronizedCache.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ColliderData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ConfigSettings.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ConfigurationMember.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ConfigurationOption.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Constants.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Culture.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="CustomTypes.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="DAMap.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="DOMap.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="DoubleDictionaryThreadAbortSafe.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="EntityTransferContext.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="EstateBan.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="EstateSettings.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="EventData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ExtraPhysicsData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="FriendListItem.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="GcNotify.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="GridInstantMessage.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="GroupData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IAssetCache.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IAssetLoader.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IClientAPI.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ICnmCache.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ICommandConsole.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IConsole.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IGenericConfig.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ILandChannel.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ILandObject.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IMoneyModule.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IPeople.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IPlugin.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IPrimCounts.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IRegionCreator.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IRegistryCore.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="IScene.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ISceneAgent.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ISceneEntity.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ISceneObject.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="InventoryCollection.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="InventoryFolderBase.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="InventoryFolderImpl.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="InventoryItemBase.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="InventoryNodeBase.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="LandData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="LandStatReportItem.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="LandUpdateArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Lazy.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Location.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="LocklessQueue.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="LogWriter.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Login.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MainConsole.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MapAndArray.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MapBlockData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MapItemReplyStruct.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MetricsCollector.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MinHeap.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="MultipartForm.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="NetworkServersInfo.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="NetworkUtil.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="OSChatMessage.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ObjectChangeData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="OutboundUrlFilter.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ParcelMediaCommandEnum.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PermissionsUtil.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PhysicsInertia.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PluginLoader.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PluginManager.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Pool.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PresenceType.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PrimeNumberHelper.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PrimitiveBaseShape.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="PriorityQueue.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegionFlags.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegionHandshakeArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegionInfo.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegionInfoForEstateMenuArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegionSettings.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RegistryCore.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RequestAssetArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="RestClient.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="SLUtil.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="SimStats.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="SurfaceTouchEventArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="TaskInventoryDictionary.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="TaskInventoryItem.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="TerrainData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="TextureRequestArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ThreadSafeRandom.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ThrottleOutPacketType.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="UpdateShapeArgs.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="UserAgentData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="UserProfileData.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="UserProfiles.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Util.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="VersionInfo.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ViewerEffectEventHandlerArg.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="WearableCacheItem.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="WebUtil.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Client\IClientChat.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Client\IClientCore.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Client\IClientIM.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Client\IClientIPEndpoint.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Client\IClientInventory.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ServiceAuth\BasicHttpAuthentication.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ServiceAuth\CompoundAuthentication.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ServiceAuth\DisallowLlHttpRequest.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ServiceAuth\IServiceAuth.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="ServiceAuth\ServiceAuth.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+  </ItemGroup>
+	<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+	<PropertyGroup>
+	  <PreBuildEvent>
+	  </PreBuildEvent>
+	  <PostBuildEvent>
+	  </PostBuildEvent>
+	</PropertyGroup>
+</Project>
