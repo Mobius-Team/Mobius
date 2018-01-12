@@ -9,9 +9,9 @@ using Mono.Addins;
 [assembly: AssemblyTitle("OpenSim")]
 [assembly: AssemblyDescription("The executable for for simulator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://opensimulator.org")]
-[assembly: AssemblyProduct("OpenSim")]
-[assembly: AssemblyCopyright("OpenSimulator developers")]
+[assembly: AssemblyCompany("http://oscore2.com")]
+[assembly: AssemblyProduct("osCore2")]
+[assembly: AssemblyCopyright("Bill Blight, original by OpenSimulator developers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

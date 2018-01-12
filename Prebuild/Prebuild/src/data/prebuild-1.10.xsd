@@ -53,6 +53,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="Configuration" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="PropertyGroup" minOccurs="0" maxOccurs="unbounded" />				
 				<xs:element ref="Process" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="Options" minOccurs="0" />
 				<xs:element ref="Files" minOccurs="0" />
@@ -182,13 +183,13 @@
 			<xs:attribute name="platform" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
+			</xs:complexType>
 	<xs:element name="Options">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="CompilerDefines" type="xs:string" minOccurs="0" />
-                <xs:element name="OptimizeCode" type="xs:boolean" minOccurs="0" />
-                <xs:element name="Prefer32Bit" type="xs:boolean" minOccurs="0" />               
-                <xs:element name="CheckUnderflowOverflow" type="xs:boolean" minOccurs="0" />
+				<xs:element name="OptimizeCode" type="xs:boolean" minOccurs="0" />
+				<xs:element name="CheckUnderflowOverflow" type="xs:boolean" minOccurs="0" />
 				<xs:element name="AllowUnsafe" type="xs:boolean" minOccurs="0" />
 				<xs:element name="PreBuildEvent" type="xs:string" minOccurs="0" />
 				<xs:element name="PostBuildEvent" type="xs:string" minOccurs="0" />
@@ -225,6 +226,11 @@
 				<xs:element name="FileAlignment" type="xs:integer" minOccurs="0" />
 				<xs:element name="NoStdLib" type="xs:boolean" minOccurs="0" />
 				<xs:element name="KeyFile" type="xs:string" minOccurs="0" />
+			</xs:all>
+				<xs:element name="PropertyGroup">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="AutoGenerateBindingRedirects" type="xs:boolean" minOccurs="0" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
