@@ -2,7 +2,7 @@
 	<PropertyGroup>
 	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 	  <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	  <ReferencePath>/home/test/tests/osCore2/bin/</ReferencePath>
+	  <ReferencePath>/home/test/c2t/bin/</ReferencePath>
 	  <LastOpenVersion>14.0.23107.0</LastOpenVersion>
 	  <ProjectView>ProjectFiles</ProjectView>
 	  <ProjectTrust>0</ProjectTrust>

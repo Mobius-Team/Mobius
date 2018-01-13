@@ -666,7 +666,7 @@ namespace OpenSim.Region.CoreModules.Scripting.HttpRequest
                     ResponseBody = e.Message;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // Don't crash on anything else
             }
