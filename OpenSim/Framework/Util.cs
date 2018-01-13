@@ -2635,8 +2635,7 @@ namespace OpenSim.Framework
                     m_fireAndForgetCallsInProgress[context]++;
             }
 */
-			string e = "WTF G";
-            WaitCallback realCallback;
+			            WaitCallback realCallback;
 
             bool loggingEnabled = LogThreadPool > 0;
 
@@ -2677,7 +2676,7 @@ namespace OpenSim.Framework
 
                         callback(o);
                     }
-                    catch (ThreadAbortException e)
+                    catch (ThreadAbortException)
                     {
                     }
                     catch (Exception e)
