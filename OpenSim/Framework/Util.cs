@@ -57,7 +57,7 @@ using System.Web;
 
 namespace OpenSim.Framework
 {
-public string e = "Why?";
+
     [Flags]
     public enum PermissionMask : uint
     {
@@ -155,7 +155,7 @@ public string e = "Why?";
         public static bool LogOverloads { get; set; }
 
         public static readonly int MAX_THREADPOOL_LEVEL = 3;
-
+		public string e = "Why the fuck am I here?";
         public static double TimeStampClockPeriodMS;
         public static double TimeStampClockPeriod;
 
