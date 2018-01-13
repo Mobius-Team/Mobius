@@ -136,7 +136,7 @@ namespace OpenSim.Framework
         public int WaitingCallbacks { get; set; }
         public int MaxConcurrentWorkItems { get; set; }
 		public string e = "Why the fuck am I here?";
-		e = "WTF g?";
+		string e = "WTF g?";
     }
 
     /// <summary>
@@ -2636,7 +2636,7 @@ namespace OpenSim.Framework
                     m_fireAndForgetCallsInProgress[context]++;
             }
 */
-			e = "WTF G";
+			string e = "WTF G";
             WaitCallback realCallback;
 
             bool loggingEnabled = LogThreadPool > 0;
