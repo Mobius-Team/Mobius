@@ -135,8 +135,7 @@ namespace OpenSim.Framework
         public int ActiveThreads { get; set; }
         public int WaitingCallbacks { get; set; }
         public int MaxConcurrentWorkItems { get; set; }
-		public string e = "Why the fuck am I here?";
-		string e = "WTF g?";
+
     }
 
     /// <summary>
