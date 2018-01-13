@@ -60,7 +60,6 @@ namespace OpenSim.Server.Base
         // Run flag
         //
         private bool m_Running = true;
-		public string e = "Why the fuck am I here?";
 
 #if (_MONO)
         private static Mono.Unix.UnixSignal[] signals;
