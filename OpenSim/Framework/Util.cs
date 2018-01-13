@@ -57,7 +57,7 @@ using System.Web;
 
 namespace OpenSim.Framework
 {
-	public string e = "";
+public string e = "Why?";
     [Flags]
     public enum PermissionMask : uint
     {
