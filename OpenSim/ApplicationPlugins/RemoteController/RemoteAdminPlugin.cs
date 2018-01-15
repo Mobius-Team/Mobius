@@ -1934,7 +1934,7 @@ namespace OpenSim.ApplicationPlugins.RemoteController
                 GetSceneFromRegionParams(requestData, responseData, out scene);
                 health = scene.GetHealth(out flags, out text);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 responseData["error"] = null;
             }

@@ -809,7 +809,7 @@ namespace OpenSim.Region.CoreModules.Asset
 
                     return;
                 }
-                catch (UnauthorizedAccessException)
+                catch (UnauthorizedAccessException e)
                 {
                 }
                 finally
