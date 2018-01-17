@@ -26,7 +26,7 @@ case "$1" in
 
     mono bin/Prebuild.exe /target nant
     mono bin/Prebuild.exe /target vs2015
-
+    find . -type f -name "*.csproj" -exec sed -i 's@<ProjectType>Local</ProjectType>@<ProjectType>Local</ProjectType><AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>@g' {} +
   ;;
 
 esac
