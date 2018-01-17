@@ -2202,7 +2202,6 @@
       <Reference name="OpenSim.Region.ScriptEngine.Shared.Api"/>
       <Reference name="OpenSim.Region.ScriptEngine.Shared.Api.Runtime"/>
       <Reference name="SmartThreadPool"/>
-      <Reference name="Axiom.MathLib" path="../../../../../bin/"/>
       <Reference name="Nini" path="../../../../../bin/"/>
       <Reference name="log4net" path="../../../../../bin/"/>
 

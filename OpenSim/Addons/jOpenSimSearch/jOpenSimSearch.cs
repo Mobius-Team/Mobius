@@ -57,16 +57,13 @@ using OpenSim.Services.Interfaces;
 using OpenSim.Services.Connectors.Hypergrid;
 using OpenSim.Services.Connectors;
 using OpenSim.Framework.Console;
-using OpenSim.Framework.Monitoring;
 using OpenSim.Region.CoreModules.Framework.InterfaceCommander;
-using System.Net;
 using log4net;
 using Nini.Config;
 using OpenMetaverse;
 using OpenSim.Framework.Servers;
 using OpenSim.Framework.Servers.HttpServer;
 using OpenMetaverse.Packets;
-using OpenMetaverse;
 using Mono.Addins;
 using DirFindFlags = OpenMetaverse.DirectoryManager.DirFindFlags;
 
