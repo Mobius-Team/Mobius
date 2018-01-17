@@ -1735,7 +1735,7 @@
       </Files>
     </Project>
 
-    <Project frameworkVersion="v4_6" name="OpenSim.Region.PhysicsModule.BulletS" path="OpenSim/Region/PhysicsModules/BulletS" type="Library">
+<Project frameworkVersion="v4_6" name="OpenSim.Region.PhysicsModule.BulletS" path="OpenSim/Region/PhysicsModules/BulletS" type="Library">
       <Configuration name="Debug">
         <Options>
           <OutputPath>../../../../bin/</OutputPath>
@@ -1768,6 +1768,7 @@
 
       <Files>
         <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
           <Exclude name="Tests" pattern="Tests"/>
         </Match>
       </Files>
@@ -3234,8 +3235,8 @@
         <Match pattern="*.cs" recurse="true"/>
       </Files>
     </Project>
-
-    <Project frameworkVersion="v4_6" name="OpenSim.Region.PhysicsModule.BulletS.Tests" path="OpenSim/Region/PhysicsModules/BulletS/Tests" type="Library">
+	
+<Project frameworkVersion="v4_6" name="OpenSim.Region.PhysicsModule.BulletS.Tests" path="OpenSim/Region/PhysicsModules/BulletS/Tests" type="Library">
       <Configuration name="Debug">
         <Options>
           <OutputPath>../../../../../bin/</OutputPath>
@@ -3267,7 +3268,6 @@
         <Match pattern="*.cs" recurse="false"/>
       </Files>
     </Project>
-
 
     <Project frameworkVersion="v4_6" name="OpenSim.Server.Handlers.Tests" path="OpenSim/Server/Handlers" type="Library">
       <Configuration name="Debug">
