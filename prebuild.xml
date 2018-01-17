@@ -2330,8 +2330,6 @@
 	  <Reference name="OpenSim.Framework.Console"/>
     <Reference name="OpenSim.Region.CoreModules"/>
 	      <Reference name="OpenSim.Services.Connectors"/>
-	  <Reference name="OpenSim.Framework.Nwc"/>
-	  <Reference name="OpenSim.Framework.Commander"/>
 
       <Files>
         <Match pattern="*.cs" recurse="true">
@@ -2378,8 +2376,6 @@
 	  <Reference name="OpenSim.Framework.Console"/>
     <Reference name="OpenSim.Region.CoreModules"/>
 	      <Reference name="OpenSim.Services.Connectors"/>
-	  <Reference name="OpenSim.Framework.Nwc"/>
-	  <Reference name="OpenSim.Framework.Commander"/>
 
       <Files>
         <Match pattern="*.cs" recurse="true">
