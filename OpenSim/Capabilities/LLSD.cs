@@ -381,7 +381,7 @@ namespace OpenSim.Framework.Capabilities
 
             if (reader.IsEmptyElement)
             {
-                reader.ProhibitDtd = true;
+                
 
                 reader.Read();
                 return ret;
