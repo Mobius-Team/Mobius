@@ -130,7 +130,8 @@ namespace OpenSim.Framework.Servers.HttpServer
                 response.OutputStream.Flush();
                 response.Send();
             }
-            catch (Exception)
+//            catch (Exception e)
+            catch
             {
             }
         }

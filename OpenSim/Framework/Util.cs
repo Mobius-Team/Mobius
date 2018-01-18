@@ -2894,19 +2894,6 @@ namespace OpenSim.Framework
                 StackTrace trace = null;
                 try
                 {
-                    trace = new StackTrace(targetThread, true);
-                }
-                catch (ThreadStateException)
-                {
-                    //failed to get stack trace, since the fallback-thread resumed the thread
-                    //possible reasons:
-                    //1.) This thread was just too slow
-                    //2.) A deadlock ocurred
-                    //Automatic retry seems too risky here, so just return null.
-                }
-
-                try
-                {
                     targetThread.Resume();
                 }
                 catch (ThreadStateException)

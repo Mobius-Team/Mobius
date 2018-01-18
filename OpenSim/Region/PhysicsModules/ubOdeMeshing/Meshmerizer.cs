@@ -1588,12 +1588,14 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
                     f = new Face(k,l,m);
                     newfaces.Add(f);
                 }
+                return true;
             }
             catch
             {
+
                 return false;
             }
-            return true;
+            return false;
         }
     }
 }
