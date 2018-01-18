@@ -57,7 +57,6 @@ using System.Web;
 
 namespace OpenSim.Framework
 {
-
     [Flags]
     public enum PermissionMask : uint
     {
@@ -135,7 +134,6 @@ namespace OpenSim.Framework
         public int ActiveThreads { get; set; }
         public int WaitingCallbacks { get; set; }
         public int MaxConcurrentWorkItems { get; set; }
-
     }
 
     /// <summary>
@@ -156,7 +154,8 @@ namespace OpenSim.Framework
         public static bool LogOverloads { get; set; }
 
         public static readonly int MAX_THREADPOOL_LEVEL = 3;
-		public static double TimeStampClockPeriodMS;
+
+        public static double TimeStampClockPeriodMS;
         public static double TimeStampClockPeriod;
 
         static Util()
@@ -2635,7 +2634,7 @@ namespace OpenSim.Framework
                     m_fireAndForgetCallsInProgress[context]++;
             }
 */
-			            WaitCallback realCallback;
+            WaitCallback realCallback;
 
             bool loggingEnabled = LogThreadPool > 0;
 
@@ -2859,6 +2858,12 @@ namespace OpenSim.Framework
         /// <returns>The stack trace, or null if failed to get it</returns>
         private static StackTrace GetStackTrace(Thread targetThread)
         {
+
+            return null;
+/*
+        not only this does not work on mono but it is not longer recomended on windows.
+        can cause deadlocks etc.
+
             if (IsPlatformMono)
             {
                 // This doesn't work in Mono
@@ -2894,6 +2899,19 @@ namespace OpenSim.Framework
                 StackTrace trace = null;
                 try
                 {
+                    trace = new StackTrace(targetThread, true);
+                }
+                catch (ThreadStateException)
+                {
+                    //failed to get stack trace, since the fallback-thread resumed the thread
+                    //possible reasons:
+                    //1.) This thread was just too slow
+                    //2.) A deadlock ocurred
+                    //Automatic retry seems too risky here, so just return null.
+                }
+
+                try
+                {
                     targetThread.Resume();
                 }
                 catch (ThreadStateException)
@@ -2908,6 +2926,7 @@ namespace OpenSim.Framework
                 // Signal the fallack-thread to stop
                 exitedSafely.Set();
             }
+*/
         }
 #pragma warning restore 0618
 
