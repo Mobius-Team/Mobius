@@ -1595,7 +1595,7 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
 
                 return false;
             }
-            return false;
+            //return false;
         }
     }
 }
