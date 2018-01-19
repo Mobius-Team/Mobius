@@ -1,6 +1,6 @@
 # osCore2 Fork by Bill Blight of Opensim.life
 
-# BlightPS Branch 
+# BlightPS Branch
 The PS stands for Profile and Search
 
 I have included the source which will build the Jopensim Profile and Search moduals.
@@ -34,7 +34,7 @@ need to build OpenSim before running it.
 
 # Running OpenSim on Windows
 
-You will need .NET 4.5 installed to run OpenSimulator.
+You will need .NET 4.6 installed to run this version OpenSimulator.
 
 We recommend that you run OpenSim from a command prompt on Windows in order
 to capture any errors.
@@ -65,7 +65,7 @@ Now see the "Configuring OpenSim" section
 When OpenSim starts for the first time, you will be prompted with a
 series of questions that look something like:
 
-	[09-17 03:54:40] DEFAULT REGION CONFIG: Simulator Name [OpenSim Test]:
+        [09-17 03:54:40] DEFAULT REGION CONFIG: Simulator Name [OpenSim Test]:
 
 For all the options except simulator name, you can safely hit enter to accept
 the default if you want to connect using a client on the same machine or over
@@ -82,7 +82,7 @@ in-world.  You can also use these details to perform your first login.
 
 Once you are presented with a prompt that looks like:
 
-	Region (My region name) #
+        Region (My region name) #
 
 You have successfully started OpenSim.
 
