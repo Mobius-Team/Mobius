@@ -2645,7 +2645,7 @@
       </Files>
     </Project>
 	
-	<Project frameworkVersion="v4_6" name="OpenSimMutelist.Modules" path="addon-modules/OpenSimMutelist/Modules" type="Library">
+	<Project frameworkVersion="v4_6" name="OpenSimMutelist.Modules" path="OpenSim/Addons/MutelistModule" type="Library">
      <Configuration name="Debug">
        <Options>
          <OutputPath>../../../bin/</OutputPath>
