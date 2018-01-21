@@ -1690,6 +1690,9 @@
     <Project frameworkVersion="v4_6" name="OpenSim.Region.OptionalModules" path="OpenSim/Region/OptionalModules" type="Library">
       <Configuration name="Debug">
         <Options>
+	<runtime>  
+      <NetFx40_LegacySecurityPolicy enabled="true"/>  
+   </runtime>  
           <OutputPath>../../../bin/</OutputPath>
         </Options>
       </Configuration>
@@ -2663,8 +2666,6 @@
      <Reference name="OpenMetaverseTypes"/>
      <Reference name="OpenSim.Framework"/>
      <Reference name="OpenSim.Region.Framework"/>
-     <Reference name="OpenSim.Region.Framework.Interfaces"/>
-     <Reference name="OpenSim.Region.Framework.Scenes"/>
      <Reference name="OpenSim.Services.Interfaces"/>
      <Reference name="log4net"/>
      <Reference name="Mono.Addins"/>
