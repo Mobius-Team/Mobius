@@ -13,6 +13,8 @@ Some of the additions include the http tests branch which improves the built in 
 Roll back of some of the permission changes , specifcally the item creation permsions for textures.
 configureable LSL delays, see OpenSimDefaults.ini, added osParcelMusicURL, for gods, as the ll funcion only works for parcel/land owners.
 
+This build also includes the phpmutelist found at https://github.com/kcozens/OpenSimMutelist
+
 And various others.
 
 Welcome to OpenSim!
