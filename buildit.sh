@@ -14,5 +14,5 @@ find . -name "*.mdb" -type f -print0 | xargs -0 /bin/rm -f
 echo "Running Prebuild"
 ./runprebuild.sh
 echo "Building Release, MS Debug Info sucks on linux"
-msbuild /p:Configuration=Release /p:AutoGenerateBindingRedirects=true
+msbuild /p:Configuration=Release 
 echo "Build Done, check for errors"

@@ -1,0 +1,81 @@
+OpenSimMutelist add-on module for Open Simulator
+
+Requirements
+
+A webserver with PHP 4.3 (or later) and with XMLRPC support.
+NOTES: Not all webservers include XMLRPC support in their default installation.
+       This module may work with 0.8.2 but it has only been tested with 0.9.
+
+
+About the files
+
+README - The file you are currently reading
+
+bin/OpenSimMutelist.Modules.dll - A pre-compiled module you can use
+
+OpenSimMutelist/ - Source code for OpenSim mutelist module
+
+webroot/*.php - Files to install on webserver
+
+webroot/sql/osmutelist.sql - This will create the needed database tables
+
+
+How it works
+
+If you are looking for a detailed explanation of how the add-on mutelist system
+works you should study the contents of the files which accompany this README
+file. What follows is a general overview of the mutelist package to give you
+an idea of how the pieces fit together in case you have any problems.
+
+There are three main components to OpenSimMutelist which are a database table,
+a DLL file, and a couple of PHP files.
+
+
+Compiling the module
+
+The easiest way to create the DLL file needed by OpenSim is to add the
+OpenSimMutelist C# source file to the source tree of OpenSim so it will
+be compiled at the same time that OpenSim is compiled.
+
+Copy the OpenSimMutelist directory in to the addon-modules directory of your
+OpenSim source tree. After you have done that, compile OpenSim in the usual
+way (runprebuild and xbuild) to create the DLL file. When xbuild finishes,
+you will have an OpenSimMutelist.Modules.dll file in the main bin directory
+of your OpenSim source tree along with a matching .pdb (or .mdb) file. These
+two files will be copied to the bin directory of your OpenSim instances
+during the installation or update steps.
+
+
+First time installation and configuration
+
+The first installation step is the creation of a database table that will
+hold the mutelist data. You can include the table in an existing database
+you are already using with Open Simulator or you can create a database that
+will only be used by the mutelist module.
+
+Once you know the name of the database you will be using for the mutelist
+data you can use osmutelist.sql (located in the webroot/sql directory) to
+create the required table in the database. The name of the database will
+be needed in a later step when you configure one of the PHP files.
+
+Copy the PHP files (located in the webroot directory) to your webserver.
+Remember to set the ownership and permissions on the files so the webserver
+may access the files. Use a text editor to open databaseinfo.php and enter
+the name or IP address of the database server, the name of the database,
+and the user name and password required to access the database.
+
+The next part of the installation process is to set up and configure your
+OpenSim instances.
+
+Copy the OpenSimMutelist.Module.dll file created during the compile steps
+(above) to the bin directory of each of your OpenSim instances. The next
+part of the installation process requires some changes to the OpenSim.ini
+file in each of your OpenSim instances.
+
+Open the OpenSim.ini in your favourite editorg. Find the [Messaging] section.
+Set MuteListModule to OpenSimMutelist. Set MuteListURL to a URL that points
+to the mutelist.php file on your webserver.
+
+If you make these changes to running instances you will need to restart them
+before the change to the OpenSim.ini will take effect and this module will be
+used to help track mutelist changes.

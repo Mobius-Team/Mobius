@@ -26,39 +26,19 @@
  */
 
 using System;
-using Nini.Config;
-using OpenSim.Server.Base;
-using OpenSim.Services.Interfaces;
-using OpenSim.Framework.ServiceAuth;
-using OpenSim.Framework.Servers.HttpServer;
-using OpenSim.Server.Handlers.Base;
+using System.Collections.Generic;
+using OpenMetaverse;
+using OpenSim.Framework;
 
-namespace OpenSim.Server.Handlers.GridUser
+namespace OpenSim.Data
 {
-    public class GridUserServiceConnector : ServiceConnector
+     /// <summary>
+    /// An interface for connecting to the Mute List datastore
+    /// </summary>
+    public interface IMuteListData
     {
-        private IGridUserService m_GridUserService;
-        private string m_ConfigName = "GridUserService";
-
-        public GridUserServiceConnector(IConfigSource config, IHttpServer server, string configName) :
-                base(config, server, configName)
-        {
-            IConfig serverConfig = config.Configs[m_ConfigName];
-            if (serverConfig == null)
-                throw new Exception(String.Format("No section {0} in config file", m_ConfigName));
-
-            string service = serverConfig.GetString("LocalServiceModule",
-                    String.Empty);
-
-            if (service == String.Empty)
-                throw new Exception("No LocalServiceModule in config file");
-
-            Object[] args = new Object[] { config };
-            m_GridUserService = ServerUtils.LoadPlugin<IGridUserService>(service, args);
-
-            IServiceAuth auth = ServiceAuth.Create(config, m_ConfigName);
-
-            server.AddStreamHandler(new GridUserServerPostHandler(m_GridUserService, auth));
-        }
+        bool Store(MuteData data);
+        MuteData[] Get(UUID agentID);
+        bool Delete(UUID agentID, UUID muteID, string muteName);
     }
 }

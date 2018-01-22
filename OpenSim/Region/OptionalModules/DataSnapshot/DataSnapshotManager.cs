@@ -32,6 +32,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Text;
 using System.Xml;
 using log4net;
@@ -64,6 +65,7 @@ namespace OpenSim.Region.DataSnapshot
         //Various internal objects
         private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         internal object m_syncInit = new object();
+        private object m_serializeGen = new object();
 
         //DataServices and networking
         private string m_dataServices = "noservices";
@@ -162,19 +164,6 @@ namespace OpenSim.Region.DataSnapshot
 
             m_log.DebugFormat("[DATASNAPSHOT]: Module added to Scene {0}.", scene.RegionInfo.RegionName);
 
-            if (!m_servicesNotified)
-            {
-                m_hostname = scene.RegionInfo.ExternalHostName;
-                m_snapStore = new SnapshotStore(m_snapsDir, m_gridinfo, m_listener_port, m_hostname);
-
-                //Hand it the first scene, assuming that all scenes have the same BaseHTTPServer
-                new DataRequestHandler(scene, this);
-
-                if (m_dataServices != "" && m_dataServices != "noservices")
-                    NotifyDataServices(m_dataServices, "online");
-
-                m_servicesNotified = true;
-            }
 
             m_scenes.Add(scene);
             m_snapStore.AddScene(scene);
@@ -246,6 +235,20 @@ namespace OpenSim.Region.DataSnapshot
 
             m_log.DebugFormat("[DATASNAPSHOT]: Marking scene {0} as stale.", scene.RegionInfo.RegionName);
             m_snapStore.ForceSceneStale(scene);
+
+            if (!m_servicesNotified)
+            {
+                m_hostname = scene.RegionInfo.ExternalHostName;
+                m_snapStore = new SnapshotStore(m_snapsDir, m_gridinfo, m_listener_port, m_hostname);
+
+                //Hand it the first scene, assuming that all scenes have the same BaseHTTPServer
+                new DataRequestHandler(scene, this);
+
+                if (m_dataServices != "" && m_dataServices != "noservices")
+                    NotifyDataServices(m_dataServices, "online");
+
+                m_servicesNotified = true;
+            }
         }
 
         public void Close()
@@ -321,6 +324,11 @@ namespace OpenSim.Region.DataSnapshot
          */
         public XmlDocument GetSnapshot(string regionName)
         {
+            if(!Monitor.TryEnter(m_serializeGen,30000))
+            {
+                return null;
+            }
+
             CheckStale();
 
             XmlDocument requestedSnap = new XmlDocument();
@@ -360,9 +368,13 @@ namespace OpenSim.Region.DataSnapshot
                 m_log.Warn("[DATASNAPSHOT]: Caught unknown exception while trying to load snapshot: " + e.StackTrace);
                 requestedSnap = GetErrorMessage(regionName, e);
             }
-
+            finally
+            {
+                Monitor.Exit(m_serializeGen);
+            }
 
             return requestedSnap;
+
         }
 
         private XmlDocument GetErrorMessage(string regionName, Exception e)
