@@ -2677,7 +2677,7 @@
       </Files>
     </Project>
 	
-	<Project frameworkVersion="v4_6" name="OpenSimMutelist.Modules" path="OpenSim/Addons/MutelistModule" type="Library">
+	<Project frameworkVersion="v4_6" name="OpenSimMutelist.Module" path="OpenSim/Addons/MutelistModule" type="Library">
      <Configuration name="Debug">
        <Options>
          <OutputPath>../../../bin/</OutputPath>
@@ -2703,6 +2703,7 @@
 
      <Files>
        <Match pattern="*.cs" recurse="true"/>
+	   <Match buildAction="EmbeddedResource" path="Resources" pattern="*.migrations"/>
      </Files>
 </Project>
 
