@@ -107,7 +107,6 @@ namespace OpenSim.Region.DataSnapshot
                             snapXWriter.WriteStartDocument();
                             data.WriteTo(snapXWriter);
                             snapXWriter.WriteEndDocument();
-                            snapXWriter.Flush();
                         }
                     }
                     catch (Exception e)

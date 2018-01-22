@@ -63,24 +63,18 @@ namespace OpenSim.Region.DataSnapshot
 
         public Hashtable OnGetSnapshot(Hashtable keysvals)
         {
-            string snapObj = (string)keysvals["region"];
-            m_log.DebugFormat("[DATASNAPSHOT] Received collection request for {0}", snapObj);
+            m_log.Debug("[DATASNAPSHOT] Received collection request");
             Hashtable reply = new Hashtable();
             int statuscode = 200;
 
+            string snapObj = (string)keysvals["region"];
+
             XmlDocument response = m_externalData.GetSnapshot(snapObj);
-            if(response == null)
-            {
-                reply["str_response_string"] = string.Empty;
-                reply["int_response_code"] = 503;
-                reply["content_type"] = "text";
-                m_log.Debug("[DATASNAPSHOT] Collection request reply try later");
-                return reply;
-            }
 
             reply["str_response_string"] = response.OuterXml;
             reply["int_response_code"] = statuscode;
             reply["content_type"] = "text/xml";
+
             return reply;
         }
 
