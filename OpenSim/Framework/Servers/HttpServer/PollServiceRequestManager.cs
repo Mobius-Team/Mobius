@@ -44,7 +44,7 @@ namespace OpenSim.Framework.Servers.HttpServer
         private readonly BaseHttpServer m_server;
 
         private Dictionary<PollServiceHttpRequest, Queue<PollServiceHttpRequest>> m_bycontext;
-        private BlockingQueue<PollServiceHttpRequest> m_requests = new BlockingQueue<PollServiceHttpRequest>();
+        private BlockingCollection<PollServiceHttpRequest> m_requests = new BlockingCollection<PollServiceHttpRequest>();
         private static ConcurrentQueue<PollServiceHttpRequest> m_retryRequests = new ConcurrentQueue<PollServiceHttpRequest>();
 
         private uint m_WorkerThreadCount = 0;
@@ -166,7 +166,7 @@ namespace OpenSim.Framework.Servers.HttpServer
         public void EnqueueInt(PollServiceHttpRequest req)
         {
             if (m_running)
-                m_requests.Enqueue(req);
+                m_requests.Add(req);
         }
 
         private void CheckRetries()
@@ -177,7 +177,7 @@ namespace OpenSim.Framework.Servers.HttpServer
                 Thread.Sleep(100);
                 Watchdog.UpdateThread();
                 while (m_running && m_retryRequests.TryDequeue(out preq))
-                    m_requests.Enqueue(preq);
+                    m_requests.Add(preq);
             }
         }
 
@@ -198,9 +198,9 @@ namespace OpenSim.Framework.Servers.HttpServer
                 qu.Clear();
             m_bycontext.Clear();
 
+            PollServiceHttpRequest req;
             try
             {
-                PollServiceHttpRequest req;
                 while(m_retryRequests.TryDequeue(out req))
                     req.DoHTTPstop(m_server);
             }
@@ -208,37 +208,33 @@ namespace OpenSim.Framework.Servers.HttpServer
             {
             }
 
-            PollServiceHttpRequest wreq;
-
-            while (m_requests.Count() > 0)
+            try
             {
-                try
-                {
-                    wreq = m_requests.Dequeue(0);
-                    wreq.DoHTTPstop(m_server);
-                }
-                catch
-                {
-                }
+                while(m_requests.TryTake(out req, 0))
+                    req.DoHTTPstop(m_server);
+            }
+            catch
+            {
             }
 
-            m_requests.Clear();
+            m_requests.Dispose();
+
         }
 
         // work threads
 
         private void PoolWorkerJob()
         {
-           PollServiceHttpRequest req;
-	   while (m_running)
+            PollServiceHttpRequest req;
+            while (m_running)
             {
-              if(!m_requests.TryTake(out req, 4500) || req == null) 
-	    
-	      {
-		   Watchdog.UpdateThread();
-		   continue;
-              }
-	           Watchdog.UpdateThread();
+                if(!m_requests.TryTake(out req, 4500) || req == null)
+                {
+                    Watchdog.UpdateThread();
+                    continue;
+                }
+
+                Watchdog.UpdateThread();               
 
                 try
                 {
