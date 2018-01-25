@@ -1376,30 +1376,37 @@ namespace OpenSim.Region.ClientStack.Linden
                 IOSHttpResponse httpResponse)
         {
             OSDMap req = (OSDMap)OSDParser.DeserializeLLSDXml(request);
-            OSDMap resp = new OSDMap();
             OSDArray object_ids = (OSDArray)req["object_ids"];
 
-            for (int i = 0 ; i < object_ids.Count ; i++)
+            StringBuilder lsl = new StringBuilder(256);
+            LLSDxmlEncode.AddStart(lsl);
+            if(object_ids.Count == 0)
+                LLSDxmlEncode.AddEmpyMap(lsl);
+            else
             {
-                UUID uuid = object_ids[i].AsUUID();
-
-                SceneObjectPart obj = m_Scene.GetSceneObjectPart(uuid);
-                if (obj != null)
+                LLSDxmlEncode.AddMap(lsl);
+                for (int i = 0 ; i < object_ids.Count ; i++)
                 {
-                    OSDMap object_data = new OSDMap();
+                    UUID uuid = object_ids[i].AsUUID();
 
-                    object_data["PhysicsShapeType"] = obj.PhysicsShapeType;
-                    object_data["Density"] = obj.Density;
-                    object_data["Friction"] = obj.Friction;
-                    object_data["Restitution"] = obj.Restitution;
-                    object_data["GravityMultiplier"] = obj.GravityModifier;
+                    SceneObjectPart obj = m_Scene.GetSceneObjectPart(uuid);
+                    if (obj != null)
+                    {                  
+                        LLSDxmlEncode.AddMap(uuid.ToString(),lsl);
 
-                    resp[uuid.ToString()] = object_data;
+                        LLSDxmlEncode.AddElem("PhysicsShapeType", obj.PhysicsShapeType, lsl);
+                        LLSDxmlEncode.AddElem("Density", obj.Density, lsl);
+                        LLSDxmlEncode.AddElem("Friction", obj.Friction, lsl);
+                        LLSDxmlEncode.AddElem("Restitution", obj.Restitution, lsl);
+                        LLSDxmlEncode.AddElem("GravityMultiplier", obj.GravityModifier, lsl);
+
+                        LLSDxmlEncode.AddEndMap(lsl);
+                    }
+                LLSDxmlEncode.AddEndMap(lsl);
                 }
             }
-
-            string response = OSDParser.SerializeLLSDXmlString(resp);
-            return response;
+            LLSDxmlEncode.AddEnd(lsl);
+            return lsl.ToString();
         }
 
         public string GetObjectCost(string request, string path,
@@ -1407,47 +1414,60 @@ namespace OpenSim.Region.ClientStack.Linden
                 IOSHttpResponse httpResponse)
         {
             OSDMap req = (OSDMap)OSDParser.DeserializeLLSDXml(request);
-            OSDMap resp = new OSDMap();
-
             OSDArray object_ids = (OSDArray)req["object_ids"];
 
-            for (int i = 0; i < object_ids.Count; i++)
+            StringBuilder lsl = new StringBuilder(512);
+            LLSDxmlEncode.AddStart(lsl);
+            if(object_ids.Count == 0)
+                LLSDxmlEncode.AddEmpyMap(lsl);
+            else
             {
-                UUID uuid = object_ids[i].AsUUID();
-
-                SceneObjectPart part = m_Scene.GetSceneObjectPart(uuid);
-                SceneObjectGroup grp = null;
-                if (part != null)
-                    grp = part.ParentGroup;
-                if (grp != null)
+                bool haveone = false;
+                LLSDxmlEncode.AddMap(lsl);
+                for (int i = 0; i < object_ids.Count; i++)
                 {
-                    float linksetCost;
-                    float linksetPhysCost;
-                    float partCost;
-                    float partPhysCost;
+                    UUID uuid = object_ids[i].AsUUID();
 
-                    grp.GetResourcesCosts(part,out linksetCost,out linksetPhysCost,out partCost,out partPhysCost);
+                    SceneObjectPart part = m_Scene.GetSceneObjectPart(uuid);
+                    SceneObjectGroup grp = null;
+                    if (part != null)
+                        grp = part.ParentGroup;
+                    if (grp != null)
+                    {
+                        haveone = true;
+                        float linksetCost;
+                        float linksetPhysCost;
+                        float partCost;
+                        float partPhysCost;
 
-                    OSDMap object_data = new OSDMap();
-                    object_data["linked_set_resource_cost"] = linksetCost;
-                    object_data["resource_cost"] = partCost;
-                    object_data["physics_cost"] = partPhysCost;
-                    object_data["linked_set_physics_cost"] = linksetPhysCost;
-                    object_data["resource_limiting_type"] = "legacy";
-                    resp[uuid.ToString()] = object_data;
+                        grp.GetResourcesCosts(part,out linksetCost,out linksetPhysCost,out partCost,out partPhysCost);
+
+                        LLSDxmlEncode.AddMap(uuid.ToString(), lsl);
+
+                        LLSDxmlEncode.AddElem("linked_set_resource_cost", linksetCost, lsl);
+                        LLSDxmlEncode.AddElem("resource_cost", partCost, lsl);
+                        LLSDxmlEncode.AddElem("physics_cost", partPhysCost, lsl);
+                        LLSDxmlEncode.AddElem("linked_set_physics_cost", linksetPhysCost, lsl);
+                        LLSDxmlEncode.AddElem("resource_limiting_type", "legacy", lsl);
+
+                        LLSDxmlEncode.AddEndMap(lsl);
+                    }
                 }
+                if(!haveone)
+                {
+                    LLSDxmlEncode.AddMap(UUID.Zero.ToString(), lsl);
+                    LLSDxmlEncode.AddElem("linked_set_resource_cost", 0, lsl);
+                    LLSDxmlEncode.AddElem("resource_cost", 0, lsl);
+                    LLSDxmlEncode.AddElem("physics_cost", 0, lsl);
+                    LLSDxmlEncode.AddElem("linked_set_physics_cost", 0, lsl);
+                    LLSDxmlEncode.AddElem("resource_limiting_type", "legacy", lsl);
+                    LLSDxmlEncode.AddEndMap(lsl);
+                }
+                LLSDxmlEncode.AddEndMap(lsl);
             }
-            if(resp.Count == 0)
-            {
-                OSDMap object_data = new OSDMap();
-                object_data["linked_set_resource_cost"] = 0;
-                object_data["resource_cost"] = 0;
-                object_data["physics_cost"] = 0;
-                object_data["linked_set_physics_cost"] = 0;
-                resp[UUID.Zero.ToString()] = object_data;
-            }
-            string response = OSDParser.SerializeLLSDXmlString(resp);
-            return response;
+                
+            LLSDxmlEncode.AddEnd(lsl);
+            return lsl.ToString();
         }
 
         public string ResourceCostSelected(string request, string path,
@@ -1824,52 +1844,51 @@ namespace OpenSim.Region.ClientStack.Linden
 
             Dictionary<UUID,string> names = m_UserManager.GetUsersNames(ids);
 
-            OSDMap osdReply = new OSDMap();
-            OSDArray agents = new OSDArray();
-
-            osdReply["agents"] = agents;
-            foreach (KeyValuePair<UUID,string> kvp in names)
+            StringBuilder lsl = new StringBuilder(names.Count * 256 + 256);
+            LLSDxmlEncode.AddStart(lsl);
+            LLSDxmlEncode.AddMap(lsl);
+            if(names.Count == 0)
+                LLSDxmlEncode.AddEmpyArray("agents", lsl);
+            else
             {
-                if (string.IsNullOrEmpty(kvp.Value))
-                    continue;
-                if(kvp.Key == UUID.Zero)
-                    continue;
+                LLSDxmlEncode.AddArray("agents", lsl);
 
-                string[] parts = kvp.Value.Split(new char[] {' '});
-                OSDMap osdname = new OSDMap();
+                foreach (KeyValuePair<UUID,string> kvp in names)
+                {
+                    if (string.IsNullOrEmpty(kvp.Value))
+                        continue;
+                    if(kvp.Key == UUID.Zero)
+                        continue;
+
+                    string[] parts = kvp.Value.Split(new char[] {' '});
 
                 // dont tell about unknown users, we can't send them back on Bad either
-                if(parts[0] == "Unknown")
-                     continue;
-/*
-                if(parts[0] == "Unknown")
-                {
-                    osdname["display_name_next_update"] = OSD.FromDate(DateTime.UtcNow.AddHours(1));
-                    osdname["display_name_expires"] = OSD.FromDate(DateTime.UtcNow.AddHours(2));
-                }
-                else
-*/
-                {
-                    osdname["display_name_next_update"] = OSD.FromDate(DateTime.UtcNow.AddDays(8));
-                    osdname["display_name_expires"] = OSD.FromDate(DateTime.UtcNow.AddMonths(1));
-                }
-                osdname["display_name"] = OSD.FromString(kvp.Value);
-                osdname["legacy_first_name"] = parts[0];
-                osdname["legacy_last_name"] = parts[1];
-                osdname["username"] = OSD.FromString(kvp.Value);
-                osdname["id"] = OSD.FromUUID(kvp.Key);
-                osdname["is_display_name_default"] = OSD.FromBoolean(true);
+                    if(parts[0] == "Unknown")
+                         continue;
 
-                agents.Add(osdname);
+                    LLSDxmlEncode.AddMap(lsl);
+                    LLSDxmlEncode.AddElem("display_name_next_update", DateTime.UtcNow.AddDays(8), lsl);
+                    LLSDxmlEncode.AddElem("display_name_expires", DateTime.UtcNow.AddMonths(1), lsl);
+                    LLSDxmlEncode.AddElem("display_name", kvp.Value, lsl);
+                    LLSDxmlEncode.AddElem("legacy_first_name", parts[0], lsl);
+                    LLSDxmlEncode.AddElem("legacy_last_name", parts[1], lsl);
+                    LLSDxmlEncode.AddElem("username", kvp.Value, lsl);
+                    LLSDxmlEncode.AddElem("id", kvp.Key, lsl);
+                    LLSDxmlEncode.AddElem("is_display_name_default", true, lsl);
+                    LLSDxmlEncode.AddEndMap(lsl);
+                }
+                LLSDxmlEncode.AddEndArray(lsl);
             }
+        
+            LLSDxmlEncode.AddEndMap(lsl);
+            LLSDxmlEncode.AddEnd(lsl);
 
             // Full content request
             httpResponse.StatusCode = (int)System.Net.HttpStatusCode.OK;
             //httpResponse.ContentLength = ??;
             httpResponse.ContentType = "application/llsd+xml";
 
-            string reply = OSDParser.SerializeLLSDXmlString(osdReply);
-            return reply;
+            return lsl.ToString();
         }
     }
 
