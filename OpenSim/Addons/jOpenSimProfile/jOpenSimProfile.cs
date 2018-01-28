@@ -107,14 +107,14 @@ namespace jOpenSim.Profile.jOpenProfile
 
                 if (m_ProfileModul != "jOpenSimProfile")
                 {
-                    m_log.ErrorFormat("[{0}]: disabled! Reason: Module Name in [Profile] config section invalid or not found", m_moduleName);
+                    //m_log.ErrorFormat("[{0}]: disabled! Reason: Module Name in [Profile] config section invalid or not found", m_moduleName);
                     m_Enabled = false;
                     return;
                 }
 
                 if (m_ProfileServer == "")
                 {
-                    m_log.ErrorFormat("[{0}]: disabled (no ProfileURL found)", m_moduleName);
+                    //m_log.ErrorFormat("[{0}]: disabled (no ProfileURL found)", m_moduleName);
                     m_Enabled = false;
                     return;
                 }
@@ -279,7 +279,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
                 Hashtable ErrorHash = new Hashtable();
                 ErrorHash["success"] = false;
-                ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
+                //ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
                 ErrorHash["errorURI"] = "";
 
                 return ErrorHash;
@@ -291,7 +291,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
                 Hashtable ErrorHash = new Hashtable();
                 ErrorHash["success"] = false;
-                ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
+                //ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
                 ErrorHash["errorURI"] = "";
 
                 return ErrorHash;
@@ -302,7 +302,7 @@ namespace jOpenSim.Profile.jOpenProfile
                         "[{0}]: Unable to connect to Profile Server {1}. Method {2}, params {3}. Exception {4}", m_moduleName, m_ProfileServer, method, ReqParams.ToString(), ex);
                 Hashtable ErrorHash = new Hashtable();
                 ErrorHash["success"] = false;
-                ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
+                //ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
                 ErrorHash["errorURI"] = "";
 
                 return ErrorHash;
@@ -311,7 +311,7 @@ namespace jOpenSim.Profile.jOpenProfile
             {
                 Hashtable ErrorHash = new Hashtable();
                 ErrorHash["success"] = false;
-                ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
+                //ErrorHash["errorMessage"] = "Unable to fetch profile data at this time. ";
                 ErrorHash["errorURI"] = "";
                 return ErrorHash;
             }
