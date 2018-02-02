@@ -1977,7 +1977,7 @@ namespace OpenSim.Region.Framework.Scenes
 
             try
             {
-                if(m_updateAgentReceivedAfterTransferEvent.WaitOne(10000))
+                if(m_updateAgentReceivedAfterTransferEvent.WaitOne(20000))
                 {
                     UUID originID = UUID.Zero;
 
