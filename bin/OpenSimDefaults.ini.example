@@ -2120,7 +2120,9 @@
     ScriptStackSize = 256
     ScriptHeapSize = 256
     UseSourceHashCode = true
-    MinTimerInterval = 0.01
+    MinTimerInterval = 0.1
+    ;ScriptBasePath="ScriptData"
+
 
 [Concierge]
     ; Enable concierge module
