@@ -1,6 +1,14 @@
 # osCore2 Fork by Bill Blight of Opensim.life
 
-# BlightPS Branch
+# This is the Lysander branch and may be merged with Master
+
+# Contains the XMR script engine, Xengine still default
+
+XMR script engine Donated to Opensimulator core by, mrieker (DreamNation) and Cores own Melanie.
+
+Notes on XMR: Although it works very well, it is not compatible with Xengine, meaing crossing or TP'ing into an XMR region from a Xengine region will result in scripts being reset and may need recompiled.
+
+
 The PS stands for Profile and Search
 
 I have included the source which will build the Jopensim Profile and Search moduals.
