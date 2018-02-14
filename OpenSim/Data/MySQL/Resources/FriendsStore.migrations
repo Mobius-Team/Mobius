@@ -1,0 +1,14 @@
+﻿:VERSION 4       # -------------------------
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `Friends` (
+  `PrincipalID` varchar(255) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `Friend` varchar(255) NOT NULL,
+  `Flags` varchar(16) NOT NULL DEFAULT '0',
+  `Offered` varchar(32) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`PrincipalID`(36),`Friend`(36)),
+  KEY `PrincipalID` (`PrincipalID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;

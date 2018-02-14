@@ -1,0 +1,24 @@
+﻿:VERSION 4         # -------------------------------
+
+begin;
+
+CREATE TABLE IF NOT EXISTS `auth` (
+  `UUID` char(36) NOT NULL,
+  `passwordHash` char(32) NOT NULL DEFAULT '',
+  `passwordSalt` char(32) NOT NULL DEFAULT '',
+  `webLoginKey` varchar(255) NOT NULL DEFAULT '',
+  `accountType` varchar(32) NOT NULL DEFAULT 'UserAccount',
+  PRIMARY KEY (`UUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `UUID` char(36) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `validity` datetime NOT NULL,
+  UNIQUE KEY `uuid_token` (`UUID`,`token`),
+  KEY `UUID` (`UUID`),
+  KEY `token` (`token`),
+  KEY `validity` (`validity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;
