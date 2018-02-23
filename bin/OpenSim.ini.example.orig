@@ -382,21 +382,6 @@
     ;; Attempt to render meshes and sculpties on the map.
     ; RenderMeshes = false
 
-    ;# {MapColorWater} {} {Water color for textured and shaded maps} {"#1D475F"}
-    ; MapColorWater = "#3399FF"
-
-    ;# {MapColor1} {} {Terrain color 1 for textured maps} {"#A58976"}
-    ; MapColor1 = "#A58976"
-
-    ;# {MapColor2} {} {Terrain color 2 for textured maps} {"#455931"}
-    ; MapColor2 = "#455931"
-
-    ;# {MapColor3} {} {Terrain color 3 for textured maps} {"#A29A8D"}
-    ; MapColor3 = "#A29A8D"
-
-    ;# {MapColor4} {} {Terrain color 4 for textured maps} {"#C8C8C8"}
-    ; MapColor4 = "#C8C8C8"
-
 
 [Permissions]
     ;# {permissionmodules} {} {Permission modules to use (may specify multiple modules, separated by comma} {} DefaultPermissionsModule
@@ -451,7 +436,11 @@
     ;# {DefaultEstateOwnerName} {} {Default estate owner name?} {} FirstName LastName
     ;; Name for default estate owner
     ; DefaultEstateOwnerName = FirstName LastName
-
+	;;osCore2 Addition, in Robust mode (or standalone)set your estate info
+	;;for every region in this instance in config-include Estates.ini
+	;;this will allow the estates to be autocreated and regions added automatically.
+	
+	Include-Common = config-include/Estates.ini
 
     ; ** Standalone Estate Settings **
     ; The following parameters will only be used on a standalone system to 
@@ -715,7 +704,8 @@
     ; OfflineMessageModule = OfflineMessageModule
     ;; Or, alternatively, use this one, which works for both standalones and grids
     ; OfflineMessageModule = "Offline Message Module V2"
-
+    ;; Offline IM Receive Limit, default is 50
+     Max_Offline_IM = 50
     ;# {OfflineMessageURL} {OfflineMessageModule:OfflineMessageModule Offline Message Module V2:Offline Message Module V2} {URL of offline messaging service} {}
     ;; URL of web service for offline message storage. Leave it commented if your service is local to the sim.
     ; OfflineMessageURL = ${Const|BaseURL}/Offline.php
@@ -725,18 +715,14 @@
     ;; For standalones, this is the storage dll.
     ; StorageProvider = OpenSim.Data.MySQL.dll
 
-	; Mute list handler
-	; the provided MuteListModule is just a Dummy
-	; you will need a external module for proper suport.
-	; if you keep both 2 following settings comment, viewers will use mutes in their caches
-	; if you uncoment both (url is ignored) the mutes will be deleted at login on this instance regions
-	; WARNING: viewers mutes cache seems to shared by all grids, including SL
-	; this may cause some confusion.
-	
-    ;# {MuteListModule} {MuteListModule:MuteListModule} {} {} None
+    ;# {MuteListModule} {OfflineMessageModule:OfflineMessageModule} {} {} None
+    ;; Mute list handler (not yet implemented). MUST BE SET to allow offline
+    ;; messages to work
     ; MuteListModule = MuteListModule
 
-    ;# {MuteListURL} {MuteListModule:MuteListModule} {} {} http://yourserver/Mute.php
+    ;# {MuteListURL} {OfflineMessageModule:OfflineMessageModule} {} {} http://yourserver/Mute.php
+    ;; URL of the web service that serves mute lists. Not currently used, but
+    ;; must be set to allow offline messaging to work.
     ; MuteListURL = http://yourserver/Mute.php
 
     ;; Control whether group invites and notices are stored for offline users.
@@ -919,22 +905,21 @@
     ;; Money Unit fee to create groups.  Default is 0.
     ; PriceGroupCreate = 0
 
-[YEngine]
+[XMREngine]
     ;; experimental engine
-    ;; ONLY SUPORTS ONE REGION PER INSTANCE at this point
-    ;; implements non preemptive microthreading, so fixing problems like llSleep or long events handlers
+    ;; implements microthreading, so fixing problems like llSleep or long events handlers
     ;; but those will suffer from timeslicing, so will be slower.
-    ;; compiles LSL directly to IL, so only suports LSL scripting (no C# etc) 
+    ;; compiles LSL directly to IL, so only suports LSL scripting ( no C# etc) 
     ;; shares the Xengine APIs like LSL, OSSL, etc.
     ;; DANGER, do not use with HG, don't leave regions running alone with it.
-    ;; TPs or crossings to/from Xengine will full recompile scripts losing state.
+    ;; TPs or crossings to/from Xengine will recompile scripts losing state.
     ;; attachment scripts may misbehave, cars will stop on crossings, etc.
     Enabled = false
+    UThreadModel = sys
     ScriptStackSize = 256
     ScriptHeapSize = 256
     UseSourceHashCode = true
-    MinTimerInterval = 0.1
-    ;ScriptBasePath="ScriptEngines"
+    MinTimerInterval = 0.1    
 
 [XEngine]
     ;# {Enabled} {} {Enable the XEngine scripting engine?} {true false} true
