@@ -1,6 +1,5 @@
 # osCore2 Fork by Bill Blight of Opensim.life
 
-# This is the Demetrius  branch and may be merged with Master
 
 # Contains the Yengine(formerly XMR) script engine, Xengine still default
 
