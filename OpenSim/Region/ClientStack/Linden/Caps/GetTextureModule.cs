@@ -203,7 +203,7 @@ namespace OpenSim.Region.ClientStack.Linden
                     base(null, "", null, null, null, null, pId, int.MaxValue)              
             {
                 m_scene = scene;
-                m_throttler = new CapsDataThrottler(100000);
+                m_throttler = new CapsDataThrottler(200000);
                 // x is request id, y is userid
                 HasEvents = (x, y) =>
                 {
@@ -365,8 +365,8 @@ namespace OpenSim.Region.ClientStack.Linden
             internal void UpdateThrottle(int pimagethrottle)
             {
                 int tmp = 2 * pimagethrottle;
-                if(tmp < 10000)
-                    tmp = 10000;
+                if(tmp < 20000)
+                    tmp = 20000;
                 m_throttler.ThrottleBytes = tmp;
             }
         }
