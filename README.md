@@ -8,11 +8,13 @@ XMR script engine Donated to Opensimulator core by, mrieker (DreamNation) and Co
 Notes on Yengine: Although it works very well, it is not compatible with Xengine, meaing crossing or TP'ing into an Yengine region from a Xengine region will result in scripts being reset and may need recompiled.
 
 
-The PS stands for Profile and Search
+## Jopensim support included
 
 I have included the source which will build the Jopensim Profile and Search moduals.
 There is no documetation on configuring them included at this point
 please see http://jopensim.com for details.
+
+### You will need to remove these modules if you don't plan on using them, as it will cause errors.
 
 This has some fixes that have not made it into core OpenSimulator .
 
@@ -36,12 +38,12 @@ C#, and can run under Mono or the Microsoft .NET runtimes.
 This is considered an alpha release.  Some stuff works, a lot doesn't.
 If it breaks, you get to keep *both* pieces.
 
-# Compiling OpenSim
+## Compiling OpenSim
 
 Please see BUILDING.md if you downloaded a source distribution and
 need to build OpenSim before running it.
 
-# Running OpenSim on Windows
+## Running OpenSim on Windows
 
 You will need .NET 4.6 installed to run this version OpenSimulator.
 
@@ -55,7 +57,7 @@ To run OpenSim from a command prompt
 
 Now see the "Configuring OpenSim" section
 
-# Running OpenSim on Linux
+## Running OpenSim on Linux
 
 
 You will need Mono >= 5.x to run this version of OpenSimulator.  On some Linux distributions you
@@ -69,7 +71,7 @@ To run OpenSim, from the unpacked distribution type:
 
 Now see the "Configuring OpenSim" section
 
-# Configuring OpenSim
+## Configuring OpenSim
 
 When OpenSim starts for the first time, you will be prompted with a
 series of questions that look something like:
@@ -102,7 +104,7 @@ Helpful resources:
  * http://opensimulator.org/wiki/Configuration
  * http://opensimulator.org/wiki/Configuring_Regions
 
-# Connecting to your OpenSim
+## Connecting to your OpenSim
 
 By default your sim will be available for login on port 9000.  You can login by
 adding -loginuri http://127.0.0.1:9000 to the command that starts Second Life
@@ -113,6 +115,6 @@ http://192.168.1.2:9000)
 To login, use the avatar details that you gave for your estate ownership or the
 one you set up using the "create user" command.
 
-# Bug reports
+### Bug reports
 
 email grid@opensim.life
