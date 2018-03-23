@@ -72,8 +72,11 @@ To run OpenSim, from the unpacked distribution type:
 Now see the "Configuring OpenSim" section
 ### I'd suggest the following settings in your linux startup script for OpenSim.exe
 > ulimit -s 1048576
+
 > export MONO_GC_PARAMS="nursery-size=32m,promotion-age=14,minor=split,major=marksweep,no-lazy-sweep,alloc-ratio=50"
+
 > export MONO_GC_DEBUG=""
+
 > export MONO_ENV_OPTIONS="--desktop"
 
 
