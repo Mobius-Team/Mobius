@@ -1203,5 +1203,26 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         {
             return m_OSSL_Functions.osGetLinkNumber(name);
         }
+
+        public LSL_Float osRound(LSL_Float value, LSL_Integer digits)
+        {
+            return m_OSSL_Functions.osRound(value, digits);
+        }
+
+        public LSL_Float osVecMagSquare(vector a)
+        {
+            return m_OSSL_Functions.osVecMagSquare(a);
+        }
+
+        public LSL_Float osVecDistSquare(vector a, vector b)
+        {
+            return m_OSSL_Functions.osVecDistSquare(a, b);
+        }
+
+        public LSL_Float osAngleBetween(vector a, vector b)
+        {
+            return m_OSSL_Functions.osAngleBetween(a, b);
+        }
+
     }
 }
