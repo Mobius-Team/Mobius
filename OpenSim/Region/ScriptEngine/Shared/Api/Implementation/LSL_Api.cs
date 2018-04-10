@@ -3230,12 +3230,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return (float)Math.Round((ScriptTime / 1000.0), 3);
         }
 
-        public void llSound(string sound, double volume, int queue, int loop)
-        {
-            m_host.AddScriptLPS(1);
-            Deprecated("llSound", "Use llPlaySound instead");
-        }
-
         // Xantor 20080528 PlaySound updated so it accepts an objectinventory name -or- a key to a sound
         // 20080530 Updated to remove code duplication
  public void llSound(string sound, double volume, int queue, int loop)
