@@ -136,7 +136,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {"SetPos" ,200},
         {"SetRot" ,200},
         {"SetLocalRot" ,200},
-        {"PreloadSound" ,1000},
         {"MakeExplosion" ,100},
         {"MakeFountain" ,100},
         {"MakeSmoke" ,100},
@@ -3348,7 +3347,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 return;
 
             m_SoundModule.PreloadSound(m_host.UUID, soundID);
-            ScriptSleep(m_sleepMsOnPreloadSound);
+            ScriptSleep(m_sleepMsOn["PreloadSound"]); 
         }
         /// <summary>
         /// Return a portion of the designated string bounded by
