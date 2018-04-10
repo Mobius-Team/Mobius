@@ -3238,6 +3238,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         // Xantor 20080528 PlaySound updated so it accepts an objectinventory name -or- a key to a sound
         // 20080530 Updated to remove code duplication
+ public void llSound(string sound, double volume, int queue, int loop)
+        {
+            m_host.AddScriptLPS(1);
+            Deprecated("llSound", "Use llPlaySound instead");
+        }
+
+        // Xantor 20080528 PlaySound updated so it accepts an objectinventory name -or- a key to a sound
+        // 20080530 Updated to remove code duplication
         public void llPlaySound(string sound, double volume)
         {
             m_host.AddScriptLPS(1);
@@ -3336,20 +3344,17 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public void llPreloadSound(string sound)
         {
             m_host.AddScriptLPS(1);
-            if (m_SoundModule != null)
-                m_SoundModule.PreloadSound(m_host.UUID, ScriptUtils.GetAssetIdFromKeyOrItemName(m_host, sound), 0);
-            ScriptSleep(m_sleepMsOn["PreloadSound"]);
-                    if (m_SoundModule == null)
-                 return;
- 
-             UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(m_host, sound, AssetType.Sound);
-             if(soundID == UUID.Zero)
-                 return;
- 
-	m_SoundModule.PreloadSound(m_host.UUID, soundID);
-             //ScriptSleep(m_sleepMsOnPreloadSound);
-	}
 
+            if (m_SoundModule == null)
+                return;
+
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(m_host, sound, AssetType.Sound);
+            if(soundID == UUID.Zero)
+                return;
+
+            m_SoundModule.PreloadSound(m_host.UUID, soundID);
+            ScriptSleep(m_sleepMsOnPreloadSound);
+        }
         /// <summary>
         /// Return a portion of the designated string bounded by
         /// inclusive indices (start and end). As usual, the negative
