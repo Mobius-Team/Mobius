@@ -3347,7 +3347,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                  return;
  
 	m_SoundModule.PreloadSound(m_host.UUID, soundID);
-             ScriptSleep(m_sleepMsOnPreloadSound);
+             //ScriptSleep(m_sleepMsOnPreloadSound);
 	}
 
         /// <summary>
