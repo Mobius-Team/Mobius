@@ -185,8 +185,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {"ResetLandPassList" ,100},
         {"GetParcelPrimOwners" ,2000},
         {"GetNumberOfNotecardLines" ,100},
-        {"GetNotecardLine" ,100},
-	{"PreloadSound", 500}
+	{"PreloadSound" ,500},       
+       	{"GetNotecardLine" ,100}
 	      		};
         protected string m_internalObjectHost = "lsl.opensim.local";       
 	protected bool m_restrictEmail = false;
