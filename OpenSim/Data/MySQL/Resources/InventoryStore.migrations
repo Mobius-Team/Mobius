@@ -1,0 +1,42 @@
+﻿:VERSION 7		# ------------
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `inventoryitems` (
+  `assetID` varchar(36) DEFAULT NULL,
+  `assetType` int(11) DEFAULT NULL,
+  `inventoryName` varchar(64) DEFAULT NULL,
+  `inventoryDescription` varchar(128) DEFAULT NULL,
+  `inventoryNextPermissions` int(10) unsigned DEFAULT NULL,
+  `inventoryCurrentPermissions` int(10) unsigned DEFAULT NULL,
+  `invType` int(11) DEFAULT NULL,
+  `creatorID` varchar(255) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `inventoryBasePermissions` int(10) unsigned NOT NULL DEFAULT '0',
+  `inventoryEveryOnePermissions` int(10) unsigned NOT NULL DEFAULT '0',
+  `salePrice` int(11) NOT NULL DEFAULT '0',
+  `saleType` tinyint(4) NOT NULL DEFAULT '0',
+  `creationDate` int(11) NOT NULL DEFAULT '0',
+  `groupID` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `groupOwned` tinyint(4) NOT NULL DEFAULT '0',
+  `flags` int(11) unsigned NOT NULL DEFAULT '0',
+  `inventoryID` char(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `avatarID` char(36) DEFAULT NULL,
+  `parentFolderID` char(36) DEFAULT NULL,
+  `inventoryGroupPermissions` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`inventoryID`),
+  KEY `inventoryitems_avatarid` (`avatarID`),
+  KEY `inventoryitems_parentFolderid` (`parentFolderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `inventoryfolders` (
+  `folderName` varchar(64) DEFAULT NULL,
+  `type` smallint(6) NOT NULL DEFAULT '0',
+  `version` int(11) NOT NULL DEFAULT '0',
+  `folderID` char(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `agentID` char(36) DEFAULT NULL,
+  `parentFolderID` char(36) DEFAULT NULL,
+  PRIMARY KEY (`folderID`),
+  KEY `inventoryfolders_agentid` (`agentID`),
+  KEY `inventoryfolders_parentFolderid` (`parentFolderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;

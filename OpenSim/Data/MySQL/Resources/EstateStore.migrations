@@ -1,0 +1,71 @@
+﻿:VERSION 34
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `estate_groups` (
+  `EstateID` int(10) unsigned NOT NULL,
+  `uuid` char(36) NOT NULL,
+  KEY `EstateID` (`EstateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `estate_managers` (
+  `EstateID` int(10) unsigned NOT NULL,
+  `uuid` char(36) NOT NULL,
+  KEY `EstateID` (`EstateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `estate_map` (
+  `RegionID` char(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `EstateID` int(11) NOT NULL,
+  PRIMARY KEY (`RegionID`),
+  KEY `EstateID` (`EstateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `estate_settings` (
+  `EstateID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `EstateName` varchar(64) DEFAULT NULL,
+  `AbuseEmailToEstateOwner` tinyint(4) NOT NULL,
+  `DenyAnonymous` tinyint(4) NOT NULL,
+  `ResetHomeOnTeleport` tinyint(4) NOT NULL,
+  `FixedSun` tinyint(4) NOT NULL,
+  `DenyTransacted` tinyint(4) NOT NULL,
+  `BlockDwell` tinyint(4) NOT NULL,
+  `DenyIdentified` tinyint(4) NOT NULL,
+  `AllowVoice` tinyint(4) NOT NULL,
+  `UseGlobalTime` tinyint(4) NOT NULL,
+  `PricePerMeter` int(11) NOT NULL,
+  `TaxFree` tinyint(4) NOT NULL,
+  `AllowDirectTeleport` tinyint(4) NOT NULL,
+  `RedirectGridX` int(11) NOT NULL,
+  `RedirectGridY` int(11) NOT NULL,
+  `ParentEstateID` int(10) unsigned NOT NULL,
+  `SunPosition` double NOT NULL,
+  `EstateSkipScripts` tinyint(4) NOT NULL,
+  `BillableFactor` float NOT NULL,
+  `PublicAccess` tinyint(4) NOT NULL,
+  `AbuseEmail` varchar(255) NOT NULL,
+  `EstateOwner` varchar(36) NOT NULL,
+  `DenyMinors` tinyint(4) NOT NULL,
+  `AllowLandmark` tinyint(4) NOT NULL DEFAULT '1',
+  `AllowParcelChanges` tinyint(4) NOT NULL DEFAULT '1',
+  `AllowSetHome` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`EstateID`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `estate_users` (
+  `EstateID` int(10) unsigned NOT NULL,
+  `uuid` char(36) NOT NULL,
+  KEY `EstateID` (`EstateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `estateban` (
+  `EstateID` int(10) unsigned NOT NULL,
+  `bannedUUID` varchar(36) NOT NULL,
+  `bannedIp` varchar(16) NOT NULL,
+  `bannedIpHostMask` varchar(16) NOT NULL,
+  `bannedNameMask` varchar(64) DEFAULT NULL,
+  KEY `estateban_EstateID` (`EstateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;
+

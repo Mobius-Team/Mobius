@@ -1,0 +1,21 @@
+﻿# -----------------
+:VERSION 10
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `assets` (
+  `name` varchar(64) NOT NULL,
+  `description` varchar(64) NOT NULL,
+  `assetType` tinyint(4) NOT NULL,
+  `local` tinyint(1) NOT NULL,
+  `temporary` tinyint(1) NOT NULL,
+  `data` longblob NOT NULL,
+  `id` char(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `create_time` int(11) DEFAULT '0',
+  `access_time` int(11) DEFAULT '0',
+  `asset_flags` int(11) NOT NULL DEFAULT '0',
+  `CreatorID` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;

@@ -1,0 +1,16 @@
+:VERSION 5         # -------------------------- 
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS `im_offline` (
+  `ID` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `PrincipalID` char(36) NOT NULL DEFAULT '',
+  `FromID` char(36) NOT NULL DEFAULT '',
+  `Message` text NOT NULL,
+  `TMStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `PrincipalID` (`PrincipalID`),
+  KEY `FromID` (`FromID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+COMMIT;
