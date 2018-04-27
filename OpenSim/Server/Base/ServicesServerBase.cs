@@ -235,8 +235,8 @@ namespace OpenSim.Server.Base
 
         public virtual int Run()
         {
-            Watchdog.Enabled = false;
-            MemoryWatchdog.Enabled = false;
+            Watchdog.Enabled = true;
+            MemoryWatchdog.Enabled = true;
 
             while (m_Running)
             {

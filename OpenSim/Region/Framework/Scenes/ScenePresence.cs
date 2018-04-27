@@ -77,7 +77,6 @@ namespace OpenSim.Region.Framework.Scenes
     public class ScenePresence : EntityBase, IScenePresence
     {
         private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        //private static readonly String LogHeader = "[SCENE PRESENCE]";
 
 //        ~ScenePresence()
 //        {
@@ -1977,7 +1976,7 @@ namespace OpenSim.Region.Framework.Scenes
 
             try
             {
-                if(m_updateAgentReceivedAfterTransferEvent.WaitOne(30000))
+                if(m_updateAgentReceivedAfterTransferEvent.WaitOne(10000))
                 {
                     UUID originID = UUID.Zero;
 
@@ -2308,12 +2307,7 @@ namespace OpenSim.Region.Framework.Scenes
                             }
                         }
                     }
-						if(gotCrossUpdate)
-                    {
-                        if(IgnoredControls != ScriptControlled.CONTROL_ZERO)
-                            ControllingClient.SendTakeControls((int)IgnoredControls, false, true);
-                            
-                    }
+
                     //m_log.DebugFormat("[CompleteMovement] attachments: {0}ms", Util.EnvironmentTickCountSubtract(ts));
                     if (openChildAgents)
                     {

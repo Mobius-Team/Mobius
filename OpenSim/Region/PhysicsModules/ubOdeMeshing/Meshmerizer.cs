@@ -340,7 +340,7 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
             faces = new List<Face>();
             OSD meshOsd = null;
 
-            if (primShape.SculptData.Length <= 0)
+            if (primShape.SculptData == null || primShape.SculptData.Length <= 0)
             {
 //                m_log.InfoFormat("[MESH]: asset data for {0} is zero length", primName);
                 return false;
@@ -363,6 +363,7 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
                 catch (Exception e)
                 {
                     m_log.Error("[MESH]: Exception deserializing mesh asset header:" + e.ToString());
+                    return false;
                 }
 
                 start = data.Position;
@@ -1588,14 +1589,12 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
                     f = new Face(k,l,m);
                     newfaces.Add(f);
                 }
-                return true;
             }
             catch
             {
-
                 return false;
             }
-            //return false;
+            return true;
         }
     }
 }

@@ -1880,7 +1880,8 @@ namespace OpenSim.Region.CoreModules.Framework.EntityTransfer
             if(childRegionsToClose != null)
                 agent.CloseChildAgents(childRegionsToClose);
 
-            // this may need the attachments
+            if((agent.crossingFlags & 8) == 0)
+                agent.ClearControls(); // don't let attachments delete (called in HasMovedAway) disturb taken controls on viewers
 
             agent.HasMovedAway((agent.crossingFlags & 8) == 0);
 

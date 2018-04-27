@@ -666,9 +666,10 @@ namespace OpenSim.Region.OptionalModules.Avatar.XmlRpcGroups
                 data.ListInProfile = ((string)membership["ListInProfile"]) == "1";
                 data.AgentPowers = ulong.Parse((string)membership["AgentPowers"]);
                 data.Title = (string)membership["Title"];
-                data.OnlineStatus = (string)membership["OnlineStatus"];
-                
-		members.Add(data);
+                if(membership.ContainsKey("OnlineStatus"))
+                    data.OnlineStatus = (string)membership["OnlineStatus"];
+
+                members.Add(data);
             }
 
             return members;

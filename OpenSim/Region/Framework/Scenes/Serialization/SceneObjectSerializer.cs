@@ -63,7 +63,7 @@ namespace OpenSim.Region.Framework.Scenes.Serialization
             String fixedData = ExternalRepresentationUtils.SanitizeXml(xmlData);
             using (XmlTextReader wrappedReader = new XmlTextReader(fixedData, XmlNodeType.Element, null))
             {
-                using (XmlReader reader = XmlReader.Create(wrappedReader, new XmlReaderSettings() { IgnoreWhitespace = true, ConformanceLevel = ConformanceLevel.Fragment, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null }))
+                using (XmlReader reader = XmlReader.Create(wrappedReader, new XmlReaderSettings() { IgnoreWhitespace = true, ConformanceLevel = ConformanceLevel.Fragment}))
                 {
                     try
                     {
@@ -255,7 +255,6 @@ namespace OpenSim.Region.Framework.Scenes.Serialization
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.XmlResolver=null;
                 doc.LoadXml(xmlData);
 
                 XmlNodeList parts = doc.GetElementsByTagName("SceneObjectPart");
@@ -271,12 +270,7 @@ namespace OpenSim.Region.Framework.Scenes.Serialization
                 using(StringReader sr = new StringReader(parts[0].OuterXml))
                 {
                     using(XmlTextReader reader = new XmlTextReader(sr))
-                    {
-                        reader.DtdProcessing = DtdProcessing.Prohibit;
-                        reader.XmlResolver = null;
-
                         sceneObject = new SceneObjectGroup(SceneObjectPart.FromXml(reader));
-                    }
                 }
 
                 // Then deal with the rest
