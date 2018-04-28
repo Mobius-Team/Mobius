@@ -362,7 +362,7 @@ namespace OpenSim.Region.CoreModules.Scripting.VectorRender
                         {
                             graph.FillRectangle(bgFillBrush, 0, 0, width, height);
                         }
-                    }                   
+                    }
                     else
                     {
                         bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
@@ -663,58 +663,38 @@ namespace OpenSim.Region.CoreModules.Scripting.VectorRender
                     }
                     else if (nextLine.StartsWith("FontProp"))
                     {
+                        FontStyle myFontStyle = myFont.Style;
+
                         nextLine = nextLine.Remove(0, 8);
                         nextLine = nextLine.Trim();
 
                         string[] fprops = nextLine.Split(partsDelimiter);
                         foreach (string prop in fprops)
                         {
-
                             switch (prop)
                             {
                                 case "B":
-                                    if (!(myFont.Bold))
-                                    {
-                                        Font newFont = new Font(myFont, myFont.Style | FontStyle.Bold);
-                                        myFont.Dispose();
-                                        myFont = newFont;
-                                    }
+                                    myFontStyle |= FontStyle.Bold;
                                     break;
                                 case "I":
-                                    if (!(myFont.Italic))
-                                    {
-                                        Font newFont = new Font(myFont, myFont.Style | FontStyle.Italic);
-                                        myFont.Dispose();
-                                        myFont = newFont;
-                                    }
+                                    myFontStyle |= FontStyle.Italic;
                                     break;
                                 case "U":
-                                    if (!(myFont.Underline))
-                                    {
-                                        Font newFont = new Font(myFont, myFont.Style | FontStyle.Underline);
-                                        myFont.Dispose();
-                                        myFont = newFont;
-                                    }
+                                    myFontStyle |= FontStyle.Underline;
                                     break;
                                 case "S":
-                                    if (!(myFont.Strikeout))
-                                    {
-                                        Font newFont = new Font(myFont, myFont.Style | FontStyle.Strikeout);
-                                        myFont.Dispose();
-                                        myFont = newFont;
-                                    }
+                                    myFontStyle |= FontStyle.Strikeout;
                                     break;
-                                case "R":
-                                    // We need to place this newFont inside its own context so that the .NET compiler
-                                    // doesn't complain about a redefinition of an existing newFont, even though there is none
-                                    // The mono compiler doesn't produce this error.
-                                    {
-                                        Font newFont = new Font(myFont, FontStyle.Regular);
-                                        myFont.Dispose();
-                                        myFont = newFont;
-                                    }
+                                case "R":  //This special case resets all font properties
+                                    myFontStyle = FontStyle.Regular;
                                     break;
                             }
+                        }
+                        if (myFontStyle != myFont.Style)
+                        {
+                            Font newFont = new Font(myFont, myFontStyle);
+                            myFont.Dispose();
+                            myFont = newFont;
                         }
                     }
                     else if (nextLine.StartsWith("FontName"))
