@@ -127,7 +127,15 @@ namespace OpenSim.Region.DataSnapshot
 
                         m_gridinfo.Add(
                             "name", config.Configs["DataSnapshot"].GetString("gridname", "the lost continent of hippo"));
+
                         m_exposure_level = config.Configs["DataSnapshot"].GetString("data_exposure", m_exposure_level);
+                        m_exposure_level = m_exposure_level.ToLower();
+                        if(m_exposure_level !="all" && m_exposure_level != "minimum")
+                        {
+                            m_log.ErrorFormat("[DATASNAPSHOT]: unknown data_exposure option: '{0}'. defaulting to minimum",m_exposure_level);
+                            m_exposure_level = "minimum";
+                        }
+
                         m_period = config.Configs["DataSnapshot"].GetInt("default_snapshot_period", m_period);
                         m_maxStales = config.Configs["DataSnapshot"].GetInt("max_changes_before_update", m_maxStales);
                         m_snapsDir = config.Configs["DataSnapshot"].GetString("snapshot_cache_directory", m_snapsDir);
@@ -164,7 +172,7 @@ namespace OpenSim.Region.DataSnapshot
             if (m_snapStore == null)
             {
                 m_hostname = scene.RegionInfo.ExternalHostName;
-                m_snapStore = new SnapshotStore(m_snapsDir, m_gridinfo, m_listener_port, m_hostname);
+                m_snapStore = new SnapshotStore(m_snapsDir, m_gridinfo);
             }
 
             m_snapStore.AddScene(scene);
