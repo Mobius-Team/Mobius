@@ -4482,6 +4482,10 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 object opt = options.Data[i];
                 if (opt.ToString() == "allowXss")
                     opts["allowXss"] = true;
+                if(opt.ToString().StartsWith("PersistentURL=")) {
+                    String[] strlist = opt.ToString().Split('=');
+                    opts["PersistentURL"] = (UUID)strlist[1];
+                }
             }
 
             if (m_UrlModule != null)
