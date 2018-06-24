@@ -182,7 +182,7 @@ namespace OpenSim.Region.CoreModules.World.Warp3DMap
             cameraPos = new Vector3(
                             (m_scene.RegionInfo.RegionSizeX) * 0.5f,
                             (m_scene.RegionInfo.RegionSizeY) * 0.5f,
-                            4096f);
+                            1024f);
 
             cameraDir = -Vector3.UnitZ;
             viewWitdh = (int)m_scene.RegionInfo.RegionSizeX;
