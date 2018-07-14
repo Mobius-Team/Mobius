@@ -441,7 +441,15 @@
     ;; Owners specific avatars by adding them to the Access List of the parcel
     ;; without having to use the Groups feature
     ; simple_build_permissions = false
-
+	
+	
+[EstateManagement]
+    ; If false, then block any region restart requests from the client even if they are otherwise valid.
+    ; Default is true
+    AllowRegionRestartFromClient = true
+	; these settings will override the age limit and payment on file settings default is {false}
+	;IgnoreEstateMinorAccessControl = false
+	;IgnoreEstatePaymentAccessControl = false
 
 [Estates]
     ; If these values are commented out then the user will be asked for estate details when required (this is the normal case).
