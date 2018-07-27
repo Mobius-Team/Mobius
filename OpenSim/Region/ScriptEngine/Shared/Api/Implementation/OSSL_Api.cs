@@ -3890,7 +3890,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// </summary>
         /// <param name="unixTime"></param>
         /// <returns></returns>
-        public LSL_String osUnixTimeToTimestamp(long time)
+        public LSL_String osUnixTimeToTimestamp(LSL_Integer time)
         {
             CheckThreatLevel(ThreatLevel.VeryLow, "osUnixTimeToTimestamp");
 
