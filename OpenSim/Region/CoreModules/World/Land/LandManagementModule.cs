@@ -2047,22 +2047,30 @@ namespace OpenSim.Region.CoreModules.World.Land
                     {
                         UUID parcel = UUID.Zero;
                         UUID.TryParse(id, out parcel);
+
                         // assume we've got the parcelID we just computed in RemoteParcelRequest
                         ExtendedLandData extLandData = new ExtendedLandData();
                         if(!Util.ParseFakeParcelID(parcel, out extLandData.RegionHandle,
                                                out extLandData.X, out extLandData.Y))
                             return null;
-                        m_log.DebugFormat("[LAND MANAGEMENT MODULE]: Got parcelinfo request for regionHandle {0}, x/y {1}/{2}",
+                        m_log.DebugFormat("[LAND MANAGEMENT MODULE] : Got parcelinfo request for regionHandle {0}, x/y {1}/{2}",
                                           extLandData.RegionHandle, extLandData.X, extLandData.Y);
 
                         // for this region or for somewhere else?
                         if (extLandData.RegionHandle == m_scene.RegionInfo.RegionHandle)
                         {
                             ILandObject extLandObject = this.GetLandObject(extLandData.X, extLandData.Y);
+<<<<<<< HEAD
                             if (extLandObject == null)
                             {
                                 m_log.DebugFormat("[LAND MANAGEMENT MODULE]: ParcelInfoRequest: a FakeParcelID points to outside the region");
                                 return null;
+=======
+                            if(extLandObject == null)
+                            {
+                                m_log.DebugFormat("[LAND MANAGEMENT MODULE]: ParcelInfoRequest: a FakeParcelID points to outside the region");
+                                return null; 
+>>>>>>> parent of 5b6cef20ad... Per Ubit:change bitmasks work
                             }
                             extLandData.LandData = extLandObject.LandData;
                             extLandData.RegionAccess = m_scene.RegionInfo.AccessLevel;
