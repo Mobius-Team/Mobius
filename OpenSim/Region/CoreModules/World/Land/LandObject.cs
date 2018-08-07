@@ -1460,9 +1460,9 @@ namespace OpenSim.Region.CoreModules.World.Land
             for (int i = 0; i < bitmapLen; i++)
             {
                 tempByte = LandData.Bitmap[i];
-                for (int bitNum = 0; bitNum < 8; bitNum++)
+                for (int bitmask = 0x01; bitmask < 0x100; bitmask = bitmask << 1)
                 {
-                    bool bit = Convert.ToBoolean(Convert.ToByte(tempByte >> bitNum) & (byte) 1);
+                    bool bit = (tempByte & bitmask) == bitmask;
                     try
                     {
                         tempConvertMap[x, y] = bit;

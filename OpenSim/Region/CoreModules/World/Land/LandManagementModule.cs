@@ -987,7 +987,7 @@ namespace OpenSim.Region.CoreModules.World.Land
             {
                 try
                 {
-                        return m_landList[m_landIDList[x / 4, y / 4]];
+                        return m_landList[m_landIDList[x / LandUnit, y / LandUnit]];
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -2047,23 +2047,22 @@ namespace OpenSim.Region.CoreModules.World.Land
                     {
                         UUID parcel = UUID.Zero;
                         UUID.TryParse(id, out parcel);
-
                         // assume we've got the parcelID we just computed in RemoteParcelRequest
                         ExtendedLandData extLandData = new ExtendedLandData();
                         if(!Util.ParseFakeParcelID(parcel, out extLandData.RegionHandle,
                                                out extLandData.X, out extLandData.Y))
                             return null;
-                        m_log.DebugFormat("[LAND MANAGEMENT MODULE] : Got parcelinfo request for regionHandle {0}, x/y {1}/{2}",
+                        m_log.DebugFormat("[LAND MANAGEMENT MODULE]: Got parcelinfo request for regionHandle {0}, x/y {1}/{2}",
                                           extLandData.RegionHandle, extLandData.X, extLandData.Y);
 
                         // for this region or for somewhere else?
                         if (extLandData.RegionHandle == m_scene.RegionInfo.RegionHandle)
                         {
                             ILandObject extLandObject = this.GetLandObject(extLandData.X, extLandData.Y);
-                            if(extLandObject == null)
+                            if (extLandObject == null)
                             {
                                 m_log.DebugFormat("[LAND MANAGEMENT MODULE]: ParcelInfoRequest: a FakeParcelID points to outside the region");
-                                return null; 
+                                return null;
                             }
                             extLandData.LandData = extLandObject.LandData;
                             extLandData.RegionAccess = m_scene.RegionInfo.AccessLevel;
