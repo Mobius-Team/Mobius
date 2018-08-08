@@ -268,7 +268,7 @@ namespace pCampBot
 
             m_bots = new List<Bot>();
 
-            Watchdog.Enabled = true;
+            Watchdog.Enabled = false;
             StatsManager.RegisterConsoleCommands(m_console);
 
             m_serverStatsCollector = new ServerStatsCollector();
