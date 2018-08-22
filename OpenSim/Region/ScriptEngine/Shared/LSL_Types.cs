@@ -1610,6 +1610,10 @@ namespace OpenSim.Region.ScriptEngine.Shared
                 {
                     return false;
                 }
+                if (s == "00000000-0000-0000-0000-000000000000")
+                {
+                    return false;
+                }
                 else
                 {
                     return true;
