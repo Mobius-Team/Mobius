@@ -10538,6 +10538,15 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                     }
                     return true;
 
+                case "refreshmapvisibility":
+                    if (((Scene)m_scene).Permissions.CanIssueEstateCommand(AgentId, false))
+                    {
+                        IMapImageGenerator mapModule = Scene.RequestModuleInterface<IMapImageGenerator>();
+                        if (mapModule != null)
+                            mapModule.CreateMapTile();
+                    }
+                    return true;
+
                 case "kickestate":
 
                     if(((Scene)m_scene).Permissions.CanIssueEstateCommand(AgentId, false))
