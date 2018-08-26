@@ -638,11 +638,11 @@ namespace OpenSim.Framework.Servers.HttpServer
             {
                 try
                 {
+                    if(request.InputStream != null && request.InputStream.CanRead) 
+                        request.InputStream.Close();
                     byte[] buffer500 = SendHTML500(response);
                     response.OutputStream.Write(buffer500, 0, buffer500.Length);
                     response.Send();
-                    if(request.InputStream.CanRead) 
-                        request.InputStream.Close();
                 }
                 catch
                 {
@@ -830,7 +830,7 @@ namespace OpenSim.Framework.Servers.HttpServer
                     }
                 }
 
-                if(request.InputStream.CanRead)
+                if(request.InputStream != null && request.InputStream.CanRead)
                     request.InputStream.Dispose();
 
                 if (buffer != null)
@@ -895,7 +895,7 @@ namespace OpenSim.Framework.Servers.HttpServer
             }
             finally
             {
-                if(request.InputStream.CanRead)
+                if(request.InputStream != null && request.InputStream.CanRead)
                     request.InputStream.Close();
 
                 // Every month or so this will wrap and give bad numbers, not really a problem
