@@ -59,7 +59,7 @@ namespace OpenSim
             return versionString.PadRight(VERSIONINFO_VERSION_LENGTH);
         }
 
-        public const int VERSIONINFO_VERSION_LENGTH = 45;
+        public const int VERSIONINFO_VERSION_LENGTH = 75;
 
         /// <value>
         /// This is the external interface version.  It is separate from the OpenSimulator project version.
