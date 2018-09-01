@@ -750,7 +750,8 @@
 
     ;# {MuteListURL} {MuteListModule:MuteListModule} {} {} http://yourserver/Mute.php
     ; MuteListURL = http://yourserver/Mute.php
-
+    ;Configurable Offline IM Limit {50)
+    ;Max_Offline_IM = 50
     ;; Control whether group invites and notices are stored for offline users.
     ;; Default is true.
     ;; This applies to both core groups module.
