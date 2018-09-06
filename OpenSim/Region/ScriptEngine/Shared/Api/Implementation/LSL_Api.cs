@@ -13128,7 +13128,10 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             for (int i = 0; i < commandList.Data.Length; i++)
             {
-                ParcelMediaCommandEnum command = (ParcelMediaCommandEnum)commandList.Data[i];
+            
+		    int cmd = (LSL_Integer)commandList.Data[i]; // Yengine casting issue
+		    ParcelMediaCommandEnum command = (ParcelMediaCommandEnum)cmd;
+		  // ParcelMediaCommandEnum command = (ParcelMediaCommandEnum)commandList.Data[i];
                 switch (command)
                 {
                     case ParcelMediaCommandEnum.Agent:
