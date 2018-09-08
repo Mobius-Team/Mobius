@@ -152,7 +152,6 @@ namespace OpenSim.Framework.Monitoring
 
                 if (m_enabled)
                 {    
-			return;
                     // Set now so we don't get alerted on the first run
                     LastWatchdogThreadTick = Environment.TickCount & Int32.MaxValue;
                 }
