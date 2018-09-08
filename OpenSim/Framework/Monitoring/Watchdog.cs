@@ -41,10 +41,10 @@ namespace OpenSim.Framework.Monitoring
         private static readonly ILog m_log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>Timer interval in milliseconds for the watchdog timer</summary>
-        public const double WATCHDOG_INTERVAL_MS = 2500.0d;
+        public const double WATCHDOG_INTERVAL_MS = 15000.0d;
 
         /// <summary>Default timeout in milliseconds before a thread is considered dead</summary>
-        public const int DEFAULT_WATCHDOG_TIMEOUT_MS = 5000;
+        public const int DEFAULT_WATCHDOG_TIMEOUT_MS = 15000;
 
         [System.Diagnostics.DebuggerDisplay("{Thread.Name}")]
         public class ThreadWatchdogInfo
@@ -151,7 +151,8 @@ namespace OpenSim.Framework.Monitoring
                 m_enabled = value;
 
                 if (m_enabled)
-                {
+                {    
+			return;
                     // Set now so we don't get alerted on the first run
                     LastWatchdogThreadTick = Environment.TickCount & Int32.MaxValue;
                 }
@@ -174,7 +175,8 @@ namespace OpenSim.Framework.Monitoring
 
         static Watchdog()
         {
-            m_threads = new Dictionary<int, ThreadWatchdogInfo>();
+            m_enabled = false;            
+		    m_threads = new Dictionary<int, ThreadWatchdogInfo>();
             m_watchdogTimer = new System.Timers.Timer(WATCHDOG_INTERVAL_MS);
             m_watchdogTimer.AutoReset = false;
             m_watchdogTimer.Elapsed += WatchdogTimerElapsed;
