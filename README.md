@@ -1,5 +1,7 @@
 # osCore2 Fork by Bill Blight of Opensim.life
 
+### USE AT YOUR OWN RISK!!
+
 Minimal support is offered for this project at this time, it is a labor of love, and should be not used for production environments unless you are really sure what you are doing.
 
 ### USE AT YOUR OWN RISK!!

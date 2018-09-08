@@ -23,6 +23,7 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
  */
 
 using System;
@@ -269,13 +270,14 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         }
 
         // Returns if OSSL is enabled. Throws a script exception if OSSL is not allowed..
-        // for safe funtions always active
+        // for safe funtions always active 
         public void CheckThreatLevel()
         {
             m_host.AddScriptLPS(1);
             if (!m_OSFunctionsEnabled)
-                OSSLError("permission denied.  All OS functions are disabled."); // throws
+                OSSLError(String.Format("{0} permission denied.  All OS functions are disabled.")); // throws
         }
+
         // Returns if the function is allowed. Throws a script exception if not allowed.
         public void CheckThreatLevel(ThreatLevel level, string function)
         {
@@ -3678,7 +3680,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
 
         public int osGetSimulatorMemoryKB()
         {
-            CheckThreatLevel(ThreatLevel.Moderate, "osGetSimulatorMemoryKB");
+            CheckThreatLevel(ThreatLevel.Moderate, "osGetSimulatorMemory");
 
             long pws = System.Diagnostics.Process.GetCurrentProcess().WorkingSet64;
 
@@ -4602,8 +4604,8 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
 
             SceneObjectGroup sog = m_host.ParentGroup;
             if(sog== null || sog.IsDeleted)
-                return result;
-
+                return result;          
+            
             sog.GetInertiaData(out TotalMass, out CenterOfMass, out Inertia, out aux );
             if(TotalMass > 0)
             {
@@ -4651,7 +4653,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             // need more checks
 
             Vector3 CenterOfMass = new Vector3((float)centerOfMass.x,(float)centerOfMass.y,(float)centerOfMass.z);
-            Vector3 Inertia;
+            Vector3 Inertia;          
             float m = (float)mass;
 
             Inertia.X = m * (float)principalInertiaScaled.x;
@@ -4689,8 +4691,8 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             // need more checks
 
             Vector3 CenterOfMass = new Vector3((float)centerOfMass.x,(float)centerOfMass.y,(float)centerOfMass.z);
-            Vector3 Inertia;
-             float lx = (float)boxSize.x;
+            Vector3 Inertia;          
+            float lx = (float)boxSize.x;
             float ly = (float)boxSize.y;
             float lz = (float)boxSize.z;
             float m = (float)mass;

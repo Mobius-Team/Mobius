@@ -61,7 +61,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         internal SceneObjectPart m_host;
         internal bool m_LSFunctionsEnabled = false;
         internal IScriptModuleComms m_comms = null;
-		    internal IConfig m_osslconfig;
+		internal IConfig m_osslconfig;
 
         public void Initialize(
             IScriptEngine scriptEngine, SceneObjectPart host, TaskInventoryItem item)
@@ -73,7 +73,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(m_osslconfig == null)
                 m_osslconfig = m_ScriptEngine.Config;
 
-            if (m_osslconfig.GetBoolean("AllowLightShareFunctions", false))			
+            if (m_osslconfig.GetBoolean("AllowLightShareFunctions", false))				
                 m_LSFunctionsEnabled = true;
 
             m_comms = m_ScriptEngine.World.RequestModuleInterface<IScriptModuleComms>();

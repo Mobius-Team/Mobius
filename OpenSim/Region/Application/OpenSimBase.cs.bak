@@ -374,8 +374,8 @@ namespace OpenSim
             // also makes heavy use of the CPU.
             SceneManager.OnRegionsReadyStatusChange
                 += sm => { MemoryWatchdog.Enabled = sm.AllRegionsReady; Watchdog.Enabled = sm.AllRegionsReady; };
-            Watchdog.Enabled = false;
-            MemoryWatchdog.Enabled = false;
+				Watchdog.Enabled = false;
+                MemoryWatchdog.Enabled = false;
         }
 
         /// <summary>

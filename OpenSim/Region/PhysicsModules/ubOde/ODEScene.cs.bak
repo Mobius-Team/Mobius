@@ -2279,8 +2279,8 @@ namespace OpenSim.Region.PhysicsModule.ubOde
                         xx++;
 
                     val = heightMap[yy + xx];
-                    if (val < -100.0f)
-                        val = -100.0f;
+                    if (val < 0.0f)
+                        val = 0.0f; // no neg terrain as in chode
                     _heightmap[yt + x] = val;
 
                     if (hfmin > val)

@@ -235,7 +235,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_OSSL_Functions.osConsoleCommand(Command);
         }
 
-		   public void osSetParcelMusicURL(string url)
+		public void osSetParcelMusicURL(string url)
         {
             m_OSSL_Functions.osSetParcelMusicURL(url);
         }
@@ -505,7 +505,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         {
             m_OSSL_Functions.osMakeNotecard(notecardName, contents);
         }
-        public void osMakeScript(string scriptName, LSL_Types.list contents)
+public void osMakeScript(string scriptName, LSL_Types.list contents)
         {
             m_OSSL_Functions.osMakeScript(scriptName, contents);
         }

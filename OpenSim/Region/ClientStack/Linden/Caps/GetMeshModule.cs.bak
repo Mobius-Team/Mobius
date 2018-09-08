@@ -301,7 +301,7 @@ namespace OpenSim.Region.ClientStack.Linden
                     response["str_response_string"] = "Script timeout";
                     response["content_type"] = "text/plain";
                     response["keepalive"] = false;
-
+                    response["reusecontext"] = false;
 
                     return response;
                 };
@@ -368,7 +368,7 @@ namespace OpenSim.Region.ClientStack.Linden
             internal void UpdateThrottle(int pthrottle)
             {
                 int tmp = 2 * pthrottle;
-                if(tmp < 99999)
+                if(tmp < 100001)
                     tmp = 100000;
                 m_throttler.ThrottleBytes = tmp;
             }
