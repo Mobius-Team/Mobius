@@ -13335,7 +13335,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 else if (!presence.IsChildAgent)
                 {
                     presence.ControllingClient.SendParcelMediaCommand(0x4, // TODO what is this?
-                                            (ParcelMediaCommandEnum)commandToSend, time);
+                                           commandToSend.Value, time); 
                 }
             }
             ScriptSleep(m_sleepMsOn["ParcelMediaCommandList"]);
