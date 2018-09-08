@@ -13125,7 +13125,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             float time = 0.0f; // default is from start
 
             ScenePresence presence = null;
-            int cmd;
             for (int i = 0; i < commandList.Data.Length; i++)
             {
 		    int cmd;
@@ -13133,6 +13132,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 			    cmd = (LSL_Integer)commandList.Data[i]; // Yengine casting issue
 			else
 				cmd = (int)commandList.Data[i];
+			
 		    ParcelMediaCommandEnum command = (ParcelMediaCommandEnum)cmd;
 
                 switch (command)
