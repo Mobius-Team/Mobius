@@ -5,8 +5,8 @@ BEGIN;
 
 CREATE TABLE `fsassets` (
   `id` char(36) NOT NULL,
-  `name` varchar(64) NOT NULL DEFAULT '',
-  `description` varchar(64) NOT NULL DEFAULT '',
+  `name` varchar(96) NOT NULL DEFAULT '',
+  `description` varchar(128) NOT NULL DEFAULT '',
   `type` int(11) NOT NULL,
   `hash` char(80) NOT NULL,
   `create_time` int(11) NOT NULL DEFAULT '0',
