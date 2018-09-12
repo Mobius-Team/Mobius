@@ -19725,6 +19725,7 @@ public override TOKEN OldAction(Lexer yym,ref string yytext,int action, ref bool
       break;
    case 1067: ;
       break;
+   #pragma warning disable 0162
    case 1032: { yym.yy_begin("YYINITIAL"); ((LSLTokens)yym).yytext = ((LSLTokens)yym).str; ((LSLTokens)yym).str = String.Empty; return new STRING_CONSTANT(yym); }
       break;
    case 1027: { ((LSLTokens)yym).str += '\\'; }
@@ -19733,6 +19734,7 @@ public override TOKEN OldAction(Lexer yym,ref string yytext,int action, ref bool
       break;
    case 1037: { yym.yy_begin("COMMENT"); }
       break;
+	#pragma warning restore 0168
   }
   return null;
 }}

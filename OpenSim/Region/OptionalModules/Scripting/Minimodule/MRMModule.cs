@@ -197,6 +197,7 @@ namespace OpenSim.Region.OptionalModules.Scripting.Minimodule
             PermissionSet setIntersection = new PermissionSet(PermissionState.Unrestricted);
 
             // iterate over each policy level
+			   #pragma warning disable 0612
             IEnumerator levelEnumerator = SecurityManager.PolicyHierarchy();
             while (levelEnumerator.MoveNext())
             {
@@ -216,7 +217,7 @@ namespace OpenSim.Region.OptionalModules.Scripting.Minimodule
                     }
                 }
             }
-
+              #pragma warning restore 0612
             // Intersect() can return null for an empty set, so convert that
             // to an empty set object. Also return an empty set if we didn't find
             // the named permission set we were looking for
