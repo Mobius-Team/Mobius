@@ -96,7 +96,6 @@ namespace OpenSim.Framework.Servers.HttpServer
             try
             {
                 response.OutputStream.Write(buffer, 0, buffer.Length);
-                response.OutputStream.Flush();
                 response.Send();
                 buffer = null;
             }
@@ -123,7 +122,6 @@ namespace OpenSim.Framework.Servers.HttpServer
             if(Request.Body.CanRead)
                 Request.Body.Dispose();
 
-            response.SendChunked = false;
             response.ContentLength64 = 0;
             response.ContentEncoding = Encoding.UTF8;
             response.KeepAlive = false;
@@ -132,7 +130,6 @@ namespace OpenSim.Framework.Servers.HttpServer
 
             try
             {
-                response.OutputStream.Flush();
                 response.Send();
             }
             catch
