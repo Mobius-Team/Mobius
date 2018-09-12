@@ -99,6 +99,7 @@ namespace OpenSim.Framework.Servers.HttpServer
                 response.Send();
                 buffer = null;
             }
+			#pragma warning disable 0168
             catch (System.Net.Sockets.SocketException ex)
             {
                 // This is "connection reset by peer", meaning the
@@ -110,7 +111,7 @@ namespace OpenSim.Framework.Servers.HttpServer
             {
                 m_log.Warn("[POLL SERVICE WORKER THREAD]: Error ", ex);
             }
-
+            #pragma warning restore 0168
             PollServiceArgs.RequestsHandled++;
         }
 
