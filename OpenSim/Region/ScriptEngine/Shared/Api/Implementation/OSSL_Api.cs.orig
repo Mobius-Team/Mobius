@@ -134,7 +134,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public const string GridInfoServiceConfigSectionName = "GridInfoService";
 
         internal IScriptEngine m_ScriptEngine;
-        internal LSL_Api m_LSL_Api = null; // get a reference to the LSL API so we can call methods housed there
+        internal ILSL_Api m_LSL_Api = null; // get a reference to the LSL API so we can call methods housed there
         internal SceneObjectPart m_host;
         internal TaskInventoryItem m_item;
         internal bool m_OSFunctionsEnabled = false;
@@ -249,7 +249,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if (m_LSL_Api != null)
                 return;
 
-            m_LSL_Api = (LSL_Api)m_ScriptEngine.GetApi(m_item.ItemID, "LSL");
+            m_LSL_Api = (ILSL_Api)m_ScriptEngine.GetApi(m_item.ItemID, "LSL");
         }
 
         //
@@ -2100,12 +2100,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 return;
             }
 
-            InitLSL();
             // harakiri check
             if(objUUID == UUID.Zero)
             {
                 if (!m_host.ParentGroup.IsAttachment)
-                    m_LSL_Api.llDie();
+                    throw new SelfDeleteException();
                 return;
             }
 
@@ -2122,10 +2121,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             // harakiri check
             if(sceneOG.UUID == m_host.ParentGroup.UUID)
-            {
-                m_LSL_Api.llDie();
-                return;
-            }
+                throw new SelfDeleteException();
 
             // restrict to objects rezzed by host
             if(sceneOG.RezzerID == m_host.ParentGroup.UUID)
@@ -2859,22 +2855,23 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             InitLSL();
             // One needs to cast m_LSL_Api because we're using functions not
             // on the ILSL_Api interface.
+            LSL_Api LSL_Api = (LSL_Api)m_LSL_Api;
             LSL_List retVal = new LSL_List();
             LSL_List remaining = new LSL_List();
-            List<SceneObjectPart> parts = m_LSL_Api.GetLinkParts(linknumber);
+            List<SceneObjectPart> parts = LSL_Api.GetLinkParts(linknumber);
             foreach (SceneObjectPart part in parts)
             {
-                remaining = m_LSL_Api.GetPrimParams(part, rules, ref retVal);
+                remaining = LSL_Api.GetPrimParams(part, rules, ref retVal);
             }
 
             while (remaining.Length > 2)
             {
                 linknumber = remaining.GetLSLIntegerItem(0);
                 rules = remaining.GetSublist(1, -1);
-                parts = m_LSL_Api.GetLinkParts(linknumber);
+                parts = LSL_Api.GetLinkParts(linknumber);
 
                 foreach (SceneObjectPart part in parts)
-                    remaining = m_LSL_Api.GetPrimParams(part, rules, ref retVal);
+                    remaining = LSL_Api.GetPrimParams(part, rules, ref retVal);
             }
             return retVal;
         }
@@ -2884,7 +2881,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.VeryLow, "osForceCreateLink");
 
             InitLSL();
-            m_LSL_Api.CreateLink(target, parent);
+            ((LSL_Api)m_LSL_Api).CreateLink(target, parent);
         }
 
         public void osForceBreakLink(int linknum)
@@ -2892,7 +2889,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.VeryLow, "osForceBreakLink");
 
             InitLSL();
-            m_LSL_Api.BreakLink(linknum);
+            ((LSL_Api)m_LSL_Api).BreakLink(linknum);
         }
 
         public void osForceBreakAllLinks()
@@ -2900,7 +2897,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.VeryLow, "osForceBreakAllLinks");
 
             InitLSL();
-            m_LSL_Api.BreakAllLinks();
+            ((LSL_Api)m_LSL_Api).BreakAllLinks();
         }
 
         public LSL_Integer osIsNpc(LSL_Key npc)
@@ -4081,7 +4078,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.High, "osForceAttachToAvatar");
 
             InitLSL();
-            m_LSL_Api.AttachToAvatar(attachmentPoint);
+            ((LSL_Api)m_LSL_Api).AttachToAvatar(attachmentPoint);
         }
 
         public void osForceAttachToAvatarFromInventory(string itemName, int attachmentPoint)
@@ -4116,7 +4113,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
 
             if (item == null)
             {
-                m_LSL_Api.llSay(0, string.Format("Could not find object '{0}'", itemName));
+                ((LSL_Api)m_LSL_Api).llSay(0, string.Format("Could not find object '{0}'", itemName));
                 throw new Exception(String.Format("The inventory item '{0}' could not be found", itemName));
             }
 
@@ -4125,7 +4122,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 // FIXME: Temporary null check for regression tests since they dont' have the infrastructure to set
                 // up the api reference.
                 if (m_LSL_Api != null)
-                   m_LSL_Api.llSay(0, string.Format("Unable to attach, item '{0}' is not an object.", itemName));
+                    ((LSL_Api)m_LSL_Api).llSay(0, string.Format("Unable to attach, item '{0}' is not an object.", itemName));
 
                 throw new Exception(String.Format("The inventory item '{0}' is not an object", itemName));
             }
@@ -4143,7 +4140,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 m_log.ErrorFormat(
                     "[OSSL API]: Could not create user inventory item {0} for {1}, attach point {2} in {3}: {4}",
                     itemName, m_host.Name, attachmentPoint, World.Name, message);
-                m_LSL_Api.llSay(0, message);
+                ((LSL_Api)m_LSL_Api).llSay(0, message);
                 return;
             }
 
@@ -4155,7 +4152,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.High, "osForceDetachFromAvatar");
 
             InitLSL();
-            m_LSL_Api.DetachFromAvatar();
+            ((LSL_Api)m_LSL_Api).DetachFromAvatar();
         }
 
         public LSL_List osGetNumberOfAttachments(LSL_Key avatar, LSL_List attachmentPoints)
