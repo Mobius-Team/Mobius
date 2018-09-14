@@ -274,9 +274,10 @@ namespace OpenSim.Services.Connectors.Simulation
                 if (result["Success"].AsBoolean())
                     return true;
 
-                result = WebUtil.PutToService(uri, args, timeout);
-
-                return result["Success"].AsBoolean();
+                if(ctx.OutboundVersion < 0.2)
+                    result = WebUtil.PutToService(uri, args, timeout);			
+            
+	    	return result["Success"].AsBoolean();
             }
             catch (Exception e)
             {
