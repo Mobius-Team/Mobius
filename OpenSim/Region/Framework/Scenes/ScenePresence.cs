@@ -4619,6 +4619,7 @@ namespace OpenSim.Region.Framework.Scenes
                 return;
 
             CopyFrom(cAgentData);
+            m_log.Debug("   >>> ChildAgentDataUpdate SetEvent<<< ");
             m_updateAgentReceivedAfterTransferEvent.Set();
         }
 
