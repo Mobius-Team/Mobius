@@ -6873,36 +6873,33 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
 
-         string[] avName;
-             if(!name.Contains('@'))
-	     {
-	         string[] split = name.Split('@');
-	         string firstPart = string.Join("@", split.Take(split.Length - 1));
-	         string lastPart = split.Last();
-	         name = string.Concat(firstPart, lastPart);
-	         avName = name.Split(' ', '.');
-	     }
-
-	    else
-	         avName = name.Split(' ');
-           
-	    string firstname = null;
-            string lastname = null;
-
-            if (avName.Count() >= 1)
-                firstname = avName[0];
-
-            if (avName.Count() >= 2)
-                lastname = avName[1];
-
-            //User supplied first name but not a last name; Assume "Resident" as last name as per SL Wiki
-            if (lastname == null)
-                lastname = "Resident";
-
-            string tempName = String.Join(" ", firstname, lastname);
+            if (!name.Contains("@"))
+            {
+                if (name.Contains("."))
+                {
+                    if (!name.EndsWith("."))
+                    {
+                        string[] parts = name.Split(new char[] { '.' });
+                        name = parts[0] + " " + parts[1];
+                    }
+                    else
+                        name = name + " Resident";
+                }
+                else
+                    name = name + " Resident";
+            }
+            else
+            {
+                string[] split = name.Split('@');
+                string firstPart = string.Join("@", split.Take(split.Length - 1));
+                string[] dots = firstPart.Split('.');
+                firstPart = string.Join(".", dots.Take(dots.Length - 1));
+                string lastPart = split.Last();
+                name = firstPart + " @" + lastPart;
+            }
 
             ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(tempName, out avatar))
+            if (World.TryGetAvatarByName(name, out avatar))
             {
                 if (!avatar.IsNPC)
                     return avatar.UUID.ToString();
@@ -6910,6 +6907,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             return UUID.Zero.ToString();
         }
+
+
 
         public void llSetTextureAnim(int mode, int face, int sizex, int sizey, double start, double length, double rate)
         {
