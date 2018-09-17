@@ -6869,47 +6869,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return String.Empty;
         }
 
-        public LSL_Key llName2Key(string name)
-        {
-            m_host.AddScriptLPS(1);
 
-         string[] avName;
-             if(!name.Contains('@'))
-	     {
-	         string[] split = name.Split('@');
-	         string firstPart = string.Join("@", split.Take(split.Length - 1));
-	         string lastPart = split.Last();
-	         name = string.Concat(firstPart, lastPart);
-	         avName = name.Split(' ', '.');
-	     }
-
-	    else
-	         avName = name.Split(' ');
-           
-	    string firstname = null;
-            string lastname = null;
-
-            if (avName.Count() >= 1)
-                firstname = avName[0];
-
-            if (avName.Count() >= 2)
-                lastname = avName[1];
-
-            //User supplied first name but not a last name; Assume "Resident" as last name as per SL Wiki
-            if (lastname == null)
-                lastname = "Resident";
-
-            string tempName = String.Join(" ", firstname, lastname);
-
-            ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(tempName, out avatar))
-            {
-                if (!avatar.IsNPC)
-                    return avatar.UUID.ToString();
-            }
-
-            return UUID.Zero.ToString();
-        }
 
         public void llSetTextureAnim(int mode, int face, int sizex, int sizey, double start, double length, double rate)
         {
