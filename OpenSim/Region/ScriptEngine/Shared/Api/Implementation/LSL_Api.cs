@@ -6872,7 +6872,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_Key llName2Key(string name)
         {
             m_host.AddScriptLPS(1);
-
+         if (!name.Contains(" "))
+	  {
             if (!name.Contains("@"))
             {
                 if (name.Contains("."))
@@ -6888,7 +6889,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 else
                     name = name + " Resident";
             }
-            else
+	  
+	    else
             {
                 string[] split = name.Split('@');
                 string firstPart = string.Join("@", split.Take(split.Length - 1));
@@ -6897,7 +6899,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 string lastPart = split.Last();
                 name = firstPart + " @" + lastPart;
             }
-
+           }
             ScenePresence avatar = null;
             if (World.TryGetAvatarByName(name, out avatar))
             {
