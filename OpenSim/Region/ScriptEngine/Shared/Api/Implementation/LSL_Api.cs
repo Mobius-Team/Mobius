@@ -6847,6 +6847,66 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.SoundRadius = radius;
         }
 
+        public LSL_String llKey2Name(string id)
+        {
+            m_host.AddScriptLPS(1);
+            UUID key = new UUID();
+            if (UUID.TryParse(id,out key))
+            {
+                ScenePresence presence = World.GetScenePresence(key);
+
+                if (presence != null)
+                {
+                    return presence.ControllingClient.Name;
+                    //return presence.Name;
+                }
+
+                if (World.GetSceneObjectPart(key) != null)
+                {
+                    return World.GetSceneObjectPart(key).Name;
+                }
+            }
+            return String.Empty;
+        }
+
+        public LSL_Key llName2Key(string name)
+        {
+            m_host.AddScriptLPS(1);
+
+            if (!name.Contains("@"))
+            {
+                if (name.Contains("."))
+                {
+                    if (!name.EndsWith("."))
+                    {
+                        string[] parts = name.Split(new char[] { '.' });
+                        name = parts[0] + " " + parts[1];
+                    }
+                    else
+                        name = name + " Resident";
+                }
+                else
+                    name = name + " Resident";
+            }
+            else
+            {
+                string[] split = name.Split('@');
+                string firstPart = string.Join("@", split.Take(split.Length - 1));
+                string[] dots = firstPart.Split('.');
+                firstPart = string.Join(".", dots.Take(dots.Length - 1));
+                string lastPart = split.Last();
+                name = firstPart + " @" + lastPart;
+            }
+
+            ScenePresence avatar = null;
+            if (World.TryGetAvatarByName(name, out avatar))
+            {
+                if (!avatar.IsNPC)
+                    return avatar.UUID.ToString();
+            }
+
+            return UUID.Zero.ToString();
+        }
 
         public LSL_Key llName2Key(string name)
         {
