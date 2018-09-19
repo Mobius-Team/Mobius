@@ -6847,27 +6847,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.SoundRadius = radius;
         }
 
-        public LSL_String llKey2Name(string id)
-        {
-            m_host.AddScriptLPS(1);
-            UUID key = new UUID();
-            if (UUID.TryParse(id,out key))
-            {
-                ScenePresence presence = World.GetScenePresence(key);
-
-                if (presence != null)
-                {
-                    return presence.ControllingClient.Name;
-                    //return presence.Name;
-                }
-
-                if (World.GetSceneObjectPart(key) != null)
-                {
-                    return World.GetSceneObjectPart(key).Name;
-                }
-            }
-            return String.Empty;
-        }
 
         public LSL_Key llName2Key(string name)
         {
