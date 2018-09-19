@@ -6847,46 +6847,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.SoundRadius = radius;
         }
 
-
-        public LSL_Key llName2Key(string name)
-        {
-            m_host.AddScriptLPS(1);
-
-            if (!name.Contains("@"))
-            {
-                if (name.Contains("."))
-                {
-                    if (!name.EndsWith("."))
-                    {
-                        string[] parts = name.Split(new char[] { '.' });
-                        name = parts[0] + " " + parts[1];
-                    }
-                    else
-                        name = name + " Resident";
-                }
-                else
-                    name = name + " Resident";
-            }
-            else
-            {
-                string[] split = name.Split('@');
-                string firstPart = string.Join("@", split.Take(split.Length - 1));
-                string[] dots = firstPart.Split('.');
-                firstPart = string.Join(".", dots.Take(dots.Length - 1));
-                string lastPart = split.Last();
-                name = firstPart + " @" + lastPart;
-            }
-
-            ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(name, out avatar))
-            {
-                if (!avatar.IsNPC)
-                    return avatar.UUID.ToString();
-            }
-
-            return UUID.Zero.ToString();
-        }
-
         public LSL_Key llName2Key(string name)
         {
             m_host.AddScriptLPS(1);
@@ -6946,67 +6906,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return UUID.Zero.ToString();
         }
 
-        public LSL_Key llName2Key(string name)
-        {
-            m_host.AddScriptLPS(1);
-
-            if (!name.Contains(" "))
-            {
-                if (!name.Contains("@"))
-                {
-                    if (name.Contains("."))
-                    {
-                        if (!name.EndsWith("."))
-                        {
-                            string[] parts = name.Split(new char[] { '.' });
-                            name = parts[0] + " " + parts[1];
-                        }
-                        else
-                            name = name + " Resident";
-                    }
-                    else
-                        name = name + " Resident";
-                }
-                else
-                {
-                    if (!name.EndsWith("@"))
-                    {
-                        // First I assume, that on the right side of last ocurrence "@", there is not serverURI string
-                        string testname = name + " Resident";
-                        ScenePresence test = null;
-                        if (World.TryGetAvatarByName(testname, out test))
-                        {
-                            if (!test.IsNPC)
-                                return test.UUID.ToString();
-
-                            return UUID.Zero.ToString();
-                        }
-
-                        // If first assumption is wrong, then I assume, that there is serverURI string after last ocurrence of "@"
-                        string[] split = name.Split('@');
-                        string firstPart = string.Join("@", split.Take(split.Length - 1));
-                        string[] dots = firstPart.Split('.');
-                        firstPart = string.Join(".", dots.Take(dots.Length - 1));
-                        string lastPart = split.Last();
-                        name = firstPart + " @" + lastPart;
-                    }
-                    else
-                        name = name + " Resident";
-                }
-            }
-
-            ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(name, out avatar))
-            {
-                if (!avatar.IsNPC)
-                    return avatar.UUID.ToString();
-            }
-
-            return UUID.Zero.ToString();
-        }
-
-
-
+ 
         public void llSetTextureAnim(int mode, int face, int sizex, int sizey, double start, double length, double rate)
         {
             m_host.AddScriptLPS(1);
