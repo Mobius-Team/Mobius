@@ -2761,7 +2761,7 @@ namespace OpenSim.Region.PhysicsModule.ODE
                                 // We need to let the Watchdog know that the Heartbeat is not dead
                                 // NOTE: This is currently commented out, but if things like OAR loading are
                                 // timing the heartbeat out we will need to uncomment it
-                                Watchdog.UpdateThread();
+                                //Watchdog.UpdateThread();
                             }
 
                             if (SupportsNINJAJoints)
