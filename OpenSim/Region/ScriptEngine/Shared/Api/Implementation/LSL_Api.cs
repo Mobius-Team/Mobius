@@ -6869,52 +6869,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return String.Empty;
         }
 
-        private string Name2Key(string name)
-        {
-            ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(name, out avatar))
-            {
-                if (!avatar.IsNPC)
-                    return avatar.UUID.ToString();
-
-                return UUID.Zero.ToString();
-            }
-            return String.Empty;
-        }
-
-        public LSL_Key llName2Key(string name)
-        {
-            m_host.AddScriptLPS(1);
-
-            if (!name.Contains(" "))
-            {
-                if (Regex.Matches(name, Regex.Escape(".")).Count == 1)
-                {
-                    string[] parts = name.Split(new char[] { '.' });
-                    string test = Name2Key(parts[0] + " " + parts[1]);
-                    if (test != String.Empty)
-                        return test;
-                }
-
-                if (name.Contains(".@"))
-                {
-                    string[] split = name.Split('@');
-                    string firstPart = string.Join("@", split.Take(split.Length - 1));
-                    string[] dots = firstPart.Split('.');
-                    firstPart = string.Join(".", dots.Take(dots.Length - 1));
-                    string lastPart = split.Last();
-                    string test = Name2Key(firstPart + " @" + lastPart);
-                    if (test != String.Empty)
-                        return test;
-                }
-            }
-
-            if (Name2Key(name) != String.Empty)
-                return Name2Key(name);
-
-            return UUID.Zero.ToString();
-        }
-
 
 
         public void llSetTextureAnim(int mode, int face, int sizex, int sizey, double start, double length, double rate)
