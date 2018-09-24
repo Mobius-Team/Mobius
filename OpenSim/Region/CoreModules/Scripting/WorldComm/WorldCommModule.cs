@@ -392,7 +392,7 @@ namespace OpenSim.Region.CoreModules.Scripting.WorldComm
                 if (channel == 0)
                 {
                    // Channel 0 goes to viewer ONLY
-                    m_scene.SimChat(Utils.StringToBytes(msg), ChatTypeEnum.Broadcast, 0, pos, name, id, target, false, false);
+                    m_scene.SimChat(Utils.StringToBytes(msg), ChatTypeEnum.RegionSayTo, 0, pos, name, id, target, false, false);
                     return;
                 }
 
