@@ -139,6 +139,8 @@ namespace OpenSim.Services.InventoryService
                 CreateFolder(principalID, rootFolder.ID, (int)FolderType.Landmark, "Landmarks");
             if (!Array.Exists(sysFolders, delegate(XInventoryFolder f) { if (f.type == (int)FolderType.LostAndFound) return true; return false; }))
                 CreateFolder(principalID, rootFolder.ID, (int)FolderType.LostAndFound, "Lost And Found");
+            if (!Array.Exists(sysFolders, delegate (XInventoryFolder f) { if (f.type == (int)FolderType.MarketplaceListings) return true; return false; }))
+                CreateFolder(principalID, rootFolder.ID, (int)FolderType.MarketplaceListings, "Marketplace Listings");
             if (!Array.Exists(sysFolders, delegate(XInventoryFolder f) { if (f.type == (int)FolderType.Notecard) return true; return false; }))
                 CreateFolder(principalID, rootFolder.ID, (int)FolderType.Notecard, "Notecards");
             if (!Array.Exists(sysFolders, delegate(XInventoryFolder f) { if (f.type == (int)FolderType.Object) return true; return false; }))
