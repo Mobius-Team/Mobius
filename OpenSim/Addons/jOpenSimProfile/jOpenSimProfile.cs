@@ -107,14 +107,14 @@ namespace jOpenSim.Profile.jOpenProfile
 
                 if (m_ProfileModul != "jOpenSimProfile")
                 {
-                    //m_log.ErrorFormat("[{0}]: disabled! Reason: Module Name in [Profile] config section invalid or not found", m_moduleName);
+                    m_log.ErrorFormat("[{0}]: disabled! Reason: Module Name in [Profile] config section invalid or not found", m_moduleName);
                     m_Enabled = false;
                     return;
                 }
 
                 if (m_ProfileServer == "")
                 {
-                    //m_log.ErrorFormat("[{0}]: disabled (no ProfileURL found)", m_moduleName);
+                    m_log.ErrorFormat("[{0}]: disabled (no ProfileURL found)", m_moduleName);
                     m_Enabled = false;
                     return;
                 }
@@ -271,11 +271,11 @@ namespace jOpenSim.Profile.jOpenProfile
             try
             {
                 XmlRpcRequest Req = new XmlRpcRequest(method, SendParams);
-                Resp = Req.Send(m_ProfileServer, 30000);
+                Resp = Req.Send(m_ProfileServer, 3000);
             }
             catch (WebException ex)
             {
-                m_log.ErrorFormat("[{0}]: Unable to connect to Profile Server {1}.  Exception {2}", m_moduleName, m_ProfileServer, ex);
+                //m_log.ErrorFormat("[{0}]: Unable to connect to Profile Server {1}.  Exception {2}", m_moduleName, m_ProfileServer, ex);
 
                 Hashtable ErrorHash = new Hashtable();
                 ErrorHash["success"] = false;
@@ -347,7 +347,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!Convert.ToBoolean(result["success"]))
             {
-                remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+                //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
                 return;
             }
 
@@ -380,7 +380,7 @@ namespace jOpenSim.Profile.jOpenProfile
             Hashtable result = GenericXMLRPCRequest(ReqHash, "classifiedinforequest");
             if (!Convert.ToBoolean(result["success"]))
             {
-                remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+                //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
                 return;
             }
 
@@ -470,7 +470,8 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!Convert.ToBoolean(result["success"]))
             {
-                remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+                //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+				return;
             }
         }
 
@@ -492,6 +493,7 @@ namespace jOpenSim.Profile.jOpenProfile
             if (!Convert.ToBoolean(result["success"]))
             {
                 //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+				return;
             }
         }
 
@@ -736,7 +738,8 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!Convert.ToBoolean(result["success"]))
             {
-                //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+                //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);return;return;
+				return;
             }
         }
 
@@ -761,6 +764,7 @@ namespace jOpenSim.Profile.jOpenProfile
             if (!Convert.ToBoolean(result["success"]))
             {
                 //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+				return;
             }
         }
 
@@ -815,6 +819,7 @@ namespace jOpenSim.Profile.jOpenProfile
             if (!Convert.ToBoolean(result["success"]))
             {
                 //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+				return;
             }
         }
 
@@ -938,7 +943,8 @@ namespace jOpenSim.Profile.jOpenProfile
             }
             else
             {
-                m_log.ErrorFormat("[{0}]: Got null for profile for {1}", m_moduleName, avatarID.ToString());
+                //m_log.ErrorFormat("[{0}]: Got null for profile for {1}", m_moduleName, avatarID.ToString());
+				return;
             }
         }
 
@@ -966,6 +972,7 @@ namespace jOpenSim.Profile.jOpenProfile
                 if (!Convert.ToBoolean(result["success"]))
                 {
                     //remoteClient.SendAgentAlertMessage(result["errorMessage"].ToString(), false);
+					return;
                 }
 
                 RequestAvatarProperties(remoteClient, newProfile.ID);
