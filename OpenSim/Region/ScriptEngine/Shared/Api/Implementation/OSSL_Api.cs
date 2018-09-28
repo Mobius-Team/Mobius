@@ -3704,7 +3704,17 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             if (avatar != null)
                 avatar.SpeedModifier = (float)SpeedModifier;
         }
+        public void osSetOwnerSpeed(LSL_Float SpeedModifier)
+        {
+            CheckThreatLevel(ThreatLevel.Moderate, "osSetOwnerSpeed");
+               if(SpeedModifier > 4)SpeedModifier = 4;
+            ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
 
+            if (avatar != null)
+                avatar.SpeedModifier = (float)SpeedModifier;
+        }
+		
+		
         public void osKickAvatar(string FirstName, string SurName, string alert)
         {
             CheckThreatLevel(ThreatLevel.Severe, "osKickAvatar");
