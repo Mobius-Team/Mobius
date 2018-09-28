@@ -79,7 +79,6 @@ using System.Reflection;
 using Timer = System.Timers.Timer;
 using System.Linq;
 using PermissionMask = OpenSim.Framework.PermissionMask;
-using OpenSim.Services.Connectors.Hypergrid;
 
 namespace OpenSim.Region.ScriptEngine.Shared.Api
 {
@@ -6874,17 +6873,56 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
 
-            foreach (ScenePresence sp in World.GetScenePresences())
+            if (!name.Contains(" "))
             {
-                string test = sp.ControllingClient.Name;
-                if (!name.Contains(" "))
-                    test = test.Replace(" ", ".");
-
-                if (String.Compare(name, test, true) == 0)
+                if (!name.Contains("@"))
                 {
-                    if (!sp.IsNPC)
-                        return sp.UUID.ToString();
+                    if (name.Contains("."))
+                    {
+                        if (!name.EndsWith("."))
+                        {
+                            string[] parts = name.Split(new char[] { '.' });
+                            name = parts[0] + " " + parts[1];
+                        }
+                        else
+                            name = name + " Resident";
+                    }
+                    else
+                        name = name + " Resident";
                 }
+                else
+                {
+                    if (!name.EndsWith("@"))
+                    {
+                        // First I assume, that on the right side of last ocurrence "@", there is not serverURI string
+                        string testname = name + " Resident";
+                        ScenePresence test = null;
+                        if (World.TryGetAvatarByName(testname, out test))
+                        {
+                            if (!test.IsNPC)
+                                return test.UUID.ToString();
+
+                            return UUID.Zero.ToString();
+                        }
+
+                        // If first assumption is wrong, then I assume, that there is serverURI string after last ocurrence of "@"
+                        string[] split = name.Split('@');
+                        string firstPart = string.Join("@", split.Take(split.Length - 1));
+                        string[] dots = firstPart.Split('.');
+                        firstPart = string.Join(".", dots.Take(dots.Length - 1));
+                        string lastPart = split.Last();
+                        name = firstPart + " @" + lastPart;
+                    }
+                    else
+                        name = name + " Resident";
+                }
+            }
+
+            ScenePresence avatar = null;
+            if (World.TryGetAvatarByName(name, out avatar))
+            {
+                if (!avatar.IsNPC)
+                    return avatar.UUID.ToString();
             }
 
             return UUID.Zero.ToString();
@@ -14960,91 +14998,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_String llGetUsername(string id)
         {
             return Name2Username(llKey2Name(id));
-        }
-
-        private string UserName2Key(string username)
-        {
-            ScenePresence avatar = null;
-            if (World.TryGetAvatarByName(username, out avatar))
-            {
-                if (!avatar.IsNPC)
-                    return avatar.UUID.ToString();
-
-                return UUID.Zero.ToString();
-            }
-
-            IUserManagement userManager = World.RequestModuleInterface<IUserManagement>();
-            if (userManager != null)
-            {
-                UUID userID = userManager.GetUserIdByName(username);
-                if (userID != UUID.Zero)
-                    return userID.ToString();
-            }
-
-            string[] parts = username.Split(new char[] { ' ' });
-
-            UserAccount account = World.UserAccountService.GetUserAccount(World.RegionInfo.ScopeID, parts[0], parts[1]);
-            if (account != null)
-                return account.PrincipalID.ToString();
-
-            String FirstName; String LastName; String serverURI;
-            if (Util.ParseForeignAvatarName(parts[0], parts[1], out FirstName, out LastName, out serverURI))
-            {
-                try
-                {
-                    UserAgentServiceConnector userConnection = new UserAgentServiceConnector(serverURI, true);
-                    if (userConnection != null)
-                    {
-                        UUID hguserID = userConnection.GetUUID(FirstName, LastName);
-                        if (hguserID != UUID.Zero)
-                        {
-                            userManager.AddUser(hguserID, FirstName, LastName, serverURI);
-                            return hguserID.ToString();
-                        }
-                    }
-                }
-                catch (Exception) { }
-            }
-
-            return UUID.Zero.ToString();
-        }
-
-        public LSL_Key llRequestUserKey(string username)
-        {
-            m_host.AddScriptLPS(1);
-
-            string reply = UUID.Zero.ToString();
-            if (!username.Contains(" "))
-            {
-                if (Regex.Matches(username, Regex.Escape(".")).Count == 1)
-                {
-                    string[] parts = username.Split(new char[] { '.' });
-                    string test = UserName2Key(parts[0] + " " + parts[1]);
-                    if (test != UUID.Zero.ToString())
-                        reply = test;
-                }
-
-                if (username.Contains(".@") && reply == UUID.Zero.ToString())
-                {
-                    string[] split = username.Split('@');
-                    string firstPart = string.Join("@", split.Take(split.Length - 1));
-                    string[] dots = firstPart.Split('.');
-                    firstPart = string.Join(".", dots.Take(dots.Length - 1));
-                    string lastPart = split.Last();
-                    string test = UserName2Key(firstPart + " @" + lastPart);
-                    if (test != UUID.Zero.ToString())
-                        reply = test;
-                }
-            }
-
-            if (reply == UUID.Zero.ToString())
-                reply = UserName2Key(username);
-
-            UUID identifier = UUID.Random();
-            UUID requestID = AsyncCommands.DataserverPlugin.RegisterRequest(m_host.LocalId, m_item.ItemID, identifier.ToString());
-            AsyncCommands.DataserverPlugin.DataserverReply(identifier.ToString(), reply);
-
-            return requestID.ToString();
         }
 
         public LSL_Key llRequestUsername(string id)
