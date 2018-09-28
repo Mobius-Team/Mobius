@@ -3708,14 +3708,18 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         public void osSetOwnerSpeed(LSL_Float SpeedModifier)
         {
             CheckThreatLevel(ThreatLevel.Moderate, "osSetOwnerSpeed");
-			LSL_Float osSetOwnerSpeedLimit = 2.0f;
-			osSetOwnerSpeedLimit = float.Parse(m_osslconfig.GetString("osSetOwnerSpeedLimit"));
-			if (osSetOwnerSpeedLimit < 2.0f || osSetOwnerSpeedLimit > 10.0f)osSetOwnerSpeedLimit = 2.0f; //This is to stop viewer crashes
-            if(SpeedModifier > osSetOwnerSpeedLimit)SpeedModifier = osSetOwnerSpeedLimit;
-            ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
-
+			            ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
             if (avatar != null)
-                avatar.SpeedModifier = (float)SpeedModifier;
+				return;
+			float mod = (float)SpeedModifier;
+			float limit =  m_osslconfig.GetFloat("osSetOwnerSpeedLimit",2.0f);
+			if(limit < 1.0f)
+				limit = 1.0f;
+			else if(limit > 10.0f)
+				limit = 10.0f)
+            if(mod > limit)mod = limit;
+		
+                avatar.SpeedModifier = mod;
         }
 			
         public void osKickAvatar(string FirstName, string SurName, string alert)
