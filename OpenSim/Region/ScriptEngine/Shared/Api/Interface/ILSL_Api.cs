@@ -226,6 +226,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_String llKey2Name(string id);
         LSL_Key    llName2Key(string name);
         LSL_String llGetUsername(string id);
+        LSL_Key    llRequestUserKey(string username);
            LSL_Key llRequestUsername(string id);
         LSL_String llGetDisplayName(string id);
            LSL_Key llRequestDisplayName(string id);
