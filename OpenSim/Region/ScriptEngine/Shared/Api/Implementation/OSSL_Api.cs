@@ -3716,7 +3716,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
 			if(limit < 1.0f)
 				limit = 1.0f;
 			else if(limit > 10.0f)
-				limit = 10.0f)
+				limit = 10.0f);
             if(mod > limit)mod = limit;
 		
                 avatar.SpeedModifier = mod;
