@@ -3710,7 +3710,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.Moderate, "osSetOwnerSpeed");
 			ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
             
-			if (avatar != null)return;
+			if (avatar == null)return;
 			
 			float mod = (float)SpeedModifier;
 			float limit =  m_osslconfig.GetFloat("osSetOwnerSpeedLimit",2.0f);
