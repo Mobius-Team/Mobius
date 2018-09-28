@@ -966,6 +966,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_LSL_Functions.llGetUsername(id);
         }
 
+        public LSL_Key llRequestUserKey(string username)
+        {
+            return m_LSL_Functions.llRequestUserKey(username);
+        }
+
         public LSL_Key llRequestUsername(string id)
         {
             return m_LSL_Functions.llRequestUsername(id);

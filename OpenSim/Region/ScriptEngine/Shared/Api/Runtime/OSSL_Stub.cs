@@ -993,8 +993,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         {
             m_OSSL_Functions.osSetSpeed(UUID, SpeedModifier);
         }
-
-        public void osSetOwnerSpeed(LSL_Float SpeedModifier)
+        
+		public void osSetOwnerSpeed(LSL_Float SpeedModifier)
         {
             m_OSSL_Functions.osSetOwnerSpeed(SpeedModifier);
         }
