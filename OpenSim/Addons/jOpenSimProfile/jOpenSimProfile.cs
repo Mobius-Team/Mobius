@@ -273,7 +273,7 @@ namespace jOpenSim.Profile.jOpenProfile
                 XmlRpcRequest Req = new XmlRpcRequest(method, SendParams);
                 Resp = Req.Send(m_ProfileServer, 3000);
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 //m_log.ErrorFormat("[{0}]: Unable to connect to Profile Server {1}.  Exception {2}", m_moduleName, m_ProfileServer, ex);
 
