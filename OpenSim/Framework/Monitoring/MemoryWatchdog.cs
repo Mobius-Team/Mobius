@@ -37,6 +37,7 @@ namespace OpenSim.Framework.Monitoring
     /// <summary>
     /// Experimental watchdog for memory usage.
     /// </summary>
+
     public static class MemoryWatchdog
     {
 //        private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

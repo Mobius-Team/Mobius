@@ -74,7 +74,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 while(m_RunningInstances.Count != 0)
                 {
                     Monitor.PulseAll(m_WakeUpLock);
-                    Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2);
+                    Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60);
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                     // Handle 'xmr resume/suspend' commands.
                     else if(m_SuspendScriptThreadFlag && !m_Exiting)
                     {
-                        Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2);
+                        Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60);
                         Yengine.UpdateMyThread();
                         continue;
                     }
@@ -202,7 +202,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 lock(m_WakeUpLock)
                 {
                     if(!m_WakeUpThis && (m_WakeUpOne <= 0) && !m_Exiting)
-                        Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2);
+                        Monitor.Wait(m_WakeUpLock, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60);
 
                     m_WakeUpThis = false;
                     if((m_WakeUpOne > 0) && (--m_WakeUpOne > 0))

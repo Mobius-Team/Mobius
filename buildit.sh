@@ -11,6 +11,7 @@ find . -name "*.rej" -type f -print0 | xargs -0 /bin/rm -f
 find . -name "*.orig" -type f -print0 | xargs -0 /bin/rm -f
 find . -name "*.pdb" -type f -print0 | xargs -0 /bin/rm -f
 find . -name "*.mdb" -type f -print0 | xargs -0 /bin/rm -f
+find . -name "*.bak" -type f -print0 | xargs -0 /bin/rm -f
 echo "Running Prebuild"
 ./runprebuild.sh
 echo "Building Release, MS Debug Info sucks on linux"

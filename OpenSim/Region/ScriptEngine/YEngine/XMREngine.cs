@@ -1662,7 +1662,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                         inst = m_SleepQueue.PeekHead();
                         if(inst == null)
                         {
-                            Monitor.Wait(m_SleepQueue, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2);
+                            Monitor.Wait(m_SleepQueue, Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60);
                             continue;
                         }
                         if(inst.m_IState != XMRInstState.ONSLEEPQ)
@@ -1673,8 +1673,8 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                         deltaMS = Int32.MaxValue;
                         if(deltaTS < Int32.MaxValue)
                             deltaMS = (int)deltaTS;
-                        if(deltaMS > Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2)
-                            deltaMS = Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 2;
+                        if(deltaMS > Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60)
+                            deltaMS = Watchdog.DEFAULT_WATCHDOG_TIMEOUT_MS / 60;
 
                         Monitor.Wait(m_SleepQueue, deltaMS);
                     }
