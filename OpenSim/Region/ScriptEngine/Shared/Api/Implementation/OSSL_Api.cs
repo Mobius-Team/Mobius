@@ -1830,7 +1830,17 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
             return Convert.ToDouble(src.Data[index]);
         }
+		
+	public void osSetParcelMusicURL(string url)
+        {
+            CheckThreatLevel(ThreatLevel.VeryLow, "osSetParcelMusicURL");
 
+            ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
+
+            land.SetMusicUrl(url);
+			
+	}
+		
         public void osSetParcelMediaURL(string url)
         {
             // What actually is the difference to the LL function?
@@ -2134,6 +2144,58 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             // restrict to objects rezzed by host
             if(sceneOG.RezzerID == m_host.ParentGroup.UUID)
                 World.DeleteSceneObject(sceneOG, false);
+        }
+
+        public void osMakeScript(string scriptName, LSL_Types.list contents)
+        {
+            CheckThreatLevel(ThreatLevel.Severe, "osMakeScript");
+
+            StringBuilder scriptData = new StringBuilder();
+
+            for (int i = 0; i < contents.Length; i++)
+                scriptData.Append((string)(contents.GetLSLStringItem(i) + "\n"));
+
+            SaveScript(scriptName, "Script generated script", scriptData.ToString(), false);
+        }
+		
+		protected TaskInventoryItem SaveScript(string name, string description, string data, bool forceSameName)
+        {
+            // Create new asset
+            AssetBase asset = new AssetBase(UUID.Random(), name, (sbyte)AssetType.LSLText, m_host.OwnerID.ToString());
+            asset.Description = description;
+    
+            World.AssetService.Store(asset);
+
+            // Create Task Entry
+            TaskInventoryItem taskItem = new TaskInventoryItem();
+
+            taskItem.ResetIDs(m_host.UUID);
+            taskItem.ParentID = m_host.UUID;
+            taskItem.CreationDate = (uint)Util.UnixTimeSinceEpoch();
+            taskItem.Name = name;
+            taskItem.Description = description;
+            taskItem.Type = (int)AssetType.LSLText;
+            taskItem.InvType = (int)InventoryType.LSL;
+            taskItem.OwnerID = m_host.OwnerID;
+            taskItem.CreatorID = m_host.OwnerID;
+            taskItem.BasePermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
+            taskItem.CurrentPermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
+            taskItem.EveryonePermissions = 0;
+            taskItem.NextPermissions = (uint)PermissionMask.All;
+            taskItem.GroupID = m_host.GroupID;
+            taskItem.GroupPermissions = 0;
+            taskItem.Flags = 0;
+            taskItem.PermsGranter = UUID.Zero;
+            taskItem.PermsMask = 0;
+            taskItem.AssetID = asset.FullID;
+
+            if (forceSameName)
+                m_host.Inventory.AddInventoryItemExclusive(taskItem, false);
+            else
+                m_host.Inventory.AddInventoryItem(taskItem, false);
+            m_host.ParentGroup.InvalidateDeepEffectivePerms();
+
+            return taskItem;
         }
 
         /// <summary>
@@ -3662,15 +3724,21 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public void osSetOwnerSpeed(LSL_Float SpeedModifier)
         {
             CheckThreatLevel(ThreatLevel.Moderate, "osSetOwnerSpeed");
-
-            if(SpeedModifier > 4)
-                SpeedModifier = 4;
-
-            ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
-            if (avatar != null)
-                avatar.SpeedModifier = (float)SpeedModifier;
+		ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
+            	if (avatar == null)return;
+			
+		float mod = (float)SpeedModifier;
+		float limit =  m_osslconfig.GetFloat("osSetOwnerSpeedLimit",2.0f);
+	
+		if(limit < 1.0f)limit = 1.0f;
+		
+		else if(limit > 40.0f)limit = 40.0f;
+			
+                if(mod > limit)mod = limit;
+		
+                    avatar.SpeedModifier = mod;
         }
-
+		
         public void osKickAvatar(string FirstName, string SurName, string alert)
         {
             CheckThreatLevel(ThreatLevel.Severe, "osKickAvatar");
