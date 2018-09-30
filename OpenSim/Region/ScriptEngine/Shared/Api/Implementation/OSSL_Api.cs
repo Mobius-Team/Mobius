@@ -276,6 +276,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if (!m_OSFunctionsEnabled)
                 OSSLError("permission denied.  All OS functions are disabled."); // throws
         }
+
         // Returns if the function is allowed. Throws a script exception if not allowed.
         public void CheckThreatLevel(ThreatLevel level, string function)
         {
@@ -934,6 +935,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
+                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
+                {
+                    ScriptSleep(500);
+                    return;
+                }
 
                 if(regionName == World.RegionInfo.RegionName)
                 {
@@ -978,6 +984,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
+                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
+                {
+                    ScriptSleep(500);
+                    return;
+                }
 
                 Util.FireAndForget(
                     o => World.RequestTeleportLocation(
@@ -999,6 +1010,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     return;
 
                 Vector3 pos = presence.AbsolutePosition;
+                if(!checkAllowAgentTPbyLandOwner(agentId, pos))
+                {
+                    ScriptSleep(500);
+                    return;
+                }
 
                 World.RequestTeleportLocation(presence.ControllingClient, World.RegionInfo.RegionName, position,
                     lookat, (uint)TPFlags.ViaLocation);
@@ -1076,7 +1092,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     targetID,
                     part.SitTargetPosition);
         }
- 
+
         // Get a list of all the avatars/agents in the region
         public LSL_List osGetAgents()
         {
@@ -1094,7 +1110,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         public string osGetAgentIP(string agent)
         {
-            CheckThreatLevel(ThreatLevel.Severe, "osGetAgentIP"); 
+            CheckThreatLevel(ThreatLevel.Severe, "osGetAgentIP");
             if(!(World.Permissions.IsGod(m_host.OwnerID))) // user god always needed
                 return "";
 
@@ -1671,7 +1687,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                         else
                         {
                             if (UUID.TryParse(arg, out uuid))
-                            {   
+                            {
                                 if(newLand.OwnerID != uuid)
                                 {
                                     changed = true;
@@ -1780,7 +1796,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
                         if(changedSeeAvs && avatar.currentParcelUUID == parcelID )
                             avatar.currentParcelUUID = parcelID; // force parcel flags review
-                        
+
                         if(avatar.ControllingClient == null)
                             return;
 
@@ -1814,19 +1830,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
             return Convert.ToDouble(src.Data[index]);
         }
-		
-		public void osSetParcelMusicURL(string url)
-        {
-            CheckThreatLevel(ThreatLevel.VeryLow, "osSetParcelMusicURL");
 
-            ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
-
-
-
-            land.SetMusicUrl(url);
-			
-		}
-		
         public void osSetParcelMediaURL(string url)
         {
             // What actually is the difference to the LL function?
@@ -2131,59 +2135,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sceneOG.RezzerID == m_host.ParentGroup.UUID)
                 World.DeleteSceneObject(sceneOG, false);
         }
-public void osMakeScript(string scriptName, LSL_Types.list contents)
-        {
-            CheckThreatLevel(ThreatLevel.Severe, "osMakeScript");
-
-            StringBuilder scriptData = new StringBuilder();
-
-            for (int i = 0; i < contents.Length; i++)
-                scriptData.Append((string)(contents.GetLSLStringItem(i) + "\n"));
-
-            SaveScript(scriptName, "Script generated script", scriptData.ToString(), false);
-        }
-		
-		
-		protected TaskInventoryItem SaveScript(string name, string description, string data, bool forceSameName)
-        {
-            // Create new asset
-            AssetBase asset = new AssetBase(UUID.Random(), name, (sbyte)AssetType.LSLText, m_host.OwnerID.ToString());
-            asset.Description = description;
-    
-            World.AssetService.Store(asset);
-
-            // Create Task Entry
-            TaskInventoryItem taskItem = new TaskInventoryItem();
-
-            taskItem.ResetIDs(m_host.UUID);
-            taskItem.ParentID = m_host.UUID;
-            taskItem.CreationDate = (uint)Util.UnixTimeSinceEpoch();
-            taskItem.Name = name;
-            taskItem.Description = description;
-            taskItem.Type = (int)AssetType.LSLText;
-            taskItem.InvType = (int)InventoryType.LSL;
-            taskItem.OwnerID = m_host.OwnerID;
-            taskItem.CreatorID = m_host.OwnerID;
-            taskItem.BasePermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
-            taskItem.CurrentPermissions = (uint)PermissionMask.All | (uint)PermissionMask.Export;
-            taskItem.EveryonePermissions = 0;
-            taskItem.NextPermissions = (uint)PermissionMask.All;
-            taskItem.GroupID = m_host.GroupID;
-            taskItem.GroupPermissions = 0;
-            taskItem.Flags = 0;
-            taskItem.PermsGranter = UUID.Zero;
-            taskItem.PermsMask = 0;
-            taskItem.AssetID = asset.FullID;
-
-            if (forceSameName)
-                m_host.Inventory.AddInventoryItemExclusive(taskItem, false);
-            else
-                m_host.Inventory.AddInventoryItem(taskItem, false);
-            m_host.ParentGroup.InvalidateDeepEffectivePerms();
-
-            return taskItem;
-        }
-		
 
         /// <summary>
         /// Write a notecard directly to the prim's inventory.
@@ -3695,35 +3646,31 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             return (int)pws;
         }
 
-        public void osSetSpeed(string UUID, LSL_Float SpeedModifier)
+        public void osSetSpeed(string ID, LSL_Float SpeedModifier)
         {
             CheckThreatLevel(ThreatLevel.Moderate, "osSetSpeed");
 
-            ScenePresence avatar = World.GetScenePresence(new UUID(UUID));
+            UUID avid;
+            if(!UUID.TryParse(ID, out avid))
+                return;
 
+            ScenePresence avatar = World.GetScenePresence(avid);
             if (avatar != null)
                 avatar.SpeedModifier = (float)SpeedModifier;
         }
-		
+
         public void osSetOwnerSpeed(LSL_Float SpeedModifier)
         {
             CheckThreatLevel(ThreatLevel.Moderate, "osSetOwnerSpeed");
-			ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
-            
-			if (avatar == null)return;
-			
-			float mod = (float)SpeedModifier;
-			float limit =  m_osslconfig.GetFloat("osSetOwnerSpeedLimit",2.0f);
-			
-			if(limit < 1.0f)limit = 1.0f;
-			
-			else if(limit > 40.0f)limit = 40.0f;
-			
-            if(mod > limit)mod = limit;
-		
-                avatar.SpeedModifier = mod;
+
+            if(SpeedModifier > 4)
+                SpeedModifier = 4;
+
+            ScenePresence avatar = World.GetScenePresence(m_host.OwnerID);
+            if (avatar != null)
+                avatar.SpeedModifier = (float)SpeedModifier;
         }
-			
+
         public void osKickAvatar(string FirstName, string SurName, string alert)
         {
             CheckThreatLevel(ThreatLevel.Severe, "osKickAvatar");
@@ -3757,25 +3704,27 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         {
             CheckThreatLevel(ThreatLevel.High, "osCauseDamage");
 
-            UUID avatarId = new UUID(avatar);
-            Vector3 pos = m_host.GetWorldPosition();
+            UUID avatarId;
+            if (!UUID.TryParse(avatar, out avatarId))
+                return;
 
             ScenePresence presence = World.GetScenePresence(avatarId);
-            if (presence != null)
+            if (presence == null)
+                return;
+
+            Vector3 pos = m_host.GetWorldPosition();
+            LandData land = World.GetLandData(pos);
+            if ((land.Flags & (uint)ParcelFlags.AllowDamage) == (uint)ParcelFlags.AllowDamage)
             {
-                LandData land = World.GetLandData(pos);
-                if ((land.Flags & (uint)ParcelFlags.AllowDamage) == (uint)ParcelFlags.AllowDamage)
+                float health = presence.Health;
+                health -= (float)damage;
+                presence.setHealthWithUpdate(health);
+                if (health <= 0)
                 {
-                    float health = presence.Health;
-                    health -= (float)damage;
-                    presence.setHealthWithUpdate(health);
-                    if (health <= 0)
-                    {
-                        float healthliveagain = 100;
-                        presence.ControllingClient.SendAgentAlertMessage("You died!", true);
-                        presence.setHealthWithUpdate(healthliveagain);
-                        presence.Scene.TeleportClientHome(presence.UUID, presence.ControllingClient);
-                    }
+                    float healthliveagain = 100;
+                    presence.ControllingClient.SendAgentAlertMessage("You died!", true);
+                    presence.setHealthWithUpdate(healthliveagain);
+                    presence.Scene.TeleportClientHome(presence.UUID, presence.ControllingClient);
                 }
             }
         }
@@ -3784,19 +3733,21 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         {
             CheckThreatLevel(ThreatLevel.High, "osCauseHealing");
 
-            UUID avatarId = new UUID(avatar);
+            UUID avatarId;
+            if (!UUID.TryParse(avatar, out avatarId))
+                return;
+
             ScenePresence presence = World.GetScenePresence(avatarId);
+            if (presence == null)
+                return;
 
-            if (presence != null)
-            {
-                float health = presence.Health;
-                health += (float)healing;
+            float health = presence.Health;
+            health += (float)healing;
 
-                if (health >= 100)
-                    health = 100;
+            if (health >= 100)
+                health = 100;
 
-                presence.setHealthWithUpdate(health);
-            }
+            presence.setHealthWithUpdate(health);
         }
 
         public void osSetHealth(string avatar, double health)
@@ -3821,11 +3772,15 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         {
             CheckThreatLevel(ThreatLevel.High, "osSetHealRate");
 
-            UUID avatarId = new UUID(avatar);
-            ScenePresence presence = World.GetScenePresence(avatarId);
+            UUID avatarId;
+            if (!UUID.TryParse(avatar, out avatarId))
+                return;
 
-            if (presence != null)
-                 presence.HealRate = (float)healrate;
+            ScenePresence presence = World.GetScenePresence(avatarId);
+            if (presence == null)
+                return;
+
+            presence.HealRate = (float)healrate;
         }
 
         public LSL_Float osGetHealRate(string avatar)
@@ -3833,7 +3788,12 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
             CheckThreatLevel(ThreatLevel.None, "osGetHealRate");
 
             LSL_Float rate = new LSL_Float(0);
-            ScenePresence presence = World.GetScenePresence(new UUID(avatar));
+
+            UUID avatarId;
+            if (!UUID.TryParse(avatar, out avatarId))
+                return rate;
+
+            ScenePresence presence = World.GetScenePresence(avatarId);
             if (presence != null)
                 rate = presence.HealRate;
             return rate;
@@ -4530,10 +4490,6 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 object opt = options.Data[i];
                 if (opt.ToString() == "allowXss")
                     opts["allowXss"] = true;
-                if(opt.ToString().StartsWith("PersistentURL=")) {
-                    String[] strlist = opt.ToString().Split('=');
-                    opts["PersistentURL"] = (UUID)strlist[1];
-                }
             }
 
             if (m_UrlModule != null)
@@ -4611,7 +4567,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         ///     LSL_Vector CenterOfMass, center mass relative to root prim
         ///     LSL_Vector Inertia, elements of diagonal of inertia Ixx,Iyy,Izz divided by total mass
         ///     LSL_Vector aux, elements of upper triagle of inertia Ixy (= Iyx), Ixz (= Izx), Iyz(= Izy) divided by total mass
-        /// </returns> 
+        /// </returns>
         public LSL_List osGetInertiaData()
         {
             CheckThreatLevel();
@@ -4649,7 +4605,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// <summary>
         /// set inertial data
         /// replaces the automatic calculation of mass, center of mass and inertia
-        /// 
+        ///
         /// </summary>
         /// <param name="Mass">total mass of linkset</param>
         /// <param name="centerOfMass">location of center of mass relative to root prim in local coords</param>
@@ -4689,7 +4645,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// <summary>
         /// set inertial data as a sphere
         /// replaces the automatic calculation of mass, center of mass and inertia
-        /// 
+        ///
         /// </summary>
         /// <param name="Mass">total mass of linkset</param>
         /// <param name="boxsize">size of the Box</param>
@@ -4712,7 +4668,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
 
             Vector3 CenterOfMass = new Vector3((float)centerOfMass.x,(float)centerOfMass.y,(float)centerOfMass.z);
             Vector3 Inertia;
-             float lx = (float)boxSize.x;
+            float lx = (float)boxSize.x;
             float ly = (float)boxSize.y;
             float lz = (float)boxSize.z;
             float m = (float)mass;
@@ -4731,7 +4687,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// <summary>
         /// set inertial data as a sphere
         /// replaces the automatic calculation of mass, center of mass and inertia
-        /// 
+        ///
         /// </summary>
         /// <param name="Mass">total mass of linkset</param>
         /// <param name="radius">radius of the sphere</param>
@@ -4750,9 +4706,9 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 return;
 
             // need more checks
-            
+
             Vector3 CenterOfMass = new Vector3((float)centerOfMass.x,(float)centerOfMass.y,(float)centerOfMass.z);
-            Vector3 Inertia;          
+            Vector3 Inertia;
             float r = (float)radius;
             float m = (float)mass;
             float t = 0.4f * m * r * r;
@@ -4767,7 +4723,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// <summary>
         /// set inertial data as a cylinder
         /// replaces the automatic calculation of mass, center of mass and inertia
-        /// 
+        ///
         /// </summary>
         /// <param name="Mass">total mass of linkset</param>
         /// <param name="radius">radius of the cylinder</param>
@@ -4789,9 +4745,9 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
                 return;
 
             // need more checks
-            
+
             Vector3 CenterOfMass = new Vector3((float)centerOfMass.x,(float)centerOfMass.y,(float)centerOfMass.z);
-            Vector3 Inertia;          
+            Vector3 Inertia;
             float m = (float)mass;
             float r = (float)radius;
             r *= r;
@@ -4813,7 +4769,7 @@ public void osMakeScript(string scriptName, LSL_Types.list contents)
         /// <summary>
         /// removes inertial data manual override
         /// default automatic calculation is used again
-        /// 
+        ///
         /// </summary>
         public void osClearInertia()
         {
