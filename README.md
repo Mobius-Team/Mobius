@@ -13,6 +13,7 @@ XMR script engine Donated to Opensimulator core by, mrieker (DreamNation) and Co
 
 Notes on Yengine: Although it works very well, it is not compatible with Xengine, meaing crossing or TP'ing into an Yengine region from a Xengine region will result in scripts being reset and may need recompiled.
 
+## BULLETSIM IS REMOVED FROM THIS FORK!!!
 
 ## Jopensim support included
 
