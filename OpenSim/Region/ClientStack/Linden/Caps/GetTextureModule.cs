@@ -243,7 +243,7 @@ namespace OpenSim.Region.ClientStack.Linden
                     {
                         if (responses.Count > 0)
                         {
-                            if (m_queue.Count >= 24)
+                            if (m_queue.Count >= 8)
                             {
                                 // Never allow more than 4 fetches to wait
                                 reqinfo.send503 = true;
