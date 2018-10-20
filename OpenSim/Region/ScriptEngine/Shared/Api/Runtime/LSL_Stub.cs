@@ -122,7 +122,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
 
         public void llAttachToAvatar(LSL_Integer attachment)
         {
-            m_LSL_Functions.llAttachToAvatar(attachment);
+            m_LSL_Functions.llAttachToAvatarTemp(attachment);
         }
 
         public void llAttachToAvatarTemp(LSL_Integer attachment)
