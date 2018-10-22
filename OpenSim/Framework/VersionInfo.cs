@@ -44,8 +44,9 @@ namespace OpenSim
             osC2_RC2,
             osC2_RC3,
             osC2,
-            osC2_Post_Fixes,
-            osC2_Extended
+	    osC2_Post_Fixes,
+            osC2_Extended,
+	    Release
         }
 
         public static string Version
