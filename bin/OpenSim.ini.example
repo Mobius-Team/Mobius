@@ -737,19 +737,12 @@
     ;; For standalones, this is the storage dll.
     ; StorageProvider = OpenSim.Data.MySQL.dll
 
-	; Mute list handler
-	; the provided MuteListModule is just a Dummy
-	; you will need a external module for proper suport.
-	; if you keep both 2 following settings comment, viewers will use mutes in their caches
-	; if you uncoment both (url is ignored) the mutes will be deleted at login on this instance regions
-	; WARNING: viewers mutes cache seems to shared by all grids, including SL
-	; this may cause some confusion.
-	
+    ; Mute list handler
     ;# {MuteListModule} {MuteListModule:MuteListModule} {} {} None
+    ; Disabled by default
     ; MuteListModule = MuteListModule
+    
 
-    ;# {MuteListURL} {MuteListModule:MuteListModule} {} {} http://yourserver/Mute.php
-    ; MuteListURL = http://yourserver/Mute.php
     ;Configurable Offline IM Limit {50)
     ;Max_Offline_IM = 50
     ;; Control whether group invites and notices are stored for offline users.
