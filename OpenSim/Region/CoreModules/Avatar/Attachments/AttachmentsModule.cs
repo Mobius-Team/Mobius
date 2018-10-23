@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Xml;
 using log4net;
@@ -37,6 +38,7 @@ using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 using OpenSim.Framework;
+using OpenSim.Framework.Console;
 using OpenSim.Region.Framework;
 using OpenSim.Region.Framework.Interfaces;
 using OpenSim.Region.Framework.Scenes;
@@ -54,16 +56,8 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
 
         public int DebugLevel { get; set; }
 
-        /// <summary>
-        /// Period to sleep per 100 prims in order to avoid CPU spikes when an avatar with many attachments logs in/changes
-        /// outfit or many avatars with a medium levels of attachments login/change outfit simultaneously.
-        /// </summary>
-        /// <remarks>
-        /// A value of 0 will apply no pause.  The pause is specified in milliseconds.
-        /// </remarks>
-        public int ThrottlePer100PrimsRezzed { get; set; }
-
         private Scene m_scene;
+        private IRegionConsole m_regionConsole;
         private IInventoryAccessModule m_invAccessModule;
 
         /// <summary>
@@ -80,8 +74,6 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
             if (config != null)
             {
                 Enabled = config.GetBoolean("Enabled", true);
-
-                ThrottlePer100PrimsRezzed = config.GetInt("ThrottlePer100PrimsRezzed", 0);
             }
             else
             {
@@ -99,40 +91,66 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
                 // disabled. Registering only when enabled allows for other attachments module implementations.
                 m_scene.RegisterModuleInterface<IAttachmentsModule>(this);
                 m_scene.EventManager.OnNewClient += SubscribeToClientEvents;
-                m_scene.EventManager.OnStartScript += (localID, itemID) => HandleScriptStateChange(localID, true);
-                m_scene.EventManager.OnStopScript += (localID, itemID) => HandleScriptStateChange(localID, false);
+                m_scene.EventManager.OnStartScript += (localID, itemID) => OnScriptStateChange(localID, true);
+                m_scene.EventManager.OnStopScript += (localID, itemID) => OnScriptStateChange(localID, false);
 
-                MainConsole.Instance.Commands.AddCommand(
-                    "Debug",
-                    false,
-                    "debug attachments log",
-                    "debug attachments log [0|1]",
-                    "Turn on attachments debug logging",
-                    "  <= 0 - turns off debug logging\n"
-                        + "  >= 1 - turns on attachment message debug logging",
-                    HandleDebugAttachmentsLog);
-
-                MainConsole.Instance.Commands.AddCommand(
-                    "Debug",
-                    false,
-                    "debug attachments throttle",
-                    "debug attachments throttle <ms>",
-                    "Turn on attachments throttling.",
-                    "This requires a millisecond value.  " +
-                    "  == 0 - disable throttling.\n"
-                        + "  > 0 - sleeps for this number of milliseconds per 100 prims rezzed.",
-                    HandleDebugAttachmentsThrottle);
-
-                MainConsole.Instance.Commands.AddCommand(
-                    "Debug",
-                    false,
-                    "debug attachments status",
-                    "debug attachments status",
-                    "Show current attachments debug status",
-                    HandleDebugAttachmentsStatus);
             }
 
             // TODO: Should probably be subscribing to CloseClient too, but this doesn't yet give us IClientAPI
+        }
+
+        public void RemoveRegion(Scene scene)
+        {
+            m_scene.UnregisterModuleInterface<IAttachmentsModule>(this);
+
+            if (Enabled)
+                m_scene.EventManager.OnNewClient -= SubscribeToClientEvents;
+        }
+
+        public void RegionLoaded(Scene scene)
+        {
+            if (!Enabled)
+                return;
+
+            m_invAccessModule = m_scene.RequestModuleInterface<IInventoryAccessModule>();
+            m_regionConsole = scene.RequestModuleInterface<IRegionConsole>();
+            if (m_regionConsole != null)
+            {
+                m_regionConsole.AddCommand("AttachModule", false, "set auto_grant_attach_perms", "set auto_grant_attach_perms true|false", "Allow objects owned by the region owner or estate managers to obtain attach permissions without asking the user", HandleSetAutoGrantAttachPerms);
+            }
+
+            scene.AddCommand(
+                "Debug",
+                this,
+                "debug attachments log",
+                "debug attachments log [0|1]",
+                "Turn on attachments debug logging",
+                "  <= 0 - turns off debug logging\n"
+                    + "  >= 1 - turns on attachment message debug logging",
+                HandleDebugAttachmentsLog);
+
+            scene.AddCommand(
+                "Debug",
+                this,
+                "debug attachments status",
+                "debug attachments status",
+                "Show current attachments debug status",
+                HandleDebugAttachmentsStatus);
+
+            // next should work on console root also
+            MainConsole.Instance.Commands.AddCommand(
+                "Users", true, "attachments show",
+                "attachments show [<first-name> <last-name>]",
+                "Show attachment information for avatars in this simulator.",
+                "If no name is supplied then information for all avatars is shown.",
+                HandleShowAttachmentsCommand);
+        }
+
+        public void Close()
+        {
+            if (!Enabled)
+                return;
+            RemoveRegion(m_scene);
         }
 
         private void HandleDebugAttachmentsLog(string module, string[] args)
@@ -151,27 +169,105 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
             }
         }
 
-        private void HandleDebugAttachmentsThrottle(string module, string[] args)
-        {
-            int ms;
-
-            if (args.Length == 4 && int.TryParse(args[3], out ms))
-            {
-                ThrottlePer100PrimsRezzed = ms;
-                MainConsole.Instance.OutputFormat(
-                    "Attachments rez throttle per 100 prims is now {0} in {1}", ThrottlePer100PrimsRezzed, m_scene.Name);
-
-                return;
-            }
-
-            MainConsole.Instance.OutputFormat("Usage: debug attachments throttle <ms>");
-        }
-
         private void HandleDebugAttachmentsStatus(string module, string[] args)
         {
             MainConsole.Instance.OutputFormat("Settings for {0}", m_scene.Name);
             MainConsole.Instance.OutputFormat("Debug logging level: {0}", DebugLevel);
-            MainConsole.Instance.OutputFormat("Throttle per 100 prims: {0}ms", ThrottlePer100PrimsRezzed);
+        }
+
+        protected void HandleShowAttachmentsCommand(string module, string[] cmd)
+        {
+            if (cmd.Length != 2 && cmd.Length < 4)
+            {
+                MainConsole.Instance.OutputFormat("Usage: attachments show [<first-name> <last-name>]");
+                return;
+            }
+
+            SceneManager sm = SceneManager.Instance;
+            if(sm == null || sm.Scenes.Count == 0)
+                return;
+
+            bool targetNameSupplied = false;
+            string optionalTargetFirstName = null;
+            string optionalTargetLastName = null;
+
+            if (cmd.Length >= 4)
+            {
+                targetNameSupplied = true;
+                optionalTargetFirstName = cmd[2];
+                optionalTargetLastName = cmd[3];
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sm.ForEachSelectedScene(
+                scene =>
+                {
+                    if (targetNameSupplied)
+                    {
+                        ScenePresence sp = scene.GetScenePresence(optionalTargetFirstName, optionalTargetLastName);
+                        if (sp != null && !sp.IsChildAgent)
+                            GetAttachmentsReport(sp, sb);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("--- All attachments for region {0}:\n", scene.Name);
+                        scene.ForEachRootScenePresence(sp => GetAttachmentsReport(sp, sb));
+                    }
+                });
+
+            MainConsole.Instance.Output(sb.ToString());
+        }
+
+        private void GetAttachmentsReport(ScenePresence sp, StringBuilder sb)
+        {
+            sb.AppendFormat("Attachments for {0}\n\n", sp.Name);
+
+            ConsoleDisplayList ct = new ConsoleDisplayList();
+
+            List<SceneObjectGroup> attachmentObjects = sp.GetAttachments();
+            foreach (SceneObjectGroup attachmentObject in attachmentObjects)
+            {
+                ct.Indent = 2;
+                ct.AddRow("Attachment Name", attachmentObject.Name);
+                ct.AddRow("Local ID", attachmentObject.LocalId);
+                ct.AddRow("Item ID", attachmentObject.UUID);
+                ct.AddRow("From Item ID", attachmentObject.FromItemID);
+                ct.AddRow("Attach Point", ((AttachmentPoint)attachmentObject.AttachmentPoint));
+                ct.AddRow("Position", attachmentObject.RootPart.AttachedPos + "\n\n");
+            }
+
+            ct.AddToStringBuilder(sb);
+        }
+
+        private void SendConsoleOutput(UUID agentID, string text)
+        {
+            if (m_regionConsole == null)
+                return;
+
+            m_regionConsole.SendConsoleOutput(agentID, text);
+        }
+
+        private void HandleSetAutoGrantAttachPerms(string module, string[] parms)
+        {
+            UUID agentID = new UUID(parms[parms.Length - 1]);
+            Array.Resize(ref parms, parms.Length - 1);
+
+            if (parms.Length != 3)
+            {
+                SendConsoleOutput(agentID, "Command parameter error");
+                return;
+            }
+
+            string val = parms[2];
+            if (val != "true" && val != "false")
+            {
+                SendConsoleOutput(agentID, "Command parameter error");
+                return;
+            }
+
+            m_scene.StoreExtraSetting("auto_grant_attach_perms", val);
+
+            SendConsoleOutput(agentID, String.Format("auto_grant_attach_perms set to {0}", val));
         }
 
         /// <summary>
@@ -179,7 +275,7 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
         /// </summary>
         /// <param name='localID'></param>
         /// <param name='itemID'></param>
-        private void HandleScriptStateChange(uint localID, bool started)
+        private void OnScriptStateChange(uint localID, bool started)
         {
             SceneObjectGroup sog = m_scene.GetGroupByPrim(localID);
             if (sog != null && sog.IsAttachment)
@@ -198,24 +294,6 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
                     sog.HasGroupChanged = true;
                 }
             }
-        }
-
-        public void RemoveRegion(Scene scene)
-        {
-            m_scene.UnregisterModuleInterface<IAttachmentsModule>(this);
-
-            if (Enabled)
-                m_scene.EventManager.OnNewClient -= SubscribeToClientEvents;
-        }
-
-        public void RegionLoaded(Scene scene)
-        {
-            m_invAccessModule = m_scene.RequestModuleInterface<IInventoryAccessModule>();
-        }
-
-        public void Close()
-        {
-            RemoveRegion(m_scene);
         }
 
         #endregion
@@ -338,7 +416,6 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
                 }
             }
 
-
             List<AvatarAttachment> attachments = sp.Appearance.GetAttachments();
 
             // Let's get all items at once, so they get cached
@@ -406,7 +483,6 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
                 return;
 
             Dictionary<SceneObjectGroup, string> scriptStates = new Dictionary<SceneObjectGroup, string>();
-
 
             if (sp.PresenceType != PresenceType.Npc)
             {
@@ -1212,18 +1288,6 @@ namespace OpenSim.Region.CoreModules.Avatar.Attachments
 
             if (tainted)
                 objatt.HasGroupChanged = true;
-
-            if (ThrottlePer100PrimsRezzed > 0)
-            {
-                int throttleMs = (int)Math.Round((float)objatt.PrimCount / 100 * ThrottlePer100PrimsRezzed);
-
-                if (DebugLevel > 0)
-                    m_log.DebugFormat(
-                        "[ATTACHMENTS MODULE]: Throttling by {0}ms after rez of {1} with {2} prims for attachment to {3} on point {4} in {5}",
-                        throttleMs, objatt.Name, objatt.PrimCount, sp.Name, attachmentPt, m_scene.Name);
-
-                Thread.Sleep(throttleMs);
-            }
 
             return objatt;
         }
