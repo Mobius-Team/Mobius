@@ -344,13 +344,13 @@ namespace OpenSim
 
                 config.Set("region_info_source", "filesystem");
 
-                config.Set("physics", "OpenDynamicsEngine");
-                config.Set("meshing", "Meshmerizer");
+                config.Set("physics", "ubODE");
+                config.Set("meshing", "ubODEMeshmerizer");
                 config.Set("physical_prim", true);
                 config.Set("serverside_object_permissions", true);
                 config.Set("startup_console_commands_file", String.Empty);
                 config.Set("shutdown_console_commands_file", String.Empty);
-                config.Set("DefaultScriptEngine", "XEngine");
+                config.Set("DefaultScriptEngine", "YEngine");
                 config.Set("clientstack_plugin", "OpenSim.Region.ClientStack.LindenUDP.dll");
             }
 
