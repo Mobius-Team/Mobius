@@ -7358,14 +7358,18 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             return true;
         }
 
-      private bool HandleCompleteAgentMovement(IClientAPI sender, Packet Pack)
+        private bool HandleCompleteAgentMovement(IClientAPI sender, Packet Pack)
         {
             m_log.DebugFormat("[LLClientView] HandleCompleteAgentMovement");
 
             Action<IClientAPI, bool> handlerCompleteMovementToRegion = OnCompleteMovementToRegion;
             if (handlerCompleteMovementToRegion != null)
             {
-                handlerCompleteMovementToRegion(sender, true);
+                // We're spawning a thread because handlers can block this thread
+                Util.FireAndForget(delegate
+                {
+                    handlerCompleteMovementToRegion(sender, true);
+                }, null, "LLClientView.HandleCompleteAgentMovement");
             }
             else
                 m_log.Debug("HandleCompleteAgentMovement NULL handler");
@@ -7374,7 +7378,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
             return true;
         }
-
+		
         private bool HandleAgentAnimation(IClientAPI sender, Packet Pack)
         {
             AgentAnimationPacket AgentAni = (AgentAnimationPacket)Pack;
