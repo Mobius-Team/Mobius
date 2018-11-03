@@ -87,14 +87,15 @@ namespace OpenSim.Framework.Servers
             set
             {
                 lock (m_Servers)
+                {
                     if (!m_Servers.ContainsValue(value))
                         throw new Exception("HTTP server must already have been registered to be set as the main instance");
 
-                instance = value;
+                    instance = value;
+                }
             }
         }
 
-        
         public static BaseHttpServer UnSecureInstance
         {
             get { return unsecureinstance; }
@@ -376,10 +377,9 @@ namespace OpenSim.Framework.Servers
             {
                 foreach (BaseHttpServer httpServer in m_Servers.Values)
                 {
-                    httpServer.Stop();
+                    httpServer.Stop(true);
                 }
             }
         }
-
     }
 }
