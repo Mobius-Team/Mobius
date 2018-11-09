@@ -301,16 +301,22 @@ namespace OpenSim.Services.LLLoginService
                 //
                 // Check client
                 //
+                string clientNameToCheck;
+                if(clientVersion.Contains(" "))
+                    clientNameToCheck = clientVersion;
+                else
+                    clientNameToCheck = channel + " " + clientVersion;
+
                 if (!String.IsNullOrWhiteSpace(m_AllowedClients))
                 {
                     Regex arx = new Regex(m_AllowedClients);
-                    Match am = arx.Match(clientVersion);
+                    Match am = arx.Match(clientNameToCheck);
 
                     if (!am.Success)
                     {
                         m_log.InfoFormat(
                             "[LLOGIN SERVICE]: Login failed for {0} {1}, reason: client {2} is not allowed",
-                            firstName, lastName, clientVersion);
+                            firstName, lastName, clientNameToCheck);
                         return LLFailedLoginResponse.LoginBlockedProblem;
                     }
                 }
@@ -318,13 +324,13 @@ namespace OpenSim.Services.LLLoginService
                 if (!String.IsNullOrWhiteSpace(m_DeniedClients))
                 {
                     Regex drx = new Regex(m_DeniedClients);
-                    Match dm = drx.Match(clientVersion);
+                    Match dm = drx.Match(clientNameToCheck);
 
                     if (dm.Success)
                     {
                         m_log.InfoFormat(
                             "[LLOGIN SERVICE]: Login failed for {0} {1}, reason: client {2} is denied",
-                            firstName, lastName, clientVersion);
+                            firstName, lastName, clientNameToCheck);
                         return LLFailedLoginResponse.LoginBlockedProblem;
                     }
                 }
@@ -338,7 +344,6 @@ namespace OpenSim.Services.LLLoginService
                         return LLFailedLoginResponse.LoginBlockedProblem;
                     }
                 }
-
 
                 //
                 // Get the account and check that it exists
@@ -796,7 +801,6 @@ namespace OpenSim.Services.LLLoginService
                 //response.LookAt = "[r0,r1,r0]";
                 //// can be: last, home, safe, url
                 //response.StartLocation = "url";
-
             }
 
         }
