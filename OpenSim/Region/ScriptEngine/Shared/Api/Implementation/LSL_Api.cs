@@ -4528,7 +4528,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llCreateLink(string target, int parent)
+        public void llCreateLink(LSL_String target, LSL_Integer parent)
         {
             m_host.AddScriptLPS(1);
 
@@ -6999,7 +6999,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llEjectFromLand(string pest)
+        public void llEjectFromLand(LSL_Key pest)
         {
             m_host.AddScriptLPS(1);
             UUID agentID = new UUID();
@@ -8031,7 +8031,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         }
 
 
-        public void llAddToLandPassList(string avatar, double hours)
+        public void llAddToLandPassList(LSL_Key avatar, double hours)
         {
             m_host.AddScriptLPS(1);
             UUID key;
@@ -8163,7 +8163,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llDialog(string avatar, string message, LSL_List buttons, int chat_channel)
+        public void llDialog(LSL_Key avatar, LSL_String message, LSL_List buttons, int chat_channel)
         {
             IDialogModule dm = World.RequestModuleInterface<IDialogModule>();
 
@@ -13610,7 +13610,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             ScriptSleep(m_sleepMsOn["MapDestination"]);
         }
 
-        public void llAddToLandBanList(string avatar, double hours)
+        public void llAddToLandBanList(LSL_Key avatar, double hours)
         {
             m_host.AddScriptLPS(1);
             UUID key;
