@@ -4968,7 +4968,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
             sop.AdjustSoundGain(volume);
-            ScriptSleep(100);
         }
 
         public void osSetSoundRadius(LSL_Integer linknum, LSL_Float radius)
@@ -4977,7 +4976,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             SceneObjectPart sop = GetSingleLinkPart(linknum);
             if(sop == null)
                 return;
-            m_host.SoundRadius = radius;
+            sop.SoundRadius = radius;
         }
 
         public void osPlaySound(LSL_Integer linknum, LSL_String sound, LSL_Float volume)
@@ -4991,8 +4990,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             // send the sound, once, to all clients in range
@@ -5010,8 +5009,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             m_SoundModule.LoopSound(sop.UUID, soundID, volume, false,false);
@@ -5021,12 +5020,15 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
 
+            if (m_SoundModule == null)
+                return;
+
             SceneObjectPart sop = GetSingleLinkPart(linknum);
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             m_SoundModule.LoopSound(sop.UUID, soundID, volume, true, false);
@@ -5043,8 +5045,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             m_SoundModule.LoopSound(sop.UUID, soundID, volume, false, true);
@@ -5061,8 +5063,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             // send the sound, once, to all clients in range
@@ -5080,8 +5082,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             // send the sound, once, to all clients in rangeTrigger or play an attached sound in this part's inventory.
@@ -5100,8 +5102,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             m_SoundModule.TriggerSoundLimited(sop.UUID, soundID, volume,
@@ -5133,8 +5135,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(sop == null)
                 return;
 
-            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, sound, AssetType.Sound);
-            if(soundID == UUID.Zero)
+            UUID soundID = ScriptUtils.GetAssetIdFromKeyOrItemName(sop, m_host, sound, AssetType.Sound);
+            if (soundID == UUID.Zero)
                 return;
 
             m_SoundModule.PreloadSound(sop.UUID, soundID);
