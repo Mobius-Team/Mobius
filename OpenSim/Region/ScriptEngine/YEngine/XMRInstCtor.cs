@@ -173,7 +173,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 if(i < 0)
                     i = len - 1;
             }
-            if((i >= len) || !m_Engine.m_UseSourceHashCode)
+            if((i >= len))
             {
                 // Source consists of nothing but // comments and whitespace,
                 // or we are being forced to use the asset-id as the key, to
@@ -190,7 +190,8 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 // copy scripts or not.
                 byte[] scbytes = System.Text.Encoding.UTF8.GetBytes(m_SourceCode);
                 StringBuilder sb = new StringBuilder((256 + 5) / 6);
-                ByteArrayToSixbitStr(sb, System.Security.Cryptography.SHA256.Create().ComputeHash(scbytes));
+                using (System.Security.Cryptography.SHA256 sha = System.Security.Cryptography.SHA256.Create())
+                    ByteArrayToSixbitStr(sb, sha.ComputeHash(scbytes));
                 m_ScriptObjCodeKey = sb.ToString();
 
                 // But source code can be just a sixbit string itself
