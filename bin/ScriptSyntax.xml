@@ -1,4 +1,4 @@
-21c53711-f48d-a201-a7f0-8cb35768e7e2
+a56cd39c-7cce-5185-6e57-d5284505356d
 <llsd><map><key>llsd-lsl-syntax-version</key><integer>2</integer>
 <key>controls</key>
 <map>
@@ -1510,6 +1510,10 @@
   <key>type</key><string>integer</string>
   <key>value</key><string>3</string>
   <key>tooltip</key><string>not supported</string>
+ </map>
+ <key>OS_APIVERSION</key><map>
+  <key>type</key><string>integer</string>
+  <key>value</key><string>1</string>
  </map>
  <key>OS_ATTACH_MSG_ALL</key><map>
   <key>type</key><string>integer</string>
@@ -3230,20 +3234,6 @@
 </map>
 <key>functions</key>
 <map>
- <key>cmDetectedCountry</key>
- <map>
-  <key>return</key><string>key</string>
-  <key>arguments</key><array>
-   <map><key>detectedNumber</key><map><key>type</key><string>integer</string></map></map>
-  </array>
- </map>
- <key>cmGetAgentCountry</key>
- <map>
-  <key>return</key><string>string</string>
-  <key>arguments</key><array>
-   <map><key>agentId</key><map><key>type</key><string>key</string></map></map>
-  </array>
- </map>
  <key>llAbs</key>
  <map>
   <key>return</key><string>integer</string>
@@ -4059,7 +4049,7 @@
  <map>
   <key>return</key><string>list</string>
   <key>arguments</key><array>
-   <map><key>id</key><map><key>type</key><string>string</string></map></map>
+   <map><key>objectId</key><map><key>type</key><string>key</string></map></map>
    <map><key>args</key><map><key>type</key><string>list</string></map></map>
   </array>
  </map>
@@ -4067,7 +4057,7 @@
  <map>
   <key>return</key><string>float</string>
   <key>arguments</key><array>
-   <map><key>id</key><map><key>type</key><string>string</string></map></map>
+   <map><key>objectId</key><map><key>type</key><string>key</string></map></map>
   </array>
  </map>
  <key>llGetObjectName</key>
@@ -4086,7 +4076,7 @@
  <map>
   <key>return</key><string>integer</string>
   <key>arguments</key><array>
-   <map><key>object_id</key><map><key>type</key><string>string</string></map></map>
+   <map><key>objectId</key><map><key>type</key><string>key</string></map></map>
   </array>
  </map>
  <key>llGetOmega</key>
@@ -6054,7 +6044,7 @@
   <key>return</key><string>integer</string>
   <key>arguments</key><array>
    <map><key>rules</key><map><key>type</key><string>list</string></map></map>
-   <map><key>target</key><map><key>type</key><string>key</string></map></map>
+   <map><key>targetId</key><map><key>type</key><string>key</string></map></map>
   </array>
  </map>
  <key>osAdjustSoundVolume</key>
@@ -6072,6 +6062,57 @@
    <map><key>b</key><map><key>type</key><string>vector</string></map></map>
   </array>
  </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>va</key><map><key>type</key><string>vector</string></map></map>
+   <map><key>vb</key><map><key>type</key><string>vector</string></map></map>
+   <map><key>margin</key><map><key>type</key><string>float</string></map></map>
+  </array>
+ </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>va</key><map><key>type</key><string>vector</string></map></map>
+   <map><key>vb</key><map><key>type</key><string>vector</string></map></map>
+  </array>
+ </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>a</key><map><key>type</key><string>float</string></map></map>
+   <map><key>b</key><map><key>type</key><string>float</string></map></map>
+   <map><key>margin</key><map><key>type</key><string>float</string></map></map>
+  </array>
+ </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>a</key><map><key>type</key><string>float</string></map></map>
+   <map><key>b</key><map><key>type</key><string>float</string></map></map>
+  </array>
+ </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>ra</key><map><key>type</key><string>rotation</string></map></map>
+   <map><key>rb</key><map><key>type</key><string>rotation</string></map></map>
+   <map><key>margin</key><map><key>type</key><string>float</string></map></map>
+  </array>
+ </map>
+ <key>osApproxEquals</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>ra</key><map><key>type</key><string>rotation</string></map></map>
+   <map><key>rb</key><map><key>type</key><string>rotation</string></map></map>
+  </array>
+ </map>
  <key>osAvatarName2Key</key>
  <map>
   <key>return</key><string>string</string>
@@ -6083,14 +6124,14 @@
  <key>osAvatarPlayAnimation</key>
  <map>
   <key>arguments</key><array>
-   <map><key>avatar</key><map><key>type</key><string>string</string></map></map>
+   <map><key>avatarId</key><map><key>type</key><string>key</string></map></map>
    <map><key>animation</key><map><key>type</key><string>string</string></map></map>
   </array>
  </map>
  <key>osAvatarStopAnimation</key>
  <map>
   <key>arguments</key><array>
-   <map><key>avatar</key><map><key>type</key><string>string</string></map></map>
+   <map><key>avatarId</key><map><key>type</key><string>key</string></map></map>
    <map><key>animation</key><map><key>type</key><string>string</string></map></map>
   </array>
  </map>
@@ -6129,6 +6170,13 @@
   <key>return</key><string>integer</string>
   <key>arguments</key><array>
    <map><key>Command</key><map><key>type</key><string>string</string></map></map>
+  </array>
+ </map>
+ <key>osDetectedCountry</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>number</key><map><key>type</key><string>integer</string></map></map>
   </array>
  </map>
  <key>osDie</key>
@@ -6352,6 +6400,13 @@
   <key>arguments</key><array>
    <map><key>str</key><map><key>type</key><string>string</string></map></map>
    <map><key>strings</key><map><key>type</key><string>list</string></map></map>
+  </array>
+ </map>
+ <key>osGetAgentCountry</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>agentId</key><map><key>type</key><string>key</string></map></map>
   </array>
  </map>
  <key>osGetAgentIP</key>
@@ -6632,14 +6687,6 @@
    <map><key>alert</key><map><key>type</key><string>string</string></map></map>
   </array>
  </map>
- <key>osList2Double</key>
- <map>
-  <key>return</key><string>float</string>
-  <key>arguments</key><array>
-   <map><key>src</key><map><key>type</key><string>list</string></map></map>
-   <map><key>index</key><map><key>type</key><string>integer</string></map></map>
-  </array>
- </map>
  <key>osLoadedCreationDate</key>
  <map>
   <key>return</key><string>string</string>
@@ -6803,13 +6850,13 @@
  <key>osRegionNotice</key>
  <map>
   <key>arguments</key><array>
+   <map><key>agentID</key><map><key>type</key><string>key</string></map></map>
    <map><key>msg</key><map><key>type</key><string>string</string></map></map>
   </array>
  </map>
  <key>osRegionNotice</key>
  <map>
   <key>arguments</key><array>
-   <map><key>agentID</key><map><key>type</key><string>key</string></map></map>
    <map><key>msg</key><map><key>type</key><string>string</string></map></map>
   </array>
  </map>
@@ -7146,6 +7193,99 @@
    <map><key>linknum</key><map><key>type</key><string>integer</string></map></map>
   </array>
  </map>
+ <key>osStringEndsWith</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringIndexOf</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>start</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>count</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringIndexOf</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringLastIndexOf</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>start</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>count</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringLastIndexOf</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringRemove</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>start</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>count</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringReplace</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>oldvalue</key><map><key>type</key><string>string</string></map></map>
+   <map><key>newvalue</key><map><key>type</key><string>string</string></map></map>
+  </array>
+ </map>
+ <key>osStringStartsWith</key>
+ <map>
+  <key>return</key><string>integer</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>value</key><map><key>type</key><string>string</string></map></map>
+   <map><key>ignorecase</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringSubString</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>start</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>length</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
+ <key>osStringSubString</key>
+ <map>
+  <key>return</key><string>string</string>
+  <key>arguments</key><array>
+   <map><key>src</key><map><key>type</key><string>string</string></map></map>
+   <map><key>start</key><map><key>type</key><string>integer</string></map></map>
+  </array>
+ </map>
  <key>osSunGetParam</key>
  <map>
   <key>return</key><string>float</string>
@@ -7172,8 +7312,7 @@
  <map>
   <key>arguments</key><array>
    <map><key>agent</key><map><key>type</key><string>string</string></map></map>
-   <map><key>regionX</key><map><key>type</key><string>integer</string></map></map>
-   <map><key>regionY</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>regionName</key><map><key>type</key><string>string</string></map></map>
    <map><key>position</key><map><key>type</key><string>vector</string></map></map>
    <map><key>lookat</key><map><key>type</key><string>vector</string></map></map>
   </array>
@@ -7182,7 +7321,8 @@
  <map>
   <key>arguments</key><array>
    <map><key>agent</key><map><key>type</key><string>string</string></map></map>
-   <map><key>regionName</key><map><key>type</key><string>string</string></map></map>
+   <map><key>regionX</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>regionY</key><map><key>type</key><string>integer</string></map></map>
    <map><key>position</key><map><key>type</key><string>vector</string></map></map>
    <map><key>lookat</key><map><key>type</key><string>vector</string></map></map>
   </array>
@@ -7208,6 +7348,8 @@
  <key>osTeleportOwner</key>
  <map>
   <key>arguments</key><array>
+   <map><key>regionX</key><map><key>type</key><string>integer</string></map></map>
+   <map><key>regionY</key><map><key>type</key><string>integer</string></map></map>
    <map><key>position</key><map><key>type</key><string>vector</string></map></map>
    <map><key>lookat</key><map><key>type</key><string>vector</string></map></map>
   </array>
@@ -7215,8 +7357,6 @@
  <key>osTeleportOwner</key>
  <map>
   <key>arguments</key><array>
-   <map><key>regionX</key><map><key>type</key><string>integer</string></map></map>
-   <map><key>regionY</key><map><key>type</key><string>integer</string></map></map>
    <map><key>position</key><map><key>type</key><string>vector</string></map></map>
    <map><key>lookat</key><map><key>type</key><string>vector</string></map></map>
   </array>
