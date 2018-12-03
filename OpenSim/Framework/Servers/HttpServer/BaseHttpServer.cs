@@ -604,7 +604,7 @@ namespace OpenSim.Framework.Servers.HttpServer
                 return;
             }
 
-            OSHttpResponse resp = new OSHttpResponse(new HttpResponse(context, request),context);
+            OSHttpResponse resp = new OSHttpResponse(new HttpResponse(context, request));
 
             HandleRequest(req, resp);
 
@@ -675,8 +675,6 @@ namespace OpenSim.Framework.Servers.HttpServer
 //                        return;
 //                    }
 //                }
-
-                response.SendChunked = false;
 
                 string path = request.RawUrl;
                 string handlerKey = GetHandlerKey(request.HttpMethod, path);
@@ -843,7 +841,10 @@ namespace OpenSim.Framework.Servers.HttpServer
                     if (!response.SendChunked && response.ContentLength64 <= 0)
                         response.ContentLength64 = buffer.LongLength;
 
-                    response.OutputStream.Write(buffer, 0, buffer.Length);
+                    //response.OutputStream.Write(buffer, 0, buffer.Length);
+                    response.RawBufferStart = 0;
+                    response.RawBufferLen = buffer.Length;
+                    response.RawBuffer = buffer;
                 }
 
                 // Do not include the time taken to actually send the response to the caller in the measurement
@@ -851,7 +852,9 @@ namespace OpenSim.Framework.Servers.HttpServer
                 // server
                 requestEndTick = Environment.TickCount;
 
+                buffer = null;
                 response.Send();
+                response.RawBuffer = null;
             }
             catch (SocketException e)
             {
@@ -1303,7 +1306,6 @@ namespace OpenSim.Framework.Servers.HttpServer
 
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
-            response.SendChunked = false;
             response.ContentLength64 = buffer.Length;
             response.ContentEncoding = Encoding.UTF8;
 
@@ -1475,7 +1477,6 @@ namespace OpenSim.Framework.Servers.HttpServer
                 buffer = BuildLLSDResponse(request, response, llsdResponse);
             }
 
-            response.SendChunked = false;
             response.ContentLength64 = buffer.Length;
             response.ContentEncoding = Encoding.UTF8;
             response.KeepAlive = true;
@@ -1983,7 +1984,6 @@ namespace OpenSim.Framework.Servers.HttpServer
                     buffer = Convert.FromBase64String(responseString);
                 }
 
-                response.SendChunked = false;
                 response.ContentLength64 = buffer.Length;
                 response.ContentEncoding = Encoding.UTF8;
             }
@@ -2000,7 +2000,6 @@ namespace OpenSim.Framework.Servers.HttpServer
             string responseString = GetHTTP404(host);
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
-            response.SendChunked = false;
             response.ContentLength64 = buffer.Length;
             response.ContentEncoding = Encoding.UTF8;
 
@@ -2016,10 +2015,8 @@ namespace OpenSim.Framework.Servers.HttpServer
             string responseString = GetHTTP500();
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
-            response.SendChunked = false;
             response.ContentLength64 = buffer.Length;
             response.ContentEncoding = Encoding.UTF8;
-
 
             return buffer;
         }
