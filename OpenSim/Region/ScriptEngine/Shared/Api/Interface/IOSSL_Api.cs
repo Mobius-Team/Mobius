@@ -158,6 +158,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         void osTeleportOwner(int regionX, int regionY, LSL_Types.Vector3 position, LSL_Types.Vector3 lookat);
         void osTeleportOwner(LSL_Types.Vector3 position, LSL_Types.Vector3 lookat);
 
+        void osMoveToTarget(vector target, double tau, int options);
+
         // Animation commands
         void osAvatarPlayAnimation(LSL_Key avatarId, string animation);
         void osAvatarStopAnimation(LSL_Key avatarId, string animation);

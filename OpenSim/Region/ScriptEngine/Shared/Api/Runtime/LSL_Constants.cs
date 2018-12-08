@@ -817,6 +817,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         public const int STATS_ACTIVE_SCRIPTS = 19;
         public const int STATS_SCRIPT_LPS = 20;
 
+        // Constants for osMoveToTarget
+        public const int OS_FLY = 0;
+        public const int OS_NO_FLY = 1;
+        public const int OS_LAND_AT_TARGET = 2;
+
         // Constants for osNpc* functions
         public const int OS_NPC_FLY = 0;
         public const int OS_NPC_NO_FLY = 1;

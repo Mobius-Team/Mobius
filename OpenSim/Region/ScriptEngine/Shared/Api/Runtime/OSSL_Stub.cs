@@ -292,6 +292,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_OSSL_Functions.osGetAgentIP(agent);
         }
 
+        public void osNpcMoveToTarget(key npc, vector target, int options)
+        {
+            m_OSSL_Functions.osNpcMoveToTarget(npc, target, options);
+        }
+
         // Animation Functions
 
         public void osAvatarPlayAnimation(LSL_Key avatar, string animation)
@@ -651,9 +656,9 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             m_OSSL_Functions.osNpcMoveTo(npc, position);
         }
 
-        public void osNpcMoveToTarget(key npc, vector target, int options)
+        public void osMoveToTarget(vector target, double tau, int options)
         {
-            m_OSSL_Functions.osNpcMoveToTarget(npc, target, options);
+            m_OSSL_Functions.osMoveToTarget(target, tau, options);
         }
 
         public rotation osNpcGetRot(key npc)

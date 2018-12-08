@@ -2783,14 +2783,14 @@ namespace OpenSim.Region.Framework.Scenes
         }
 
          // This is used by both Double-Click Auto-Pilot and llMoveToTarget() in an attached object
-        public void MoveToTarget(Vector3 target, float tau)
+        public void MoveToTarget(Vector3 target, bool noFly, bool LandAtTarget, float tau)
         {
             if (IsAttachment)
             {
                 ScenePresence avatar = m_scene.GetScenePresence(AttachedAvatar);
 
                 if (avatar != null && !avatar.IsSatOnObject)
-                    avatar.MoveToTarget(target, false, false, tau);
+                    avatar.MoveToTarget(target, noFly, LandAtTarget, tau);
             }
             else
             {

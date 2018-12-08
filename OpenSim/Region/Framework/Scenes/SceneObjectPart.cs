@@ -2716,11 +2716,11 @@ namespace OpenSim.Region.Framework.Scenes
             return newRot;
         }
 
-        public void MoveToTarget(Vector3 target, float tau)
+        public void MoveToTarget(Vector3 target, bool noFly, bool LandAtTarget, float tau)
         {
             if (tau > 0)
             {
-                ParentGroup.MoveToTarget(target, tau);
+                ParentGroup.MoveToTarget(target, noFly, LandAtTarget, tau);
             }
             else
             {

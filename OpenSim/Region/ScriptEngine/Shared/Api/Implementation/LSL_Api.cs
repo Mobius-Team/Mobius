@@ -3110,7 +3110,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public void llMoveToTarget(LSL_Vector target, double tau)
         {
             m_host.AddScriptLPS(1);
-            m_host.MoveToTarget(target, (float)tau);
+            m_host.MoveToTarget(target, false, false, (float)tau);
         }
 
         public void llStopMoveToTarget()
