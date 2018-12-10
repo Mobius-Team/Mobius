@@ -757,7 +757,7 @@ namespace OpenSim.Region.CoreModules.Framework.InventoryAccess
                 {
                     folder = m_Scene.InventoryService.GetFolder(userID, so.FromFolderID);
 
-                    if(folder.Type == (int)FolderType.Trash || folder.Type == (int)FolderType.LostAndFound)
+                    if(folder == null || folder.Type == (int)FolderType.Trash || folder.Type == (int)FolderType.LostAndFound)
                     {
                         // folder.Type = 6;
                         folder = m_Scene.InventoryService.GetFolderForType(userID, FolderType.Object);
