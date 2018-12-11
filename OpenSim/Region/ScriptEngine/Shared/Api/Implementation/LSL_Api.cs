@@ -1267,7 +1267,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 text = text.Substring(0, 1023);
 
             World.SimChat(Utils.StringToBytes(text),
-                          ChatTypeEnum.Whisper, channelID, m_host.ParentGroup.RootPart.AbsolutePosition, m_host.Name, m_host.UUID, false);
+                          ChatTypeEnum.Whisper, channelID, m_host.AbsolutePosition, m_host.Name, m_host.UUID, false);
 
             IWorldComm wComm = m_ScriptEngine.World.RequestModuleInterface<IWorldComm>();
             if (wComm != null)
@@ -1307,7 +1307,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     text = text.Substring(0, 1023);
 
                 World.SimChat(Utils.StringToBytes(text),
-                              ChatTypeEnum.Say, channelID, m_host.ParentGroup.RootPart.AbsolutePosition, m_host.Name, m_host.UUID, false);
+                              ChatTypeEnum.Say, channelID, m_host.AbsolutePosition, m_host.Name, m_host.UUID, false);
 
                 IWorldComm wComm = m_ScriptEngine.World.RequestModuleInterface<IWorldComm>();
                 if (wComm != null)
@@ -1330,7 +1330,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 text = text.Substring(0, 1023);
 
             World.SimChat(Utils.StringToBytes(text),
-                          ChatTypeEnum.Shout, channelID, m_host.ParentGroup.RootPart.AbsolutePosition, m_host.Name, m_host.UUID, true);
+                          ChatTypeEnum.Shout, channelID, m_host.AbsolutePosition, m_host.Name, m_host.UUID, true);
 
             IWorldComm wComm = m_ScriptEngine.World.RequestModuleInterface<IWorldComm>();
             if (wComm != null)

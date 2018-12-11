@@ -1,0 +1,5 @@
+Q:\fest\OSF\gbtest\oslCore2\bin\OpenSim.Region.ScriptEngine.Shared.Api.dll
+Q:\fest\OSF\gbtest\oslCore2\bin\OpenSim.Region.ScriptEngine.Shared.Api.pdb
+Q:\fest\OSF\gbtest\oslCore2\OpenSim\Region\ScriptEngine\Shared\Api\Implementation\obj\Debug\OpenSim.Region.ScriptEngine.Shared.Api.csprojResolveAssemblyReference.cache
+Q:\fest\OSF\gbtest\oslCore2\OpenSim\Region\ScriptEngine\Shared\Api\Implementation\obj\Debug\OpenSim.Region.ScriptEngine.Shared.Api.dll
+Q:\fest\OSF\gbtest\oslCore2\OpenSim\Region\ScriptEngine\Shared\Api\Implementation\obj\Debug\OpenSim.Region.ScriptEngine.Shared.Api.pdb
