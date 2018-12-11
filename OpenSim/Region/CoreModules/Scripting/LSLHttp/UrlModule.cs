@@ -220,12 +220,7 @@ namespace OpenSim.Region.CoreModules.Scripting.LSLHttp
 
         public UUID RequestURL(IScriptModule engine, SceneObjectPart host, UUID itemID, Hashtable options)
         {
-            UUID urlcode;
-            if (options != null && options["PersistentURL"] != null) {
-                urlcode = (UUID)options["PersistentURL"];
-            } else {
-                urlcode = UUID.Random();
-            }
+            UUID urlcode = UUID.Random();
 
             if(!m_enabled)
             {
