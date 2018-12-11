@@ -4543,7 +4543,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 object opt = options.Data[i];
                 if (opt.ToString() == "allowXss")
                     opts["allowXss"] = true;
-            }
+                    if(opt.ToString().StartsWith("PersistentURL=")) {
+                    String[] strlist = opt.ToString().Split('=');
+                    opts["PersistentURL"] = (UUID)strlist[1];
+                }
+	    }
 
             if (m_UrlModule != null)
                 return m_UrlModule.RequestSecureURL(m_ScriptEngine.ScriptModule, m_host, m_item.ItemID, opts).ToString();
