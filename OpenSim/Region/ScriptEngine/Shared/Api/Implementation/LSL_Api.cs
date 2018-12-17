@@ -15466,6 +15466,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             bool checkAgents = !((rejectTypes & ScriptBaseClass.RC_REJECT_AGENTS) == ScriptBaseClass.RC_REJECT_AGENTS);
             bool checkNonPhysical = !((rejectTypes & ScriptBaseClass.RC_REJECT_NONPHYSICAL) == ScriptBaseClass.RC_REJECT_NONPHYSICAL);
             bool checkPhysical = !((rejectTypes & ScriptBaseClass.RC_REJECT_PHYSICAL) == ScriptBaseClass.RC_REJECT_PHYSICAL);
+            bool rejectHost = ((rejectTypes & ScriptBaseClass.RC_REJECT_HOST) != 0);
+            bool rejectHostGroup = ((rejectTypes & ScriptBaseClass.RC_REJECT_HOSTGROUP) != 0);
 
             if (World.SupportsRayCastFiltered())
             {
@@ -15593,7 +15595,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     continue;
 
                 // physics ray can return colisions with host prim
-                if (m_host.LocalId == result.ConsumerID)
+                if (rejectHost && m_host.LocalId == result.ConsumerID)
                     continue;
 
                 UUID itemID = UUID.Zero;
@@ -15603,8 +15605,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 // It's a prim!
                 if (part != null)
                 {
-                    // dont detect members of same object ???
-                    if (part.ParentGroup == thisgrp)
+                    if (rejectHostGroup && part.ParentGroup == thisgrp)
                         continue;
 
                     if ((dataFlags & ScriptBaseClass.RC_GET_ROOT_KEY) == ScriptBaseClass.RC_GET_ROOT_KEY)
