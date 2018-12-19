@@ -2774,14 +2774,12 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 remaining = m_LSL_Api.GetPrimParams(part, rules, ref retVal);
             }
 
-            while (remaining.Length > 1)
+            while (remaining.Length > 2)
             {
                 linknumber = remaining.GetLSLIntegerItem(0);
-                parts = m_LSL_Api.GetLinkParts(linknumber);
-                if(parts.Count == 0)
-                    break;
-
                 rules = remaining.GetSublist(1, -1);
+                parts = m_LSL_Api.GetLinkParts(linknumber);
+
                 foreach (SceneObjectPart part in parts)
                     remaining = m_LSL_Api.GetPrimParams(part, rules, ref retVal);
             }
