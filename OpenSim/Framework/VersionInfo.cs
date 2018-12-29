@@ -32,14 +32,14 @@ namespace OpenSim
         public const string VersionNumber = "0.9.1.1";
         public const string AssemblyVersionNumber = "0.9.1.1";
 
-        public const Flavour VERSION_FLAVOUR = Flavour.osC2_master_c7299c_133433_122818;
+        public const Flavour VERSION_FLAVOUR = Flavour.osC2_master_15b84f_162957_122818;
 
 
         public enum Flavour
         {
             Unknown,
             osC2_Dev,
-	    osC2_master_c7299c_133433_122818,
+	    osC2_master_15b84f_162957_122818,
             osC2_RC1,
             osC2_RC2,
             osC2_RC3,
