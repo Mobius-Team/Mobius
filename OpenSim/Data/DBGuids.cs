@@ -42,9 +42,12 @@ namespace OpenSim.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static UUID FromDB(object id)
+
+		public static UUID FromDB(object id)
         {
-            if ((id == null) || (id == DBNull.Value))
+        try
+		{
+		if ((id == null) || (id == DBNull.Value))
                 return UUID.Zero;
 
             if (id.GetType() == typeof(Guid))
@@ -64,8 +67,18 @@ namespace OpenSim.Data
                 else if (((string)id).Length == 36)
                     return new UUID((string)id);
             }
-
-            throw new Exception("Failed to convert db value to UUID: " + id.ToString());
         }
+		catch (Exception)
+        {
+            Console.WriteLine("Exception: Invalid UUID - Bad UUID was: '{0}'",id.ToString());
+        }
+		{
+			return UUID.Zero;
+			
+		}
+		}
+		
+
     }
 }
+
