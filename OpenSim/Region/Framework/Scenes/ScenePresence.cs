@@ -2338,10 +2338,10 @@ namespace OpenSim.Region.Framework.Scenes
                             m_agentTransfer.EnableChildAgents(this);
                         }
                     }
-                    // let updates be sent,  with some delay
+
                     m_lastChildUpdatesTime = Util.EnvironmentTickCount() + 10000;
-                    m_lastChildAgentUpdateGodLevel = GodController.ViwerUIGodLevel;
                     m_lastChildAgentUpdateDrawDistance = DrawDistance;
+                    m_lastChildAgentUpdateGodLevel = GodController.ViwerUIGodLevel;
                     m_lastChildAgentUpdatePosition = AbsolutePosition;
                     m_childUpdatesBusy = false; // allow them
                 }
@@ -4321,10 +4321,7 @@ namespace OpenSim.Region.Framework.Scenes
                 return;
 
             //possible KnownRegionHandles always contains current region and this check is not needed
-            int minhandles = 0;
-            if(KnownRegionHandles.Contains(RegionHandle))
-                    minhandles++;
-
+            int minhandles = KnownRegionHandles.Contains(RegionHandle) ? 1 : 0;
             if(KnownRegionHandles.Count > minhandles)
             {
                 int tdiff = Util.EnvironmentTickCountSubtract(m_lastChildUpdatesTime);
