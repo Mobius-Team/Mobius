@@ -355,10 +355,10 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
 
                     // This is the message order recommended by RFC 2812
                     if (m_password != null)
-                        m_writer.WriteLine(String.Format("PASS {0}", m_password));
+                    m_writer.WriteLine(String.Format("PASS {0}", m_password));
                     m_writer.WriteLine(String.Format("NICK {0}", m_nick));
                     m_writer.Flush();
-                    m_writer.WriteLine(m_user);
+                    m_writer.WriteLine(String.Format("USER {0} 0 * :OpenSim Relay",m_user));
                     m_writer.Flush();
                 }
                 catch (Exception e)
@@ -636,7 +636,8 @@ namespace OpenSim.Region.OptionalModules.Avatar.Chat
                 case "002": // Server information
                 case "003": // Welcome ...
                     break;
-                case "004": // Server information
+                
+		case "004": // Server information
                     m_log.DebugFormat("[IRC-Connector-{0}] [{1}] parms = <{2}>", idn, cmd, parms);
                     commArgs = parms.Split(CS_SPACE);
                     c_server = commArgs[1];
