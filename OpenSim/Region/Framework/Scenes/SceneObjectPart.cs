@@ -2687,7 +2687,6 @@ namespace OpenSim.Region.Framework.Scenes
             return newRot;
         }
 
-
         /// <summary>
         /// Uses a PID to attempt to clamp the object on the Z axis at the given height over tau seconds.
         /// </summary>
