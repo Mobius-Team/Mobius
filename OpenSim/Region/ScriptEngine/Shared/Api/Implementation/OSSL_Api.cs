@@ -1982,18 +1982,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         /// <param name="tau"></param>
         /// <param name="options"></param>
 
-        public void osMoveToTarget(LSL_Vector target, double tau, int options)
-        {
-            CheckThreatLevel(ThreatLevel.Low, "osMoveToTarget");
-
-            m_host.AddScriptLPS(1);
-            m_host.MoveToTarget(
-                target,
-                (options & ScriptBaseClass.OS_NO_FLY) != 0,
-                (options & ScriptBaseClass.OS_LAND_AT_TARGET) != 0,
-                (float)tau);
-        }
-
 
         /// <summary>
         /// Similar to llDie but given an object UUID
