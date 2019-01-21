@@ -656,10 +656,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             m_OSSL_Functions.osNpcMoveTo(npc, position);
         }
 
-        public void osMoveToTarget(vector target, double tau, int options)
-        {
-            m_OSSL_Functions.osMoveToTarget(target, tau, options);
-        }
 
         public rotation osNpcGetRot(key npc)
         {
