@@ -477,6 +477,16 @@ namespace OpenSim
                                           "estate link region <estate ID> <region ID>",
                                           "Attaches the specified region to the specified estate.",
                                           EstateLinkRegionCommand);
+
+            m_console.Commands.AddCommand("Estates", false, "estate add manager",
+                                          "estate add manager <estate-id>[ <UUID> | <Firstname> <Lastname> ]",
+                                          "Adds the manager of the specified estate with the specified UUID or username",
+                                          AddEstateManagerCommand);
+
+            m_console.Commands.AddCommand("Estates", false, "estate remove manager",
+                                          "estate remove manager <estate-id>[ <UUID> | <Firstname> <Lastname> ]",
+                                          "Removes the estate manager of the specified estate with the specified UUID or username",
+                                          RemoveEstateManagerCommand);
         }
 
         protected override void ShutdownSpecific()
@@ -1490,6 +1500,143 @@ namespace OpenSim
                 MainConsole.Instance.Output (response);
         }
 
+        protected void AddEstateManagerCommand(string module, string[] args)
+        {
+            string response = null;
+
+            Scene scene = SceneManager.CurrentOrFirstScene;
+            IEstateModule estateModule = scene.RequestModuleInterface<IEstateModule>();
+
+            if (args.Length == 3)
+            {
+                response = "No estate specified.";
+            }
+            else
+            {
+                int estateId;
+                if (!int.TryParse(args[3], out estateId))
+                {
+                    response = String.Format("\"{0}\" is not a valid ID for an Estate", args[3]);
+                }
+                else
+                {
+                    if (args.Length == 4)
+                    {
+                        response = "No user specified.";
+                    }
+                    else
+                    {
+                        UserAccount account = null;
+
+                        UUID scopeID = UUID.Zero;
+
+                        string s1 = args[4];
+                        if (args.Length == 5)
+                        {
+                            UUID u;
+                            if (UUID.TryParse(s1, out u))
+                            {
+                                account = scene.UserAccountService.GetUserAccount(scopeID, u);
+                                if (account == null)
+                                    response = String.Format("Could not find user {0}", s1);
+                            }
+                            else
+                            {
+                                response = String.Format("Invalid UUID {0}", s1);
+                            }
+                        }
+                        else
+                        {
+                            string s2 = args[5];
+                            account = scene.UserAccountService.GetUserAccount(scopeID, s1, s2);
+                            if (account == null)
+                                response = String.Format("Could not find user {0} {1}", s1, s2);
+                        }
+
+                        if (account != null)
+                            response = estateModule.AddEstateManager(estateId, account);
+
+                        if (response == String.Empty)
+                        {
+                            response = String.Format("Estate Manager {0} {1} ({2}) has been added to the estate {3}",
+                                account.FirstName, account.LastName, account.PrincipalID, scene.RegionInfo.EstateSettings.EstateName);
+                        }
+                    }
+                }
+            }
+
+            if (response != null)
+                MainConsole.Instance.Output(response);
+        }
+
+        protected void RemoveEstateManagerCommand(string module, string[] args)
+        {
+            string response = null;
+
+            Scene scene = SceneManager.CurrentOrFirstScene;
+            IEstateModule estateModule = scene.RequestModuleInterface<IEstateModule>();
+
+            if (args.Length == 3)
+            {
+                response = "No estate specified.";
+            }
+            else
+            {
+                int estateId;
+                if (!int.TryParse(args[3], out estateId))
+                {
+                    response = String.Format("\"{0}\" is not a valid ID for an Estate", args[3]);
+                }
+                else
+                {
+                    if (args.Length == 4)
+                    {
+                        response = "No user specified.";
+                    }
+                    else
+                    {
+                        UserAccount account = null;
+
+                        UUID scopeID = UUID.Zero;
+
+                        string s1 = args[4];
+                        if (args.Length == 5)
+                        {
+                            UUID u;
+                            if (UUID.TryParse(s1, out u))
+                            {
+                                account = scene.UserAccountService.GetUserAccount(scopeID, u);
+                                if (account == null)
+                                    response = String.Format("Could not find user {0}", s1);
+                            }
+                            else
+                            {
+                                response = String.Format("Invalid UUID {0}", s1);
+                            }
+                        }
+                        else
+                        {
+                            string s2 = args[5];
+                            account = scene.UserAccountService.GetUserAccount(scopeID, s1, s2);
+                            if (account == null)
+                                response = String.Format("Could not find user {0} {1}", s1, s2);
+                        }
+
+                        if (account != null)
+                            response = estateModule.RemoveEstateManager(estateId, account);
+
+                        if (response == String.Empty)
+                        {
+                            response = String.Format("User {0} {1} ({2}) has been removed from the list of estate managers of the estate {3}",
+                                account.FirstName, account.LastName, account.PrincipalID, scene.RegionInfo.EstateSettings.EstateName);
+                        }
+                    }
+                }
+            }
+
+            if (response != null)
+                MainConsole.Instance.Output(response);
+        }
         #endregion
 
         private static string CombineParams(string[] commandParams, int pos)

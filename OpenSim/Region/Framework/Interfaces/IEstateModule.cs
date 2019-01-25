@@ -45,6 +45,8 @@ namespace OpenSim.Region.Framework.Interfaces
         uint GetRegionFlags();
         bool IsManager(UUID avatarID);
 
+        string AddEstateManager(int estateID, UserAccount account);
+        string RemoveEstateManager(int estateID, UserAccount account);
         string SetEstateOwner(int estateID, UserAccount account);
         string SetEstateName(int estateID, string newName);
         string SetRegionEstate(RegionInfo regionInfo, int estateID);
