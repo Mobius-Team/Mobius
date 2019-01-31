@@ -945,7 +945,7 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
 #endif
                 try
                 {
-                    primMesh.Extrude(PathType.Linear); ;
+                    primMesh.ExtrudeLinear();
                 }
                 catch (Exception ex)
                 {
@@ -978,7 +978,7 @@ namespace OpenSim.Region.PhysicsModule.ubODEMeshing
 #endif
                 try
                 {
-                    primMesh.Extrude(PathType.Circular);
+                    primMesh.ExtrudeCircular();
                 }
                 catch (Exception ex)
                 {
