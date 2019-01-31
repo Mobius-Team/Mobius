@@ -25,55 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Reflection;
-using log4net;
-using OpenSim.Region.Framework.Scenes;
-using OpenSim.Region.OptionalModules.Scripting.Minimodule.Interfaces;
+using System.Drawing;
+using OpenMetaverse;
 
 namespace OpenSim.Region.OptionalModules.Scripting.Minimodule
 {
-    class Host : System.MarshalByRefObject, IHost
+    public interface IGraphics
     {
-        private readonly IObject m_obj;
-        private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IGraphics m_graphics;
-        private readonly IExtension m_extend;
-        private readonly IMicrothreader m_threader;
-        //private Scene m_scene;
-
-        public Host(IObject m_obj, Scene m_scene, IExtension m_extend, IMicrothreader m_threader)
-        {
-            this.m_obj = m_obj;
-            this.m_threader = m_threader;
-            this.m_extend = m_extend;
-            //this.m_scene = m_scene;
-
-            m_graphics = new Graphics(m_scene);
-        }
-
-        public IObject Object
-        {
-            get { return m_obj; }
-        }
-
-        public ILog Console
-        {
-            get { return m_log; }
-        }
-
-        public IGraphics Graphics
-        {
-            get { return m_graphics; }
-        }
-
-        public IExtension Extensions
-        {
-            get { return m_extend; }
-        }
-
-        public IMicrothreader Microthreads
-        {
-            get { return m_threader; }
-        }
+        UUID SaveBitmap(Bitmap data);
+        UUID SaveBitmap(Bitmap data, bool lossless, bool temporary);
+        Bitmap LoadBitmap(UUID assetID);
     }
 }
