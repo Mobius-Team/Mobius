@@ -3701,7 +3701,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             CheckThreatLevel(ThreatLevel.Severe, "osKickAvatar");
 
-            World.ForEachRootScenePresence(delegate(ScenePresence sp)
+            World.ForEachRootScenePresence(delegate (ScenePresence sp)
             {
                 if (sp.Firstname == FirstName && sp.Lastname == SurName)
                 {
@@ -3715,18 +3715,43 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             });
         }
 
-        public LSL_Float osGetHealth(string avatar)
+        public void osKickAvatar(LSL_Key agentKey, string alert)
+        {
+            CheckThreatLevel(ThreatLevel.Severe, "osKickAvatar");
+
+            UUID id;
+            if (!UUID.TryParse(agentKey, out id) || id == UUID.Zero)
+                return;
+
+            ScenePresence sp = World.GetScenePresence(id);
+            if(sp == null)
+                return;
+
+            // kick client...
+            if (alert != null)
+                sp.ControllingClient.Kick(alert);
+
+            // ...and close on our side
+            sp.Scene.CloseAgent(id, false);
+        }
+
+        public LSL_Float osGetHealth(LSL_Key agentKey)
         {
             CheckThreatLevel(ThreatLevel.None, "osGetHealth");
 
             LSL_Float health = new LSL_Float(-1);
-            ScenePresence presence = World.GetScenePresence(new UUID(avatar));
+
+            UUID id;
+            if (!UUID.TryParse(agentKey, out id) || id == UUID.Zero)
+                return health;
+
+            ScenePresence presence = World.GetScenePresence(id);
             if (presence != null)
                 health = presence.Health;
             return health;
         }
 
-        public void osCauseDamage(string avatar, double damage)
+        public void osCauseDamage(LSL_Key avatar, LSL_Float damage)
         {
             CheckThreatLevel(ThreatLevel.High, "osCauseDamage");
 
@@ -3755,7 +3780,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void osCauseHealing(string avatar, double healing)
+        public void osCauseHealing(LSL_Key avatar, LSL_Float healing)
         {
             CheckThreatLevel(ThreatLevel.High, "osCauseHealing");
 
@@ -3776,7 +3801,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             presence.setHealthWithUpdate(health);
         }
 
-        public void osSetHealth(string avatar, double health)
+        public void osSetHealth(LSL_Key avatar, LSL_Float health)
         {
             CheckThreatLevel(ThreatLevel.High, "osSetHealth");
 
@@ -3794,7 +3819,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void osSetHealRate(string avatar, double healrate)
+        public void osSetHealRate(LSL_Key avatar, LSL_Float healrate)
         {
             CheckThreatLevel(ThreatLevel.High, "osSetHealRate");
 
@@ -3809,7 +3834,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             presence.HealRate = (float)healrate;
         }
 
-        public LSL_Float osGetHealRate(string avatar)
+        public LSL_Float osGetHealRate(LSL_Key avatar)
         {
             CheckThreatLevel(ThreatLevel.None, "osGetHealRate");
 
