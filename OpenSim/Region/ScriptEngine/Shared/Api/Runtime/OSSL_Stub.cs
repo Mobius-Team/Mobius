@@ -1388,5 +1388,10 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         {
             return m_OSSL_Functions.osGetInventoryDescription(itemNameOrId);
         }
+
+        public LSL_Key osGetLastChangedEventKey()
+        {
+            return m_OSSL_Functions.osGetLastChangedEventKey();
+        }
     }
 }
