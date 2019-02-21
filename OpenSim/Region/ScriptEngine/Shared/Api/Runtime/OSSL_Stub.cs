@@ -1373,5 +1373,11 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         {
             return m_OSSL_Functions.osApproxEquals(ra, rb, margin);
         }
+
+        public LSL_Key osGetInventoryLastOwner(string itemNameOrId)
+        {
+            return m_OSSL_Functions.osGetInventoryLastOwner(itemNameOrId);
+        }
+
     }
 }
