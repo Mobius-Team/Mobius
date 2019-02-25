@@ -1446,6 +1446,11 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             agentData.firstname = m_firstName;
             agentData.lastname = m_lastName;
 
+            IDisplayNamesModule displayNames = m_scene.RequestModuleInterface<IDisplayNamesModule>();
+
+            if (displayNames != null)
+                agentData.displayname = displayNames.GetDisplayName(AgentId.ToString());
+
             ICapabilitiesModule capsModule = m_scene.RequestModuleInterface<ICapabilitiesModule>();
 
             if (capsModule == null) // can happen when shutting down.
@@ -12533,14 +12538,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
         /// provide your own method.</param>
         protected void OutPacket(Packet packet, ThrottleOutPacketType throttlePacketType, bool doAutomaticSplitting, UnackedPacketMethod method)
         {
-
-/* this is causing packet loss for some reason
-            if(!m_udpClient.IsConnected)
-            {
-                PacketPool.Instance.ReturnPacket(packet);
-                return;
-            }
-*/
             if (m_outPacketsToDrop != null)
             {
                 if (m_outPacketsToDrop.Contains(packet.Type.ToString()))
