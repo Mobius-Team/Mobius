@@ -14025,7 +14025,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if(httpScriptMod == null)
                 return "";
 
-            if(!httpScriptMod.CheckThrottle(m_host.LocalId))
+            if(!httpScriptMod.CheckThrottle(m_host.LocalId, m_host.OwnerID))
                 return UUID.Zero.ToString();
 
             List<string> param = new List<string>();
