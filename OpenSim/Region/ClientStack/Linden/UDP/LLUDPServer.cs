@@ -854,7 +854,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             // there are a decent number of packets in the 1000-1140 byte range. We allocate one of two sizes of data here
             // to accomodate for both common scenarios and provide ample room for ACK appending in both
             //int bufferSize = (dataLength > 180) ? LLUDPServer.MTU : 200;
-	    //
+
             //UDPPacketBuffer buffer = new UDPPacketBuffer(udpClient.RemoteEndPoint, bufferSize);
             UDPPacketBuffer buffer = GetNewUDPBuffer(udpClient.RemoteEndPoint);
 

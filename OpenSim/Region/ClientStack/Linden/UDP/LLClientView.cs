@@ -1446,11 +1446,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             agentData.firstname = m_firstName;
             agentData.lastname = m_lastName;
 
-            IDisplayNamesModule displayNames = m_scene.RequestModuleInterface<IDisplayNamesModule>();
-
-            if (displayNames != null)
-                agentData.displayname = displayNames.GetDisplayName(AgentId.ToString());
-
             ICapabilitiesModule capsModule = m_scene.RequestModuleInterface<ICapabilitiesModule>();
 
             if (capsModule == null) // can happen when shutting down.
@@ -6279,7 +6274,8 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
             m_thisAgentUpdateArgs.lastpacketSequence = seq;
 
-            OnPreAgentUpdate?.Invoke(this, m_thisAgentUpdateArgs);
+            if (OnPreAgentUpdate != null)
+                OnPreAgentUpdate(this, m_thisAgentUpdateArgs);
 
             bool movement;
             bool camera;
@@ -6308,7 +6304,8 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
                 m_thisAgentUpdateArgs.NeedsCameraCollision = !camera;
 
-                OnAgentUpdate?.Invoke(this, m_thisAgentUpdateArgs);
+                if (OnAgentUpdate != null)
+                    OnAgentUpdate(this, m_thisAgentUpdateArgs);
             }
 
             // Was there a significant camera(s) change?
@@ -6321,7 +6318,8 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
                 m_thisAgentUpdateArgs.NeedsCameraCollision = true;
 
-                OnAgentCameraUpdate?.Invoke(this, m_thisAgentUpdateArgs);
+                if (OnAgentCameraUpdate != null)
+                    OnAgentCameraUpdate(this, m_thisAgentUpdateArgs);
             }
 
             if(movement && camera)
@@ -9823,6 +9821,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
         #endregion Parcel related packets
 
         #region Estate Packets
+        private static double m_lastMapRegenTime = Double.MinValue;
 
         private bool HandleEstateOwnerMessage(IClientAPI sender, Packet Pack)
         {
@@ -10105,8 +10104,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                             }
 
                         }
-
-
                     }
                     return true;
 
@@ -10158,8 +10155,28 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                     if (((Scene)m_scene).Permissions.CanIssueEstateCommand(AgentId, false))
                     {
                         IWorldMapModule mapModule = Scene.RequestModuleInterface<IWorldMapModule>();
-                        if (mapModule != null)
-                            mapModule.GenerateMaptile();
+                        if (mapModule == null)
+                        {
+                            SendAlertMessage("Terrain map generator not avaiable");
+                            return true;
+                        }
+                        if (m_lastMapRegenTime == Double.MaxValue)
+                        {
+                            SendAlertMessage("Terrain map generation still in progress");
+                            return true;
+                        }
+
+                        double now = Util.GetTimeStamp();
+                        if (now - m_lastMapRegenTime < 120) // 2 minutes global cool down
+                        {
+                            SendAlertMessage("Please wait at least 2 minutes between map generation commands");
+                            return true;
+                        }
+
+                        m_lastMapRegenTime = Double.MaxValue;
+                        mapModule.GenerateMaptile();
+                        SendAlertMessage("Terrain map generated");
+                        m_lastMapRegenTime = now;
                     }
                     return true;
 
