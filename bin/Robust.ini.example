@@ -111,6 +111,9 @@
 [Network]
     port = ${Const|PrivatePort}
 
+    ;; the following option will allow you to bind this instace to a specific IP, for the HTTP portion of the instance.
+    ; address = <some ip assigned to this system>
+
     ; HTTPS for "Out of band" management applications such as the remote admin
     ; module. May specify https_main = True to make the main http server
     ; use https or "False" to make the main server HTTP

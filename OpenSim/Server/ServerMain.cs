@@ -101,6 +101,14 @@ namespace OpenSim.Server
             m_NoVerifyCertChain = serverConfig.GetBoolean("NoVerifyCertChain", m_NoVerifyCertChain);
             m_NoVerifyCertHostname = serverConfig.GetBoolean("NoVerifyCertHostname", m_NoVerifyCertHostname);
 
+            
+            IConfig networkConfig = m_Server.Config.Configs["Network"];
+
+            IPAddress m_BindIPAddress = null;
+
+            string str_ip = networkConfig.GetString("address", "0.0.0.0");
+            if (!IPAddress.TryParse(str_ip, out m_BindIPAddress))
+                m_BindIPAddress = IPAddress.Any;
 
             string connList = serverConfig.GetString("ServiceConnectors", String.Empty);
 
@@ -159,7 +167,7 @@ namespace OpenSim.Server
                 IHttpServer server;
 
                 if (port != 0)
-                    server = MainServer.GetHttpServer(port);
+                    server = MainServer.GetHttpServer(port, m_BindIPAddress);
                 else
                     server = MainServer.Instance;
 

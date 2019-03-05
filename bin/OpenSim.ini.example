@@ -540,6 +540,9 @@
     ;; the region ports use UDP.
     ; http_listener_port = 9000
 
+    ;; the following option will allow you to bind this instace to a specific IP, for the HTTP portion of the instance.
+    ; http_listener_address = <some ip assigned to this system>
+
 	; optional main server secure http (ssl)
 	; to use ssl you need a ssl certificate in PKCS12 format that validates the ExternalHostnames 
 	; or their domains
