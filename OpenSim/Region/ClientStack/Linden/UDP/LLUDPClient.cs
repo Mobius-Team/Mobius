@@ -210,12 +210,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             }
         }
 
-        /// <summary>
-        /// This is the percentage of the udp texture queue to add to the task queue since
-        /// textures are now generally handled through http.
-        /// </summary>
-        private double m_cannibalrate = 0.0;
-
         private ClientInfo m_info = new ClientInfo();
 
         /// <summary>
@@ -256,8 +250,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
             // Create an array of token buckets for this clients different throttle categories
             m_throttleCategories = new TokenBucket[THROTTLE_CATEGORY_COUNT];
-
-            m_cannibalrate = rates.CannibalizeTextureRate;
 
             m_burst = rates.Total * rates.BrustTime;
 
@@ -449,12 +441,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             asset = Math.Max(asset, LLUDPServer.MTU);
 */
 
-            // Since most textures are now delivered through http, make it possible
-            // to cannibalize some of the bw from the texture throttle to use for
-            // the task queue (e.g. object updates)
-            task = task + (int)(m_cannibalrate * texture);
-            texture = (int)((1 - m_cannibalrate) * texture);
-
             int total = resend + land + wind + cloud + task + texture + asset;
 
             float m_burst = total * m_burstTime;
@@ -575,22 +561,22 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             {
                 DoubleLocklessQueue<OutgoingPacket> queue = m_packetOutboxes[category];
 
-                if (m_deliverPackets == false)
+                if (forceQueue || m_deliverPackets == false)
                 {
                     queue.Enqueue(packet, highPriority);
                     return true;
                 }
 
-                TokenBucket bucket = m_throttleCategories[category];
-
-                // Don't send this packet if queue is not empty
+                // need to enqueue if queue is not empty
                 if (queue.Count > 0 || m_nextPackets[category] != null)
                 {
                     queue.Enqueue(packet, highPriority);
                     return true;
                 }
 
-                if (!forceQueue && bucket.CheckTokens(packet.Buffer.DataLength))
+                // check bandwidth
+                TokenBucket bucket = m_throttleCategories[category];
+                if (bucket.CheckTokens(packet.Buffer.DataLength))
                 {
                     // enough tokens so it can be sent imediatly by caller
                     bucket.RemoveTokens(packet.Buffer.DataLength);
@@ -608,7 +594,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                 // We don't have a token bucket for this category, so it will not be queued
                 return false;
             }
-
         }
 
         /// <summary>
