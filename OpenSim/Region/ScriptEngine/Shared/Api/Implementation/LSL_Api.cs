@@ -10690,7 +10690,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 return false;
 
             texface.MaterialID = id;
-            part.Shape.TextureEntry = tex.GetBytes();
+            part.Shape.TextureEntry = tex.GetBytes(9);
             m_materialsModule.RemoveMaterial(oldid);
             return true;
         }
@@ -10747,7 +10747,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 return false;
 
             texface.MaterialID = id;
-            part.Shape.TextureEntry = tex.GetBytes();
+            part.Shape.TextureEntry = tex.GetBytes(9);
             m_materialsModule.RemoveMaterial(oldid);
             return true;
         }
@@ -10814,7 +10814,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 return false;
 
             texface.MaterialID = id;
-            part.Shape.TextureEntry = tex.GetBytes();
+            part.Shape.TextureEntry = tex.GetBytes(9);
             m_materialsModule.RemoveMaterial(oldid);
             return true;
         }

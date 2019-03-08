@@ -5218,7 +5218,7 @@ namespace OpenSim.Region.Framework.Scenes
 
             if (changeFlags == 0)
                 return;
-            m_shape.TextureEntry = newTex.GetBytes();
+            m_shape.TextureEntry = newTex.GetBytes(9);
             TriggerScriptChangedEvent(changeFlags);
             ParentGroup.HasGroupChanged = true;
             ScheduleUpdate(PrimUpdateFlags.Textures);
@@ -5247,7 +5247,7 @@ namespace OpenSim.Region.Framework.Scenes
             if (changeFlags == 0)
                 return;
 
-            m_shape.TextureEntry = newTex.GetBytes();
+            m_shape.TextureEntry = newTex.GetBytes(9);
             TriggerScriptChangedEvent(changeFlags);
             ParentGroup.HasGroupChanged = true;
             ScheduleUpdate(PrimUpdateFlags.Textures);
