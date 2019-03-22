@@ -3250,7 +3250,7 @@ namespace OpenSim.Region.Framework.Scenes
                     standRotationZ.Z = 0f;
                 }
 
-                Vector3 adjustmentForSitPose = new Vector3(0.75f, 0, m_sitAvatarHeight + .3f) * standRotationZ;
+                Vector3 adjustmentForSitPose = new Vector3(0.75f, 0, m_sitAvatarHeight /2 + .3f) * standRotationZ;
 
                 Vector3 standPos = sitPartWorldPosition + adjustmentForSitPose;
                 m_pos = standPos;
