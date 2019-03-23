@@ -392,7 +392,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
 
         protected IAssetService m_assetService;
 
-        protected bool m_supportViewerCache = false;
+        protected bool m_supportViewerCache = true;
         #endregion Class Members
 
         #region Properties
