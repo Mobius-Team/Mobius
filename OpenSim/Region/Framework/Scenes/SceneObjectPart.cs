@@ -3971,15 +3971,15 @@ namespace OpenSim.Region.Framework.Scenes
         {
             if (Shape.SculptEntry && !ignoreSculpt)
                 return PrimType.SCULPT;
-
-            if ((Shape.ProfileCurve & 0x07) == (byte)ProfileShape.Square)
+            ProfileShape ps = (ProfileShape)(Shape.ProfileCurve & 0x07);
+            if (ps == ProfileShape.Square)
             {
                 if (Shape.PathCurve == (byte)Extrusion.Straight)
                     return PrimType.BOX;
                 else if (Shape.PathCurve == (byte)Extrusion.Curve1)
                     return PrimType.TUBE;
             }
-            else if ((Shape.ProfileCurve & 0x07) == (byte)ProfileShape.Circle)
+            else if (ps == ProfileShape.Circle)
             {
                 if (Shape.PathCurve == (byte)Extrusion.Straight || Shape.PathCurve == (byte)Extrusion.Flexible)
                     return PrimType.CYLINDER;
@@ -3987,12 +3987,12 @@ namespace OpenSim.Region.Framework.Scenes
                 else if (Shape.PathCurve == (byte)Extrusion.Curve1)
                     return PrimType.TORUS;
             }
-            else if ((Shape.ProfileCurve & 0x07) == (byte)ProfileShape.HalfCircle)
+            else if (ps == ProfileShape.HalfCircle)
             {
                 if (Shape.PathCurve == (byte)Extrusion.Curve1 || Shape.PathCurve == (byte)Extrusion.Curve2)
                     return PrimType.SPHERE;
             }
-            else if ((Shape.ProfileCurve & 0x07) == (byte)ProfileShape.EquilateralTriangle)
+            else if (ps == ProfileShape.EquilateralTriangle)
             {
                 if (Shape.PathCurve == (byte)Extrusion.Straight || Shape.PathCurve == (byte)Extrusion.Flexible)
                     return PrimType.PRISM;
@@ -5212,7 +5212,13 @@ namespace OpenSim.Region.Framework.Scenes
 
             if (changeFlags == 0)
                 return;
-            m_shape.TextureEntry = newTex.GetBytes(9);
+            // we do need better compacter do just the trivial case
+            if(nsides == 1 && newTex.FaceTextures[0] != null)
+            {
+                newTex.DefaultTexture = newTex.GetFace(0);
+                newTex.FaceTextures[0] = null;
+            }
+            m_shape.TextureEntry = newTex.GetBytes(nsides);
             TriggerScriptChangedEvent(changeFlags);
             ParentGroup.HasGroupChanged = true;
             ScheduleUpdate(PrimUpdateFlags.Textures);
