@@ -567,6 +567,8 @@
     ;; 
     ;; To turn off basic dos protection, set the DOSMaxRequestsInTimeFrame to 0.
 
+    ;; Allow banning via hashed MAC must be set in both [GatekeeperService] and [LoginService]
+    ;DeniedMacs = "YOURLONGMACTRSING ANOTHERMAC"
 
 [MapImageService]
     LocalServiceModule = "OpenSim.Services.MapImageService.dll:MapImageService"
@@ -661,7 +663,11 @@
     ;; If ForeignAgentsAllowed is false, make exceptions using DisallowExcept
     ;; Leave blank or commented for no exceptions.
     ; DisallowExcept = "http://myfriendgrid.com:8002, http://myboss.com:8002"
+    
+    ;; Allow banning via hashed MAC must be set in both [GatekeeperService] and [LoginService]
+    ;DeniedMacs = "YOURLONGMACTRSING ANOTHERMAC"
 
+    
 
 [UserAgentService]
     LocalServiceModule = "OpenSim.Services.HypergridService.dll:UserAgentService"
