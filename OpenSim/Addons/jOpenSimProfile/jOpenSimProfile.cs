@@ -77,6 +77,7 @@ namespace jOpenSim.Profile.jOpenProfile
         private List<Scene> m_Scenes = new List<Scene>();
         private string m_ProfileServer = "";
         private string m_ProfileModul = "";
+        private string m_NPCAccountType = "Non-Player Character";
         private Scene m_parentScene;
         private Scene m_scene;
         private bool m_Enabled = false;
@@ -103,6 +104,7 @@ namespace jOpenSim.Profile.jOpenProfile
                 }
                 m_ProfileServer = profileConfig.GetString("ProfileURL", "");
                 m_ProfileModul  = profileConfig.GetString("Module", "");
+                m_NPCAccountType = profileConfig.GetString("NPCAccountType", "Non-Player Character");
                 m_Debug = profileConfig.GetBoolean("Debug", false);
 
                 if (m_ProfileModul != "jOpenSimProfile")
@@ -862,7 +864,7 @@ namespace jOpenSim.Profile.jOpenProfile
                 remoteClient.SendAvatarProperties(avatarID,
                                   ((INPC)(p.ControllingClient)).profileAbout,
                                   ((INPC)(p.ControllingClient)).Born,
-                                  Utils.StringToBytes("Non Player Character"),
+                                  Utils.StringToBytes(m_NPCAccountType),
                                   "NPCs have no life.", 0x10, UUID.Zero,
                                   ((INPC)(p.ControllingClient)).profileImage,
                                   String.Empty, UUID.Zero);
