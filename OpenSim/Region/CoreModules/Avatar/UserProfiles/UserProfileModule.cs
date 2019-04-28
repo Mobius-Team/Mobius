@@ -76,7 +76,7 @@ namespace OpenSim.Region.CoreModules.Avatar.UserProfiles
 
         private JsonRpcRequestManager rpc = new JsonRpcRequestManager();
         private bool m_allowUserProfileWebURLs = true;
-
+        private string m_NPCAccountType = "Non-Player Character";
         public Scene Scene
         {
             get; private set;
@@ -167,7 +167,7 @@ namespace OpenSim.Region.CoreModules.Avatar.UserProfiles
             }
 
             m_allowUserProfileWebURLs = profileConfig.GetBoolean("AllowUserProfileWebURLs", m_allowUserProfileWebURLs);
-
+            m_NPCAccountType = profileConfig.GetString("NPCAccountType", "Non-Player Character");
             m_log.Debug("[PROFILES]: Full Profiles Enabled");
             ReplaceableInterface = null;
             Enabled = true;
@@ -1359,8 +1359,8 @@ namespace OpenSim.Region.CoreModules.Avatar.UserProfiles
             if (p != null && p.IsNPC)
             {
                 remoteClient.SendAvatarProperties(avatarID, ((INPC)(p.ControllingClient)).profileAbout, ((INPC)(p.ControllingClient)).Born,
-                      Utils.StringToBytes("Non Player Character (NPC)"), "NPCs have no life", 0x10,
-                      UUID.Zero, ((INPC)(p.ControllingClient)).profileImage, "", UUID.Zero);
+                Utils.StringToBytes(m_NPCAccountType), "NPCs have no life", 0x10,
+                UUID.Zero, ((INPC)(p.ControllingClient)).profileImage, "", UUID.Zero);
                 remoteClient.SendAvatarInterestsReply(avatarID, 0, "",
                           0, "Getting into trouble", "Droidspeak");
                 return;
