@@ -852,7 +852,26 @@ namespace jOpenSim.Profile.jOpenProfile
             {
                 m_log.DebugFormat("[{0}] RequestAvatarProperties for {1}",m_moduleName,avatarID.ToString());
             }
+            
+            
+            // NPC Profile via os functions.
+            ScenePresence p = FindPresence(avatarID);
 
+            if (null != p && p.PresenceType == PresenceType.Npc)
+            {
+                remoteClient.SendAvatarProperties(avatarID,
+                                  ((INPC)(p.ControllingClient)).profileAbout,
+                                  ((INPC)(p.ControllingClient)).Born,
+                                  Utils.StringToBytes("Non Player Character"),
+                                  "NPCs have no life.", 0x10, UUID.Zero,
+                                  ((INPC)(p.ControllingClient)).profileImage,
+                                  String.Empty, UUID.Zero);
+                remoteClient.SendAvatarInterestsReply(avatarID, 0, String.Empty,
+                                  0, String.Empty, String.Empty);
+                return;
+            }
+            
+            
             IScene s = remoteClient.Scene;
             if (!(s is Scene)) return;
 
