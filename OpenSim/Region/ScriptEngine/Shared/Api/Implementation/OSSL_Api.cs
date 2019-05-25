@@ -5227,6 +5227,27 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return account.UserCountry;
         }
 
+        /// <summary>
+        /// Needed because llDetectedSize() doesn't exist.
+        /// Note: Returns ZERO_VECTOR for avatars.
+        /// </summary>
+        public LSL_Vector osDetectedSize(LSL_Integer number)
+        {
+            m_host.AddScriptLPS(1);
+            CheckThreatLevel();
+
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_item.ItemID, number);
+            if (detectedParams == null)
+                return new LSL_Vector();
+
+            UUID item = detectedParams.Key;
+            SceneObjectPart obj = World.GetSceneObjectPart(item);
+            if (obj == null)
+                return new LSL_Vector();
+
+            return obj.Scale;
+        }
+
         public LSL_String osGetAgentCountry(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
