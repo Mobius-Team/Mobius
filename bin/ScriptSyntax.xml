@@ -6257,13 +6257,6 @@
    <map><key>number</key><map><key>type</key><string>integer</string></map></map>
   </array>
  </map>
- <key>osDetectedSize</key>
- <map>
-  <key>return</key><string>vector</string>
-  <key>arguments</key><array>
-   <map><key>number</key><map><key>type</key><string>integer</string></map></map>
-  </array>
- </map>
  <key>osDie</key>
  <map>
   <key>arguments</key><array>

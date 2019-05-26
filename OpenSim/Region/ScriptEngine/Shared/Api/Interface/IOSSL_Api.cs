@@ -533,8 +533,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_String osDetectedCountry(LSL_Integer number);
         LSL_String osGetAgentCountry(LSL_Key agentId);
 
-        vector osDetectedSize(LSL_Integer number);
-
         LSL_String osStringSubString(LSL_String src, LSL_Integer start);
         LSL_String osStringSubString(LSL_String src, LSL_Integer start, LSL_Integer length);
         LSL_Integer osStringStartsWith(LSL_String src, LSL_String value, LSL_Integer ignorecase);

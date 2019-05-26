@@ -1294,11 +1294,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
             return m_OSSL_Functions.osDetectedCountry(number);
         }
 
-        public vector osDetectedSize(LSL_Integer number)
-        {
-            return m_OSSL_Functions.osDetectedSize(number);
-        }
-
         public LSL_String osGetAgentCountry(LSL_Key agentId)
         {
             return m_OSSL_Functions.osGetAgentCountry(agentId);
