@@ -275,7 +275,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                             byte[] fileData = NewFiles[fileName].Data;
                             int burstSize = remoteClient.GetAgentThrottleSilent((int)ThrottleOutPacketType.Task) >> 10;
                             burstSize *= remoteClient.PingTimeMS;
-                            burstSize >>= 10; //  ping is ms, 1 round trips
+                            burstSize >>= 9; //  ping is ms, 1 round trips
                             XferDownLoad transaction =
                                 new XferDownLoad(fileName, fileData, xferID, remoteClient, burstSize);
 
