@@ -233,6 +233,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
         public void transfersTimeTick(double now)
         {
             XferDownLoad[] xfrs;
+            int inow = (int)now;
             lock(Transfers)
             {
                 if(Transfers.Count == 0)
@@ -243,7 +244,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
             }
             foreach(XferDownLoad xfr in xfrs)
             {
-                if(xfr.checkTime(now))
+                if(xfr.checkTime(inow))
                 {
                     ulong xfrID = xfr.XferID;
                     lock(Transfers)
@@ -327,7 +328,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
             public bool isDeleted = false;
 
             private object myLock = new object();
-            private double lastACKTimeMS;
+            private int lastACKTimeMS;
             private int LastPacket;
             private int lastBytes;
             private int lastSentPacket;
@@ -388,7 +389,6 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                     lastSentPacket = -1;
 
                     double now = Util.GetTimeStampMS();
-                    retries = 0;
 
                     SendBurst(now);
                     return;
@@ -428,6 +428,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
 
                 remoteClient.SendXferPacket(XferID, pktid, Data, pkt << 10, pktsize, true);
 
+                retries = 0;
                 lastSentPacket = pkt;
             }
 
@@ -444,10 +445,8 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                         return true;
 
                     packet &=  0x7fffffff;
-                    if(lastAckPacket >= packet)
-                        return false;
-
-                    lastAckPacket = (int)packet;
+                    if(lastAckPacket < packet)
+                        lastAckPacket = (int)packet;
 
                     if(lastAckPacket == LastPacket)
                     {
@@ -464,15 +463,15 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                 }
             }
 
-            public bool checkTime(double now)
+            public bool checkTime(int now)
             {
                 if (Monitor.TryEnter(myLock))
                 {
                     if (!isDeleted && !inBurst)
                     {
-                        double timeMS = now - lastACKTimeMS;
+                        int timeMS = now - lastACKTimeMS;
 
-                        double tout = 5 * remoteClient.PingTimeMS;
+                        int tout = 5 * remoteClient.PingTimeMS;
                         if(tout > 10000)
                             tout = 10000;
                         else if (tout < 500)
