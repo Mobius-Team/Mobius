@@ -401,7 +401,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                     end = LastPacket;
                 while (start <= end)
                     SendPacket(start++);
-                lastACKTimeMS = (int)Util.GetTimeStampMS(); // reset timeout
+                lastACKTimeMS = (int)Util.GetTimeStampMS() + 1000; // reset timeout with some slack for queues delays
             }
 
             private void SendPacket(int pkt)
@@ -463,10 +463,10 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                     {
                         int timeMS = now - lastACKTimeMS;
                         int tout = 5 * remoteClient.PingTimeMS;
-                        if(tout > 10000)
-                            tout = 10000;
-                        else if (tout < 1000)
+                        if (tout < 1000)
                             tout = 1000;
+                        else if(tout > 10000)
+                            tout = 10000;
 
                         if (timeMS > tout)
                         {
@@ -474,7 +474,7 @@ namespace OpenSim.Region.CoreModules.Agent.Xfer
                                 done();
                             else
                             {
-                                burstSize = lastSentPacket - lastAckPacket - 1;
+                                burstSize = lastSentPacket - lastAckPacket;
                                 SendBurst();
                             }
                         }
