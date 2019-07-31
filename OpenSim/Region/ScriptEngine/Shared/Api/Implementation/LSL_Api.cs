@@ -857,25 +857,25 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public LSL_Float llCos(double f)
         {
             m_host.AddScriptLPS(1);
-            return (double)Math.Cos(f);
+            return Math.Cos(f);
         }
 
         public LSL_Float llTan(double f)
         {
             m_host.AddScriptLPS(1);
-            return (double)Math.Tan(f);
+            return Math.Tan(f);
         }
 
-        public LSL_Float llAtan2(double x, double y)
+        public LSL_Float llAtan2(LSL_Float x, LSL_Float y)
         {
             m_host.AddScriptLPS(1);
-            return (double)Math.Atan2(x, y);
+            return Math.Atan2(x, y);
         }
 
         public LSL_Float llSqrt(double f)
         {
             m_host.AddScriptLPS(1);
-            return (double)Math.Sqrt(f);
+            return Math.Sqrt(f);
         }
 
         public LSL_Float llPow(double fbase, double fexponent)
@@ -884,7 +884,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return (double)Math.Pow(fbase, fexponent);
         }
 
-        public LSL_Integer llAbs(int i)
+        public LSL_Integer llAbs(LSL_Integer i)
         {
             // changed to replicate LSL behaviour whereby minimum int value is returned untouched.
             m_host.AddScriptLPS(1);
@@ -3142,7 +3142,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.ParentGroup.StopMoveToTarget();
         }
 
-        public void llApplyImpulse(LSL_Vector force, int local)
+        public void llApplyImpulse(LSL_Vector force, LSL_Integer local)
         {
             m_host.AddScriptLPS(1);
             //No energy force yet
@@ -3600,7 +3600,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return src.ToLower();
         }
 
-        public LSL_Integer llGiveMoney(string destination, int amount)
+        public LSL_Integer llGiveMoney(LSL_Key destination, LSL_Integer amount)
         {
             Util.FireAndForget(x =>
             {
@@ -3859,7 +3859,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return 100f * llGetMass();
         }
 
-        public void llCollisionFilter(string name, string id, int accept)
+        public void llCollisionFilter(LSL_String name, LSL_Key id, LSL_Integer accept)
         {
             m_host.AddScriptLPS(1);
             m_host.CollisionFilter.Clear();
@@ -4587,7 +4587,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llCreateLink(LSL_String target, LSL_Integer parent)
+        public void llCreateLink(LSL_Key target, LSL_Integer parent)
         {
             m_host.AddScriptLPS(1);
 
@@ -4921,7 +4921,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return 1.0f;
         }
 
-        public void llGiveInventory(string destination, string inventory)
+        public void llGiveInventory(LSL_Key destination, LSL_String inventory)
         {
             m_host.AddScriptLPS(1);
 
@@ -5391,7 +5391,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llCollisionSound(string impact_sound, double impact_volume)
+        public void llCollisionSound(LSL_String impact_sound, LSL_Float impact_volume)
         {
             m_host.AddScriptLPS(1);
 
@@ -5418,11 +5418,13 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.aggregateScriptEvents();
         }
 
-        public LSL_String llGetAnimation(string id)
+        public LSL_String llGetAnimation(LSL_Key id)
         {
             // This should only return a value if the avatar is in the same region
             m_host.AddScriptLPS(1);
-            UUID avatar = (UUID)id;
+            UUID avatar;
+            if(!UUID.TryParse(id, out avatar))
+                return "";
             ScenePresence presence = World.GetScenePresence(avatar);
             if (presence == null)
                 return "";
@@ -5772,13 +5774,13 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return angle;
         }
 
-        public LSL_Float llAcos(double val)
+        public LSL_Float llAcos(LSL_Float val)
         {
             m_host.AddScriptLPS(1);
             return (double)Math.Acos(val);
         }
 
-        public LSL_Float llAsin(double val)
+        public LSL_Float llAsin(LSL_Float val)
         {
             m_host.AddScriptLPS(1);
             return (double)Math.Asin(val);
@@ -5818,7 +5820,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return UUID.Zero.ToString();
         }
 
-        public void llAllowInventoryDrop(int add)
+        public void llAllowInventoryDrop(LSL_Integer add)
         {
             m_host.AddScriptLPS(1);
 
@@ -6713,7 +6715,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         /// AGENT_BUSY
         /// Remove as they are done
         /// </summary>
-        public LSL_Integer llGetAgentInfo(string id)
+        public LSL_Integer llGetAgentInfo(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
 
@@ -6820,7 +6822,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return flags;
         }
 
-        public LSL_String llGetAgentLanguage(string id)
+        public LSL_String llGetAgentLanguage(LSL_Key id)
         {
             // This should only return a value if the avatar is in the same region, but eh. idc.
             m_host.AddScriptLPS(1);
@@ -6931,7 +6933,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return result;
         }
 
-        public void llAdjustSoundVolume(double volume)
+        public void llAdjustSoundVolume(LSL_Float volume)
         {
             m_host.AddScriptLPS(1);
             m_host.AdjustSoundGain(volume);
@@ -6944,7 +6946,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             m_host.SoundRadius = radius;
         }
 
-        public LSL_String llKey2Name(string id)
+        public LSL_String llKey2Name(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
             UUID key = new UUID();
@@ -7120,22 +7122,20 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         /// only the height of avatars vary and that says:
         /// Width (x) and depth (y) are constant. (0.45m and 0.6m respectively).
         /// </summary>
-        public LSL_Vector llGetAgentSize(string id)
+        public LSL_Vector llGetAgentSize(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
-            ScenePresence avatar = World.GetScenePresence((UUID)id);
-            LSL_Vector agentSize;
+            UUID avID;
+            if(!UUID.TryParse(id, out avID))
+                return ScriptBaseClass.ZERO_VECTOR;
+
+            ScenePresence avatar = World.GetScenePresence(avID);
             if (avatar == null || avatar.IsChildAgent) // Fail if not in the same region
-            {
-                agentSize = ScriptBaseClass.ZERO_VECTOR;
-            }
-            else
-            {
+                return ScriptBaseClass.ZERO_VECTOR;
+
 //                agentSize = new LSL_Vector(0.45f, 0.6f, avatar.Appearance.AvatarHeight);
-                Vector3 s = avatar.Appearance.AvatarSize;
-                agentSize = new LSL_Vector(s.X, s.Y, s.Z);
-            }
-            return agentSize;
+            Vector3 s = avatar.Appearance.AvatarSize;
+            return new LSL_Vector(s.X, s.Y, s.Z);
         }
 
         public LSL_Integer llSameGroup(string id)
@@ -7311,12 +7311,15 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return m_host.ParentGroup.AttachmentPoint;
         }
 
-        public LSL_List llGetAttachedList(string id)
+        public LSL_List llGetAttachedList(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
 
-            ScenePresence av = World.GetScenePresence((UUID)id);
+            UUID avID;
+            if(!UUID.TryParse(id, out avID))
+                return new LSL_List("NOT_FOUND");
 
+            ScenePresence av = World.GetScenePresence(avID);
             if (av == null || av.IsDeleted)
                 return new LSL_List("NOT_FOUND");
 
@@ -7901,7 +7904,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             }
         }
 
-        public void llGiveInventoryList(string destination, string category, LSL_List inventory)
+        public void llGiveInventoryList(LSL_Key destination, LSL_String category, LSL_List inventory)
         {
             m_host.AddScriptLPS(1);
 
@@ -8079,7 +8082,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         }
 
 
-        public void llAddToLandPassList(LSL_Key avatar, double hours)
+        public void llAddToLandPassList(LSL_Key avatar, LSL_Float hours)
         {
             m_host.AddScriptLPS(1);
             UUID key;
@@ -11151,16 +11154,21 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return (double)Math.Log(val);
         }
 
-        public LSL_List llGetAnimationList(string id)
+        public LSL_List llGetAnimationList(LSL_Key id)
         {
             m_host.AddScriptLPS(1);
 
-            LSL_List l = new LSL_List();
-            ScenePresence av = World.GetScenePresence((UUID)id);
+            UUID avID;
+            if(!UUID.TryParse(id, out avID))
+                return new LSL_List();
+
+            ScenePresence av = World.GetScenePresence(avID);
             if (av == null || av.IsChildAgent) // only if in the region
-                return l;
+                return new LSL_List();
+
             UUID[] anims;
             anims = av.Animator.GetAnimationArray();
+            LSL_List l = new LSL_List();
             foreach (UUID foo in anims)
                 l.Add(new LSL_Key(foo.ToString()));
             return l;
@@ -13683,7 +13691,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             ScriptSleep(m_sleepMsOn["MapDestination"]);
         }
 
-        public void llAddToLandBanList(LSL_Key avatar, double hours)
+        public void llAddToLandBanList(LSL_Key avatar, LSL_Float hours)
         {
             m_host.AddScriptLPS(1);
             UUID key;
@@ -15123,7 +15131,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return name.Replace(" ", ".").ToLower();
         }
 
-        public LSL_String llGetUsername(string id)
+        public LSL_String llGetUsername(LSL_Key id)
         {
             return Name2Username(llKey2Name(id));
         }
@@ -16751,7 +16759,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 m_SoundModule.SetSoundQueueing(m_host.UUID, queue == ScriptBaseClass.TRUE.value);
         }
 
-        public void llCollisionSprite(string impact_sprite)
+        public void llCollisionSprite(LSL_String impact_sprite)
         {
             m_host.AddScriptLPS(1);
             // Viewer 2.0 broke this and it's likely LL has no intention
@@ -16812,7 +16820,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     new DetectParams[0]));
         }
 
-        public LSL_Key llTransferLindenDollars(string destination, int amount)
+        public LSL_Key llTransferLindenDollars(LSL_Key destination, LSL_Integer amount)
         {
             UUID txn = UUID.Random();
 
