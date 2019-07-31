@@ -232,8 +232,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_String llInsertString(string dst, int position, string src);
         void llInstantMessage(string user, string message);
         LSL_String llIntegerToBase64(int number);
-        LSL_String llKey2Name(string id);
-        LSL_String llKey2Name(LSL_Key id);
+        LSL_Key    llName2Key(string name);
+	LSL_String llKey2Name(LSL_Key id);
         LSL_String llGetUsername(LSL_Key id);
         LSL_Key    llRequestUserKey(string username);
         LSL_Key llRequestUsername(string id);
