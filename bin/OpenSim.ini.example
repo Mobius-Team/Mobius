@@ -73,7 +73,9 @@
     ;; \R - substitute region name
     ;; \\ - substitute \
     ; ConsolePrompt = "Region (\R) "
-
+    ;
+    ; DNS Timeout {3000}
+    ;DnsTimeout = 3000
     ;# {ConsoleHistoryFileEnabled} {} {Save console commands to a history file?} {true false} true
     ;; Console commands can be saved to a file, so the command history persists after a restart. (default is false)
     ; ConsoleHistoryFileEnabled = true
