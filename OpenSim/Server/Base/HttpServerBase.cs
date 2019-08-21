@@ -45,8 +45,9 @@ namespace OpenSim.Server.Base
 
         private uint m_consolePort;
 
+	#pragma warning disable 414
         private IPAddress m_ipaddress = null;
-
+        #pragma warning restore 414
         // Handle all the automagical stuff
         //
         public HttpServerBase(string prompt, string[] args) : base(prompt, args)
