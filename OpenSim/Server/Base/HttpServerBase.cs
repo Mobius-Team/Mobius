@@ -157,12 +157,13 @@ namespace OpenSim.Server.Base
 
             MainServer.RegisterHttpConsoleCommands(MainConsole.Instance);
 
-            if (MainConsole.Instance is RemoteConsole)
-            {
+            MethodInfo mi = m_console.GetType().GetMethod("SetServer", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { typeof(BaseHttpServer) }, null);
+	   if (mi != null) 
+	    {
                 if (m_consolePort == 0)
-                    ((RemoteConsole)MainConsole.Instance).SetServer(MainServer.Instance);
+                    mi.Invoke(MainConsole.Instance, new object[] { MainServer.Instance });
                 else
-                    ((RemoteConsole)MainConsole.Instance).SetServer(MainServer.GetHttpServer(m_consolePort, m_ipaddress));
+                    mi.Invoke(MainConsole.Instance, new object[] { MainServer.GetHttpServer(m_consolePort) });
             }
         }
     }
