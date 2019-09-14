@@ -31,32 +31,29 @@ namespace OpenSim
     {
         public const string VersionNumber = "0.9.1.1";
         public const string AssemblyVersionNumber = "0.9.1.1";
+        public const string MobiusVersionNumber = "0.0";
 
-        public const Flavour VERSION_FLAVOUR = Flavour.osC2_master_081692_162209_091119;
+        public const Flavour VERSION_FLAVOUR = Flavour.Release;
 
 
         public enum Flavour
         {
             Unknown,
-            osC2_Dev,
-	    osC2_master_081692_162209_091119,
-            osC2_RC1,
-            osC2_RC2,
-            osC2_RC3,
-            osC2,
-	    osC2_Post_Fixes,
-            osC2_Extended,
-	    Release
+            Dev,
+			Beta,
+            RC,
+            Forerunner,
+	    	Release
         }
 
         public static string Version
         {
-            get { return GetVersionString(VersionNumber, VERSION_FLAVOUR); }
+            get { return GetVersionString(MobiusVersionNumber, VERSION_FLAVOUR); }
         }
 
         public static string GetVersionString(string versionNumber, Flavour flavour)
         {
-            string versionString = "OpenSim " + versionNumber + " " + flavour;
+            string versionString = "Mobius " + versionNumber + " " + flavour;
             return versionString.PadRight(VERSIONINFO_VERSION_LENGTH);
         }
 
