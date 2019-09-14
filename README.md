@@ -4,14 +4,21 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
-# Release 0.0
-
-There are no changes yet! Come back later!
+## Beta 1.0
+\+ Display Names  
+\+ Option to hide the last name Resident  
+\+ No last name login for users with the lastname Resident  
+#### Beta 1.0 Notes:
+ - I've only coded the MySQL parts of Display Names so far.
+ - The `CharSet=utf8mb4;` specified in the MySQL ConnectionStrings of UserAccountService and GridUserService is required.
+ - Fetch Display Names still needs work as it's not grouping requests properly, and the timeout is far too big.
+ - LSL Display Name functions have only been updated in YEngine.
+ - Name Tags will appear to the user as they would appear on the user's home grid.
 
 # Mobius inherits the following from osCore2:
 - [JOpenSim](http://jopensim.com) is included by default
 - [phpmutelist](https://github.com/kcozens/OpenSimMutelist) is included by default
-- YEngine (formerly XMR) is included and is the default script endgine
+- YEngine (formerly XMR) is included and is the default script engine
 - Bulletsim has been removed and UbODE is the default physics engine
 
 # OpenSim Overview
