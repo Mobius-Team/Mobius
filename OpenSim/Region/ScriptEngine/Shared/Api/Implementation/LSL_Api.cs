@@ -15234,7 +15234,16 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         public LSL_String llGetDisplayName(string id)
         {
-            return llKey2Name(id);
+            IDisplayNamesModule namesModule = World.RequestModuleInterface<IDisplayNamesModule>();
+
+            if(namesModule != null)
+            {
+                return namesModule.GetCachedDisplayName(id);
+            }
+            else 
+            {
+                return llKey2Name(id);
+            }
         }
 
         public LSL_Key llRequestDisplayName(string id)
@@ -15243,7 +15252,16 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             AsyncCommands.DataserverPlugin.RegisterRequest(m_host.LocalId, m_item.ItemID, rq.ToString());
 
-            AsyncCommands.DataserverPlugin.DataserverReply(rq.ToString(), llKey2Name(id));
+            IDisplayNamesModule namesModule = World.RequestModuleInterface<IDisplayNamesModule>();
+
+            if(namesModule != null)
+            {
+                AsyncCommands.DataserverPlugin.DataserverReply(rq.ToString(), namesModule.GetDisplayName(id));
+            }
+            else 
+            {
+                AsyncCommands.DataserverPlugin.DataserverReply(rq.ToString(), llKey2Name(id));
+            }
 
             return rq.ToString();
         }

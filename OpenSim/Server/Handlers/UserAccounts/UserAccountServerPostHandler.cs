@@ -54,6 +54,8 @@ namespace OpenSim.Server.Handlers.UserAccounts
         private bool m_AllowCreateUser = false;
         private bool m_AllowSetAccount = false;
 
+        private string m_Password = "password";
+
         public UserAccountServerPostHandler(IUserAccountService service)
             : this(service, null, null) {}
 
@@ -110,6 +112,8 @@ namespace OpenSim.Server.Handlers.UserAccounts
                             return StoreAccount(request);
                         else
                             return FailureResult();
+                    case "setdisplayname":
+                        return SetDisplayName(request);
                 }
 
                 m_log.DebugFormat("[USER SERVICE HANDLER]: unknown method request: {0}", method);
@@ -289,6 +293,11 @@ namespace OpenSim.Server.Handlers.UserAccounts
             if (request.ContainsKey("UserTitle"))
                 existingAccount.UserTitle = request["UserTitle"].ToString();
 
+            // <edit>
+            if (request.ContainsKey("DisplayName"))
+                existingAccount.DisplayName = request["DisplayName"].ToString();
+            // </edit>
+
             if (!m_UserAccountService.StoreUserAccount(existingAccount))
             {
                 m_log.ErrorFormat(
@@ -367,6 +376,73 @@ namespace OpenSim.Server.Handlers.UserAccounts
             rootElement.AppendChild(result);
 
             return Util.DocToBytes(doc);
+        }
+
+        byte[] SetDisplayName(Dictionary<string, object> request)
+        {
+            if (!request.ContainsKey("MAGIC"))
+                return FailureResult();
+            
+            UUID userID = UUID.Zero;
+            if (request.ContainsKey("USERID") && !UUID.TryParse(request["USERID"].ToString(), out userID))
+                return FailureResult();
+
+            UserAccount existingAccount = m_UserAccountService.GetUserAccount(UUID.Zero, userID);
+            if (existingAccount == null)
+                return FailureResult();
+
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            string magic = request["MAGIC"].ToString();
+
+            if (Utils.SHA256String(string.Format("{0}-{1}-{2}", userID.ToString(), request["NAME"].ToString(), m_Password)) != magic)
+                return FailureResult();
+
+            string current_name = existingAccount.DisplayName;
+            string new_name = string.Empty;
+
+            if (!request.ContainsKey("NAME"))
+                return FailureResult();
+
+            new_name = request["NAME"].ToString();
+
+            bool resetting = string.IsNullOrWhiteSpace(new_name);
+
+            if (string.IsNullOrWhiteSpace(current_name) && resetting)
+                return FailureResult();
+
+            DateTime last_changed = new System.DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            last_changed = last_changed.AddSeconds(existingAccount.NameChanged);
+
+            m_log.InfoFormat("{0} {1} last changed their name on {2}", existingAccount.FirstName, existingAccount.LastName, last_changed.ToString());
+
+            int current_unix = Util.UnixTimeSinceEpoch();
+
+            DateTime current_date = Util.ToDateTime(current_unix);
+
+            if (last_changed.AddDays(7) > current_date && !resetting)
+                return FailureResult();
+
+            existingAccount.DisplayName = new_name;
+            existingAccount.NameChanged = current_unix;
+
+            if (!m_UserAccountService.StoreUserAccount(existingAccount))
+            {
+                m_log.ErrorFormat(
+                    "[USER ACCOUNT SERVER POST HANDLER]: Account store failed for account {0} {1} {2}",
+                    existingAccount.FirstName, existingAccount.LastName, existingAccount.PrincipalID);
+
+                return FailureResult();
+            }
+
+            if(resetting)
+                m_log.InfoFormat("[USER ACCOUNT SERVER POST HANDLER]: {0} {1} reset their display name", existingAccount.FirstName, existingAccount.LastName);
+            else
+                m_log.InfoFormat("[USER ACCOUNT SERVER POST HANDLER]: {0} {1} changed their display name to {2}", existingAccount.FirstName, existingAccount.LastName, existingAccount.DisplayName);
+
+            result["result"] = "success";
+
+            return ResultToBytes(result);
         }
 
         private byte[] FailureResult()

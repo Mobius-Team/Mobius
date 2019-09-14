@@ -91,18 +91,51 @@ namespace OpenSim.Capabilities.Handlers
             return System.Text.Encoding.UTF8.GetBytes(reply);
         }
 
+        string getUserName(string firstname, string lastname)
+        {
+            if (lastname.ToLower() == "resident")
+                return firstname.ToLower();
+            else return string.Format("{0}.{1}", firstname, lastname).ToLower();
+        }
+
+        string getDefaultName(string firstname, string lastname)
+        {
+            if (lastname.ToLower() == "resident")
+                return firstname;
+            else return string.Format("{0} {1}", firstname, lastname);
+        }
+
         private LLSDPerson ConvertUserData(UserData user)
         {
             LLSDPerson p = new LLSDPerson();
+            p.id = user.Id;
             p.legacy_first_name = user.FirstName;
             p.legacy_last_name = user.LastName;
-            p.display_name = user.FirstName + " " + user.LastName;
-            if (user.LastName.StartsWith("@"))
-                p.username = user.FirstName.ToLower() + user.LastName.ToLower();
-            else
-                p.username = user.FirstName.ToLower() + "." + user.LastName.ToLower();
-            p.id = user.Id;
-            p.is_display_name_default = false;
+
+            bool has_name = !string.IsNullOrWhiteSpace(user.DisplayName);
+            
+            if(user.LastName.StartsWith("@"))
+            {
+                string[] split = user.FirstName.Split('.');
+                if(split.Length == 2)
+                {
+                    p.username = getUserName(split[0], split[1]) + "." + user.LastName.ToLower();
+
+                    if(!has_name)
+                    {
+                        p.display_name = getDefaultName(split[0], split[1]);
+                    }
+                }
+
+                p.is_display_name_default = false;
+            }
+            else 
+            {
+                p.username = getUserName(user.FirstName, user.LastName);
+                p.is_display_name_default = !has_name;
+                p.display_name = has_name ? user.DisplayName : getDefaultName(user.FirstName, user.LastName);
+            }
+
             return p;
         }
 

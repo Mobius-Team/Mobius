@@ -29,3 +29,22 @@ BEGIN;
 ALTER TABLE `UserAccounts` ADD `active` INT NOT NULL DEFAULT '1';
 
 COMMIT;
+
+:VERSION 7
+
+BEGIN;
+
+ALTER TABLE `UserAccounts`
+	ADD COLUMN `DisplayName` CHAR(50) NULL AFTER `active`,
+	ADD COLUMN `NameChanged` INT UNSIGNED NULL AFTER `DisplayName`;
+	
+COMMIT;
+
+:VERSION 8
+
+BEGIN;
+
+ALTER TABLE `UserAccounts`
+	MODIFY DisplayName CHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+	
+COMMIT;

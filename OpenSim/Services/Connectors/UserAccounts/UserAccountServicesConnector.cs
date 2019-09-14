@@ -47,6 +47,7 @@ namespace OpenSim.Services.Connectors
                 MethodBase.GetCurrentMethod().DeclaringType);
 
         private string m_ServerURI = String.Empty;
+		private string m_Password = "password"; //todo: make config
 
         public UserAccountServicesConnector()
         {
@@ -421,5 +422,17 @@ namespace OpenSim.Services.Connectors
             return false;
         }
 
+		public virtual bool SetDisplayName(UUID userID, string displayName)
+        {
+            Dictionary<string, object> sendData = new Dictionary<string, object>();
+            sendData["VERSIONMIN"] = ProtocolVersions.ClientProtocolVersionMin.ToString();
+            sendData["VERSIONMAX"] = ProtocolVersions.ClientProtocolVersionMax.ToString();
+            sendData["METHOD"] = "setdisplayname";
+            sendData["USERID"] = userID.ToString();
+            sendData["NAME"] = displayName;
+            sendData["MAGIC"] = Utils.SHA256String(string.Format("{0}-{1}-{2}", userID.ToString(), displayName, m_Password));
+
+            return SendAndGetBoolReply(sendData);
+        }
     }
 }

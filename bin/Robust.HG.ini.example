@@ -420,6 +420,9 @@
     LocalServiceModule = "OpenSim.Services.UserAccountService.dll:UserAccountService"
     ; Realm = "useraccounts"
 
+    ; if you are using display names you will want/need to set the charset to utf8mb4
+    ;ConnectionString = "Data Source=localhost;Database=robust;User ID=robust;Password=***;Old Guids=true;CharSet=utf8mb4;"
+
     ; These are for creating new accounts by the service
     AuthenticationService = "OpenSim.Services.AuthenticationService.dll:PasswordAuthenticationService"
     PresenceService = "OpenSim.Services.PresenceService.dll:PresenceService"
@@ -446,6 +449,17 @@
     ; for the server connector
     LocalServiceModule = "OpenSim.Services.UserAccountService.dll:GridUserService"
 
+    ; if you are using display names you will want/need to set the charset to utf8mb4
+    ;ConnectionString = "Data Source=localhost;Database=robust;User ID=robust;Password=***;Old Guids=true;CharSet=utf8mb4;"
+
+    ; If you would like it pull display names from remote grids without them visiting
+    ; If this is disabled, display names will only update when a user teleports to this grid, and local users will use a cached name
+    ; Default is false    
+    ;FetchDisplayNames = true
+
+    ; If FetchDisplayNames is enabled, this decides how many days cache lasts before it is expired. 
+    ; Setting it to 0 makes you a griefer
+    FetchDisplayNamesInterval = 7
 
 [AgentPreferencesService]
     ; for the server connector

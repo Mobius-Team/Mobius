@@ -104,6 +104,16 @@ namespace OpenSim.Framework
         public string Name { get { return string.Format("{0} {1}", firstname, lastname); } }
 
         /// <summary>
+        /// Agent's display name
+        /// </summary>
+        public string displayname = string.Empty;
+
+        /// <summary>
+        /// because opensim is fucking gay
+        /// </summary>
+        public bool hasDisplayName = false;
+
+        /// <summary>
         /// Random Unique GUID for this session.  Client gets this at login and it's
         /// only supposed to be disclosed over secure channels
         /// </summary>
@@ -209,6 +219,7 @@ namespace OpenSim.Framework
             args["circuit_code"] = OSD.FromString(circuitcode.ToString());
             args["first_name"] = OSD.FromString(firstname);
             args["last_name"] = OSD.FromString(lastname);
+            args["display_name"] = OSD.FromString(displayname);
             args["inventory_folder"] = OSD.FromUUID(InventoryFolder);
             args["secure_session_id"] = OSD.FromUUID(SecureSessionID);
             args["session_id"] = OSD.FromUUID(SessionID);
@@ -313,6 +324,11 @@ namespace OpenSim.Framework
                 firstname = tmpOSD.AsString();
             if (args.TryGetValue("last_name", out tmpOSD))
                 lastname = tmpOSD.AsString();
+            if (args.TryGetValue("display_name", out tmpOSD))
+			{
+				hasDisplayName = true;
+                displayname = tmpOSD.AsString();
+			}
             if (args.TryGetValue("inventory_folder", out tmpOSD))
                 InventoryFolder = tmpOSD.AsUUID();
             if (args.TryGetValue("secure_session_id", out tmpOSD))

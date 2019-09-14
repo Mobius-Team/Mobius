@@ -178,6 +178,11 @@ namespace OpenSim.Region.CoreModules.ServiceConnectorsOut.GridUser
             return m_GridUserService.GetGridUserInfo(userID);
         }
 
+        public bool SetDisplayName(string userID, string displayName)
+        {
+            return m_GridUserService.SetDisplayName(userID, displayName);
+        }
+
         #endregion
 
     }

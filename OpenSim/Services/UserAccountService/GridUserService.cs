@@ -37,6 +37,7 @@ using GridRegion = OpenSim.Services.Interfaces.GridRegion;
 
 using OpenMetaverse;
 using log4net;
+using OpenSim.Services.Connectors.Hypergrid;
 
 namespace OpenSim.Services.UserAccountService
 {
@@ -44,6 +45,8 @@ namespace OpenSim.Services.UserAccountService
     {
         private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static bool m_Initialized;
+        private static bool m_FetchDisplayNames = false;
+        private static int m_FetchNamesInterval = 7;
 
         public GridUserService(IConfigSource config) : base(config)
         {
@@ -70,6 +73,16 @@ namespace OpenSim.Services.UserAccountService
                     + "For this reason, users online for more than 5 days are not currently counted",
                     HandleShowGridUsersOnline);
             }
+
+            IConfig gridUserServiceConfig = config.Configs["GridUserService"];
+            if (gridUserServiceConfig != null)
+            {
+                m_FetchDisplayNames = gridUserServiceConfig.GetBoolean("FetchDisplayNames", m_FetchDisplayNames);
+                m_FetchNamesInterval = gridUserServiceConfig.GetInt("FetchDisplayNamesInterval", m_FetchNamesInterval);
+            }
+
+            m_log.Info("[GRID USER SERVICE]: Fetch display names is " + (m_FetchDisplayNames ? "enabled" : "disabled"));
+            m_log.InfoFormat("[GRID USER SERVICE]: Fetch display names interval set to {0} days", m_FetchNamesInterval);
         }
 
         protected void HandleShowGridUser(string module, string[] cmdparams)
@@ -172,6 +185,54 @@ namespace OpenSim.Services.UserAccountService
             info.Login = Util.ToDateTime(Convert.ToInt32(d.Data["Login"]));
             info.Logout = Util.ToDateTime(Convert.ToInt32(d.Data["Logout"]));
 
+			// <display name pish>
+			info.DisplayName = d.Data.ContainsKey("DisplayName") ? d.Data["DisplayName"] : string.Empty;
+
+            if (d.Data.ContainsKey("NameCached"))
+            {
+                if(d.Data["NameCached"] != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(d.Data["NameCached"]))
+                        info.NameCached = Util.ToDateTime(Convert.ToInt32(d.Data["NameCached"]));
+                }
+            }
+
+            if(info.NameCached == null) info.NameCached = DateTime.MinValue;
+            
+            if (info.UserID.Length > 36 && m_FetchDisplayNames)
+            {
+                if (info.NameCached < DateTime.UtcNow.AddDays(-m_FetchNamesInterval))
+                {
+                    UUID uuid;
+                    string url, first, last, tmp;
+                    
+                    if (Util.ParseUniversalUserIdentifier(info.UserID, out uuid, out url, out first, out last, out tmp))
+                    {
+                        UserAgentServiceConnector uConn = new UserAgentServiceConnector(url);
+
+                        string display_name = info.DisplayName;
+
+                        try
+                        {
+                            Dictionary<string, object> account = uConn.GetUserInfo(uuid);
+
+                            if (account.ContainsKey("user_displayname"))
+                            {
+                                display_name = account["user_displayname"].ToString();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            m_log.InfoFormat("[GRID USER SERVICE]: Exception was thrown receiving info for {0} {1} @{2}: {3}", first, last, url, e.Message);
+                        }
+
+                        SetDisplayName(userID, display_name);
+                        info.DisplayName = display_name;
+                    }
+                }
+            }
+			// </display name pish>
+			
             return info;
         }
 
@@ -258,6 +319,24 @@ namespace OpenSim.Services.UserAccountService
             d.Data["LastRegionID"] = regionID.ToString();
             d.Data["LastPosition"] = lastPosition.ToString();
             d.Data["LastLookAt"] = lastLookAt.ToString();
+
+            return m_Database.Store(d);
+        }
+        
+		public bool SetDisplayName(string userID, string displayName)
+        {
+//            m_log.InfoFormat("[GRID USER SERVICE]: SetDisplayName for {0} to {1}", userID, displayName);
+
+            GridUserData d = GetGridUserData(userID);
+
+            if (d == null)
+            {
+                d = new GridUserData();
+                d.UserID = userID;
+            }
+
+            d.Data["DisplayName"] = displayName;
+            d.Data["NameCached"] = Util.UnixTimeSinceEpoch().ToString();
 
             return m_Database.Store(d);
         }

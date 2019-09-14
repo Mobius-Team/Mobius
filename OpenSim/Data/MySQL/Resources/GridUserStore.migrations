@@ -22,3 +22,21 @@ COMMIT;
 BEGIN;
 
 COMMIT;
+
+:VERSION 3
+BEGIN;
+
+ALTER TABLE `GridUser`
+	ADD COLUMN `DisplayName` CHAR(50) NULL AFTER `Logout`,
+	ADD COLUMN `NameCached` CHAR(16) NULL AFTER `DisplayName`;
+
+COMMIT;
+
+:VERSION 4
+BEGIN;
+
+ALTER TABLE `GridUser`
+	MODIFY DisplayName CHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+COMMIT;
+

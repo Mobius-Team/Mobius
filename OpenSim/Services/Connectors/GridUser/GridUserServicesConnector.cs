@@ -148,6 +148,16 @@ namespace OpenSim.Services.Connectors
             return Get(sendData);
         }
 
+        public bool SetDisplayName(string userID, string displayName)
+        {
+            Dictionary<string, object> sendData = new Dictionary<string, object>();
+            sendData["VERSIONMIN"] = ProtocolVersions.ClientProtocolVersionMin.ToString();
+            sendData["VERSIONMAX"] = ProtocolVersions.ClientProtocolVersionMax.ToString();
+            sendData["METHOD"] = "setdisplayname";
+
+            return false; // nope
+        }
+
         #endregion
 
         protected bool Set(Dictionary<string, object> sendData, string userID, UUID regionID, Vector3 position, Vector3 lookAt)

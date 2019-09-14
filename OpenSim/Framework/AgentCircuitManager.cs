@@ -176,6 +176,7 @@ namespace OpenSim.Framework
                 {
                     m_agentCircuits[(uint) agentData.circuitcode].firstname = agentData.firstname;
                     m_agentCircuits[(uint) agentData.circuitcode].lastname = agentData.lastname;
+					m_agentCircuits[(uint)agentData.circuitcode].displayname = agentData.displayname;
                     m_agentCircuits[(uint)agentData.circuitcode].startpos = agentData.startpos;
                     m_agentCircuits[(uint)agentData.circuitcode].startfar = agentData.startfar;
 
