@@ -112,4 +112,4 @@ one you set up using the "create user" command.
 
 ### Bug reports
 
-email grid@opensim.life
+email code@mobiusteam.us
