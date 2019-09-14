@@ -1,41 +1,20 @@
-# osCore2 Fork by Bill Blight of Opensim.life
+# Mobius is a fork of [osCore2](https://github.com/osCore2/osCore2)
 
-### USE AT YOUR OWN RISK!!
+This is our public version of Mobius. Features will be added here once they reach a relatively stable stage in their development.
 
-Minimal support is offered for this project at this time, it is a labor of love, and should be not used for production environments unless you are really sure what you are doing.
+Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
-### USE AT YOUR OWN RISK!!
+# Release 0.0
 
+There are no changes yet! Come back later!
 
-# Contains the Yengine(formerly XMR) script engine, Xengine still default
+# Mobius inherits the following from osCore2:
+- [JOpenSim](http://jopensim.com) is included by default
+- [phpmutelist](https://github.com/kcozens/OpenSimMutelist) is included by default
+- YEngine (formerly XMR) is included and is the default script endgine
+- Bulletsim has been removed and UbODE is the default physics engine
 
-XMR script engine Donated to Opensimulator core by, mrieker (DreamNation) and Cores own Melanie.
-
-Notes on Yengine: Although it works very well, it is not compatible with Xengine, meaing crossing or TP'ing into an Yengine region from a Xengine region will result in scripts being reset and may need recompiled.
-
-## BULLETSIM IS REMOVED FROM THIS FORK!!!
-
-## Jopensim support included
-
-I have included the source which will build the Jopensim Profile and Search moduals.
-There is no documetation on configuring them included at this point
-please see http://jopensim.com for details.
-
-### You will need to remove these modules if you don't plan on using them, as it will cause errors.
-
-This has some fixes that have not made it into core OpenSimulator .
-
-Some of the additions include the http tests branch which improves the built in http server.
-Roll back of some of the permission changes , specifcally the item creation permsions for textures.
-configureable LSL delays, see OpenSimDefaults.ini, added osParcelMusicURL, for gods, as the ll funcion only works for parcel/land owners.
-
-This build also includes the phpmutelist found at https://github.com/kcozens/OpenSimMutelist
-
-And various others.
-
-Welcome to OpenSim!
-
-# Overview
+# OpenSim Overview
 
 OpenSim is a BSD Licensed Open Source project to develop a functioning
 virtual worlds server platform capable of supporting multiple clients
