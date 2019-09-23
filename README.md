@@ -14,6 +14,10 @@ Features will be developed on their own branches that are based on master until 
  - Fetch Display Names still needs work as it's not grouping requests properly, and the timeout is far too big.
  - LSL Display Name functions have only been updated in YEngine.
  - Name Tags will appear to the user as they would appear on the user's home grid.
+ - I'm trying out a thing where where HG usernames are displayed as `first.last@grid.url.com` instead of `first.last.@grid.url.com` for nametags. This doesn't affect how it is formatted in other places.
+ - I'm also trying a thing where HG visitors will have their proper name as their display name if they don't already have a display name.
+ - The 7 day wait for changing your display name is hardcoded at the moment as the viewer will always say 7 days.
+ - Display names of HG visitors are updated when they arrive.
 
 # Mobius inherits the following from osCore2:
 - [JOpenSim](http://jopensim.com) is included by default
