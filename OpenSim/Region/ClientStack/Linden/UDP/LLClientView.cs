@@ -11302,10 +11302,9 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                     if (lma == null)
                     {
                         // Really doesn't exist
-                        TeleportCancelPacket tpCancel = (TeleportCancelPacket)PacketPool.Instance.GetPacket(PacketType.TeleportCancel);
-                        tpCancel.Info.SessionID = tpReq.Info.SessionID;
-                        tpCancel.Info.AgentID = tpReq.Info.AgentID;
-                        OutPacket(tpCancel, ThrottleOutPacketType.Task);
+                        m_log.WarnFormat("[llClient]: landmark asset {0} not found",lmid.ToString());
+                        SendTeleportFailed("Could not find the landmark asset data");
+                        return true;
                     }
                 }
 
@@ -11316,10 +11315,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
                 catch (NullReferenceException)
                 {
                     // asset not found generates null ref inside the assetlandmark constructor.
-                    TeleportCancelPacket tpCancel = (TeleportCancelPacket)PacketPool.Instance.GetPacket(PacketType.TeleportCancel);
-                    tpCancel.Info.SessionID = tpReq.Info.SessionID;
-                    tpCancel.Info.AgentID = tpReq.Info.AgentID;
-                    OutPacket(tpCancel, ThrottleOutPacketType.Task);
+                    SendTeleportFailed("Could not find the landmark asset data");
                     return true;
                 }
             }
@@ -11342,11 +11338,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             else
             {
                 //no event handler so cancel request
-                TeleportCancelPacket tpCancel = (TeleportCancelPacket)PacketPool.Instance.GetPacket(PacketType.TeleportCancel);
-                tpCancel.Info.AgentID = tpReq.Info.AgentID;
-                tpCancel.Info.SessionID = tpReq.Info.SessionID;
-                OutPacket(tpCancel, ThrottleOutPacketType.Task);
-
+                SendTeleportFailed("Could not find the landmark asset data");
             }
             return true;
         }
@@ -11407,10 +11399,7 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             else
             {
                 //no event handler so cancel request
-                TeleportCancelPacket tpCancel = (TeleportCancelPacket)PacketPool.Instance.GetPacket(PacketType.TeleportCancel);
-                tpCancel.Info.SessionID = tpLocReq.AgentData.SessionID;
-                tpCancel.Info.AgentID = tpLocReq.AgentData.AgentID;
-                OutPacket(tpCancel, ThrottleOutPacketType.Task);
+                SendTeleportFailed("Could not process the teleport");
             }
             return true;
         }

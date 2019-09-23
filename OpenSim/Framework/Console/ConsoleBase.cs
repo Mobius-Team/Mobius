@@ -58,12 +58,32 @@ namespace OpenSim.Framework.Console
         {
         }
 
-        public virtual void Output(string format, string level = null, params object[] components)
+        public void Output(string format, params object[] components)
+        {
+            Output(format, null, components);
+        }
+
+        public virtual void Output(string format, string level, params object[] components)
         {
             System.Console.WriteLine(format, components);
         }
 
-        public virtual string Prompt(string p, string def = null, List<char> excludedCharacters = null, bool echo = true)
+        public string Prompt(string p)
+        {
+            return Prompt(p, null, null, true);
+        }
+
+        public string Prompt(string p, string def)
+        {
+            return Prompt(p, def, null, true);
+        }
+
+        public string Prompt(string p, List<char> excludedCharacters)
+        {
+            return Prompt(p, null, excludedCharacters, true);
+        }
+
+        public virtual string Prompt(string p, string def, List<char> excludedCharacters, bool echo = true)
         {
             bool itisdone = false;
             string ret = String.Empty;

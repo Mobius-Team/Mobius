@@ -399,13 +399,13 @@ namespace OpenSim.Services.HypergridService
             return false;
         }
 
-        public InventoryItemBase GetItem(InventoryItemBase item)
+        public override InventoryItemBase GetItem(UUID principalID, UUID itemID)
         {
-            InventoryItemBase it = base.GetItem(item.Owner, item.ID);
+            InventoryItemBase it = base.GetItem(principalID, itemID);
             if (it == null)
             {
-                m_log.DebugFormat("[HG SUITCASE INVENTORY SERVICE]: Unable to retrieve item {0} ({1}) in folder {2}",
-                    item.Name, item.ID, item.Folder);
+                m_log.DebugFormat("[HG SUITCASE INVENTORY SERVICE]: Unable to retrieve item {0}",
+                    itemID);
                 return null;
             }
 
