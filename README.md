@@ -4,6 +4,13 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.0.1
+\+ New ROBUST service to provide display names more efficiently  
+\* `FetchDisplayNamesInterval` is now `DisplayNamesCacheExpirationInHours` with a default value of 12   
+\* HG display name updates are now sorted by their home grid and a single request is made to each grid
+#### Beta 1.0.1 Notes:
+ - Don't forget to add the HGDisplayNameServiceConnector to your ROBUST config so other grids can fetch your display names!
+
 ## Beta 1.0
 \+ Display Names  
 \+ Option to hide the last name Resident  
