@@ -38,6 +38,8 @@ using GridRegion = OpenSim.Services.Interfaces.GridRegion;
 using OpenMetaverse;
 using log4net;
 using OpenSim.Services.Connectors.Hypergrid;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace OpenSim.Services.UserAccountService
 {
@@ -46,7 +48,7 @@ namespace OpenSim.Services.UserAccountService
         private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static bool m_Initialized;
         private static bool m_FetchDisplayNames = false;
-        private static int m_FetchNamesInterval = 7;
+        private static int m_DisplayNameCacheExpirationInHours = 12;
 
         public GridUserService(IConfigSource config) : base(config)
         {
@@ -78,11 +80,13 @@ namespace OpenSim.Services.UserAccountService
             if (gridUserServiceConfig != null)
             {
                 m_FetchDisplayNames = gridUserServiceConfig.GetBoolean("FetchDisplayNames", m_FetchDisplayNames);
-                m_FetchNamesInterval = gridUserServiceConfig.GetInt("FetchDisplayNamesInterval", m_FetchNamesInterval);
+                m_DisplayNameCacheExpirationInHours = gridUserServiceConfig.GetInt("DisplayNamesCacheExpirationInHours", m_DisplayNameCacheExpirationInHours);
             }
 
             m_log.Info("[GRID USER SERVICE]: Fetch display names is " + (m_FetchDisplayNames ? "enabled" : "disabled"));
-            m_log.InfoFormat("[GRID USER SERVICE]: Fetch display names interval set to {0} days", m_FetchNamesInterval);
+            
+            if(m_FetchDisplayNames)
+                m_log.InfoFormat("[GRID USER SERVICE]: HG display names cache expiration set to {0} hours", m_DisplayNameCacheExpirationInHours);
         }
 
         protected void HandleShowGridUser(string module, string[] cmdparams)
@@ -185,7 +189,6 @@ namespace OpenSim.Services.UserAccountService
             info.Login = Util.ToDateTime(Convert.ToInt32(d.Data["Login"]));
             info.Logout = Util.ToDateTime(Convert.ToInt32(d.Data["Logout"]));
 
-			// <display name pish>
 			info.DisplayName = d.Data.ContainsKey("DisplayName") ? d.Data["DisplayName"] : string.Empty;
 
             if (d.Data.ContainsKey("NameCached"))
@@ -199,52 +202,117 @@ namespace OpenSim.Services.UserAccountService
 
             if(info.NameCached == null) info.NameCached = DateTime.MinValue;
             
-            if (info.UserID.Length > 36 && m_FetchDisplayNames)
-            {
-                if (info.NameCached < DateTime.UtcNow.AddDays(-m_FetchNamesInterval))
-                {
-                    UUID uuid;
-                    string url, first, last, tmp;
-                    
-                    if (Util.ParseUniversalUserIdentifier(info.UserID, out uuid, out url, out first, out last, out tmp))
-                    {
-                        UserAgentServiceConnector uConn = new UserAgentServiceConnector(url);
-
-                        string display_name = info.DisplayName;
-
-                        try
-                        {
-                            Dictionary<string, object> account = uConn.GetUserInfo(uuid);
-
-                            if (account.ContainsKey("user_displayname"))
-                            {
-                                display_name = account["user_displayname"].ToString();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            m_log.InfoFormat("[GRID USER SERVICE]: Exception was thrown receiving info for {0} {1} @{2}: {3}", first, last, url, e.Message);
-                        }
-
-                        SetDisplayName(userID, display_name);
-                        info.DisplayName = display_name;
-                    }
-                }
-            }
-			// </display name pish>
-			
             return info;
         }
 
-        public virtual GridUserInfo[] GetGridUserInfo(string[] userIDs)
+        public virtual GridUserInfo[] GetGridUserInfo(string[] userIDs, bool update_name = false)
         {
             List<GridUserInfo> ret = new List<GridUserInfo>();
 
             foreach (string id in userIDs)
                 ret.Add(GetGridUserInfo(id));
 
+            if (update_name)
+                return UpdateDisplayNames(ret).ToArray();
+
             return ret.ToArray();
         }
+
+        // < test updater>
+        private List<GridUserInfo> UpdateDisplayNames(List<GridUserInfo> entries)
+        {
+            Dictionary<string, List<GridUserInfo>> grids_and_infos = new Dictionary<string, List<GridUserInfo>>();
+
+            // Check for out-of-date names and separate them by their grid
+            foreach(GridUserInfo info in entries)
+            {
+                if (info.UserID.Length > 36 && info.NameCached < DateTime.UtcNow.AddHours(-m_DisplayNameCacheExpirationInHours))
+                {
+                    UUID uuid;
+                    string url, first, last, tmp;
+                    
+                    if (Util.ParseUniversalUserIdentifier(info.UserID, out uuid, out url, out first, out last, out tmp))
+                    {
+                        List<GridUserInfo> infos = null;
+
+                        if (!grids_and_infos.TryGetValue(url, out infos))
+                            infos = new List<GridUserInfo>();
+
+                        infos.Add(info);
+
+                        grids_and_infos[url] = infos;
+
+                        //m_log.InfoFormat("Added {0} to {1} list", info.UserID, url);
+                    }
+                }
+            }
+
+            if (grids_and_infos.Count > 0)
+            {
+                Dictionary<string, string> results = new Dictionary<string, string>();
+
+                // Start a task for each grid and request the display names
+                List<Task> tasks = new List<Task>();
+                foreach(KeyValuePair<string, List<GridUserInfo>> pair in grids_and_infos)
+                {
+                    Task<bool> wrapperTask = Task.Run(() => {
+                        Dictionary<UUID, string> users = new Dictionary<UUID, string>();
+                        foreach(GridUserInfo info in pair.Value)
+                        {
+                            UUID uuid;
+                            string url, first, last, tmp;
+                            
+                            if (Util.ParseUniversalUserIdentifier(info.UserID, out uuid, out url, out first, out last, out tmp))
+                            {
+                                users.Add(uuid, info.UserID);
+                            }
+                        }
+
+                        // m_log.InfoFormat("Fetching {0} display names from {1}", users.Count, pair.Key);
+
+                        DisplayNameServiceConnector dnService = new DisplayNameServiceConnector(pair.Key);
+                        Dictionary<UUID, string> vals = dnService.GetDisplayNames(users.Keys.ToArray());
+                        foreach(KeyValuePair<UUID, string> name in vals)
+                        {
+                            results.Add(users[name.Key], name.Value);
+                            //m_log.InfoFormat("Adding {0} to results ({1})", users[name.Key], name.Value);
+                        }
+
+                        //m_log.InfoFormat("Received {0} display names of {1} from {2}", vals.Count, users.Keys.Count, pair.Key);
+                        
+                        return true;
+                    });
+                    tasks.Add(wrapperTask);
+                }
+
+                //m_log.InfoFormat("Waiting for {0} tasks to finish!", tasks.Count);
+
+                // Wait for all the tasks to finish
+                Task.WaitAll(tasks.ToArray());
+
+                //m_log.InfoFormat("Fetched {0} display names from {1} grids", results.Count, grids_and_infos.Count);
+
+                // Go through the original entries and update their values and store it
+                foreach(GridUserInfo info in entries)
+                {
+                    if(results.ContainsKey(info.UserID))
+                    {
+                        info.DisplayName = results[info.UserID];
+                        info.NameCached = DateTime.UtcNow;
+                        //m_log.InfoFormat("Updating display name of {0} to {1}", info.UserID, results[info.UserID]);
+                        SetDisplayName(info.UserID, info.DisplayName);
+                    }
+                    else
+                    {
+                        //m_log.InfoFormat("No data received for {0}", info.UserID);
+                        SetDisplayName(info.UserID, info.DisplayName);
+                    }
+                }
+            }
+
+            return entries;
+        }
+        // </test updater>
 
         public GridUserInfo LoggedIn(string userID)
         {

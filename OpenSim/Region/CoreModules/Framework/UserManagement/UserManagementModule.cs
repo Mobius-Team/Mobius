@@ -503,7 +503,7 @@ namespace OpenSim.Region.CoreModules.Framework.UserManagement
             return names;
         }
 
-        public virtual Dictionary<UUID, UserData> GetUserDatas(string[] ids, UUID scopeID)
+        public virtual Dictionary<UUID, UserData> GetUserDatas(string[] ids, UUID scopeID, bool update_name = false)
         {
             Dictionary<UUID, UserData> ret = new Dictionary<UUID, UserData>();
             if (m_Scenes.Count <= 0)
@@ -522,7 +522,7 @@ namespace OpenSim.Region.CoreModules.Framework.UserManagement
                 {
                     lock (m_UserCache)
                     {
-                        if (m_UserCache.TryGetValue(uuid, out userdata) &&
+                        if ((m_UserCache.TryGetValue(uuid, out userdata) && !update_name ) &&
                                 userdata.FirstName != "Unknown" && userdata.FirstName != string.Empty)
                         {
                             if (userdata.HasGridUserTried)
@@ -579,7 +579,7 @@ namespace OpenSim.Region.CoreModules.Framework.UserManagement
 
             // try grid user service
 
-            GridUserInfo[] pinfos = m_Scenes[0].GridUserService.GetGridUserInfo(missing.ToArray());
+            GridUserInfo[] pinfos = m_Scenes[0].GridUserService.GetGridUserInfo(missing.ToArray(), update_name);
             if(pinfos.Length > 0)
             {
                 foreach(GridUserInfo uInfo in pinfos)

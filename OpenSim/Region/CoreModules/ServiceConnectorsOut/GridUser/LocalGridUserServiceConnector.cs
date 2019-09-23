@@ -173,9 +173,9 @@ namespace OpenSim.Region.CoreModules.ServiceConnectorsOut.GridUser
         {
             return m_GridUserService.GetGridUserInfo(userID);
         }
-        public GridUserInfo[] GetGridUserInfo(string[] userID)
+        public GridUserInfo[] GetGridUserInfo(string[] userID, bool update_name)
         {
-            return m_GridUserService.GetGridUserInfo(userID);
+            return m_GridUserService.GetGridUserInfo(userID, update_name);
         }
 
         public bool SetDisplayName(string userID, string displayName)

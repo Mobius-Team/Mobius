@@ -125,6 +125,7 @@
     HGAssetServiceConnector = "HGAssetService@${Const|PublicPort}/OpenSim.Server.Handlers.dll:AssetServiceConnector"
     ;; Uncomment this if you want Groups V2, HG to work
     ; HGGroupsServiceConnector = "${Const|PublicPort}/OpenSim.Addons.Groups.dll:HGGroupsServiceRobustConnector"
+    HGDisplayNameServiceConnector = "${Const|PublicPort}/OpenSim.Server.Handlers.dll:HGGetDisplayNames"
 
 ; * This is common for all services, it's the network setup for the entire
 ; * server instance, if none is specified above
@@ -457,9 +458,9 @@
     ; Default is false    
     ;FetchDisplayNames = true
 
-    ; If FetchDisplayNames is enabled, this decides how many days cache lasts before it is expired. 
+    ; If FetchDisplayNames is enabled, this decides how many hours the display name cache lasts before it is expired. 
     ; Setting it to 0 makes you a griefer
-    FetchDisplayNamesInterval = 7
+    DisplayNamesCacheExpirationInHours = 12
 
 [AgentPreferencesService]
     ; for the server connector

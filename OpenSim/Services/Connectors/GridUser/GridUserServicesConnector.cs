@@ -239,13 +239,13 @@ namespace OpenSim.Services.Connectors
 
         }
 
-        public GridUserInfo[] GetGridUserInfo(string[] userIDs)
+        public GridUserInfo[] GetGridUserInfo(string[] userIDs, bool update_name)
         {
             Dictionary<string, object> sendData = new Dictionary<string, object>();
             //sendData["SCOPEID"] = scopeID.ToString();
             sendData["VERSIONMIN"] = ProtocolVersions.ClientProtocolVersionMin.ToString();
             sendData["VERSIONMAX"] = ProtocolVersions.ClientProtocolVersionMax.ToString();
-            sendData["METHOD"] = "getgriduserinfos";
+            sendData["METHOD"] = update_name ? "updateandgetgriduserinfos" : "getgriduserinfos";
 
             sendData["AgentIDs"] = new List<string>(userIDs);
 

@@ -142,6 +142,6 @@ namespace OpenSim.Services.Interfaces
         bool SetDisplayName(string userID, string displayname);
 
         GridUserInfo GetGridUserInfo(string userID);
-        GridUserInfo[] GetGridUserInfo(string[] userID);
+        GridUserInfo[] GetGridUserInfo(string[] userID, bool update = false);
     }
 }

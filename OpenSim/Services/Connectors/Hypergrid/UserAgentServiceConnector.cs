@@ -168,7 +168,7 @@ namespace OpenSim.Services.Connectors.Hypergrid
             // no-op
         }
 
-        private Hashtable CallServer(string methodName, Hashtable hash)
+        private Hashtable CallServer(string methodName, Hashtable hash, int timeout = 10000)
         {
             IList paramList = new ArrayList();
             paramList.Add(hash);
@@ -179,7 +179,7 @@ namespace OpenSim.Services.Connectors.Hypergrid
             XmlRpcResponse response = null;
             try
             {
-                response = request.Send(m_ServerURL, 10000);
+                response = request.Send(m_ServerURL, timeout);
             }
             catch (Exception e)
             {

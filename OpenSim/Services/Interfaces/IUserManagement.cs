@@ -45,7 +45,7 @@ namespace OpenSim.Services.Interfaces
         string GetUserServerURL(UUID uuid, string serverType);
         Dictionary<UUID,string> GetUsersNames(string[] ids, UUID scopeID);
 
-        Dictionary<UUID, UserData> GetUserDatas(string[] ids, UUID scopeID);
+        Dictionary<UUID, UserData> GetUserDatas(string[] ids, UUID scopeID, bool update_name = false);
 		
         /// <summary>
         /// Get user ID by the given name.
