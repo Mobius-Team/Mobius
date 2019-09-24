@@ -301,15 +301,13 @@ namespace OpenSim.ApplicationPlugins.RemoteController
                 responseData["rebooting"] = true;
 
                 string message;
-                List<int> times = new List<int>();
 
-                if (requestData.ContainsKey("alerts"))
+                int timeout = 30;
+                if (requestData.ContainsKey("milliseconds"))
                 {
-                    string[] alertTimes = requestData["alerts"].ToString().Split( new char[] {','});
-                    if (alertTimes.Length == 1 && Convert.ToInt32(alertTimes[0]) == -1)
+                    int milliseconds = Int32.Parse(requestData["milliseconds"].ToString());
+                    if(milliseconds == -1)
                     {
-                        m_log.Info("[RADMIN]: Request to cancel restart.");
-
                         if (restartModule != null)
                         {
                             message = "Restart has been cancelled";
@@ -325,24 +323,7 @@ namespace OpenSim.ApplicationPlugins.RemoteController
                             return;
                         }
                     }
-                    foreach (string a in alertTimes)
-                        times.Add(Convert.ToInt32(a));
-                }
-                else
-                {
-                    int timeout = 30;
-                    if (requestData.ContainsKey("milliseconds"))
-                        timeout = Int32.Parse(requestData["milliseconds"].ToString()) / 1000;
-                    while (timeout > 0)
-                    {
-                        times.Add(timeout);
-                        if (timeout > 300)
-                            timeout -= 120;
-                        else if (timeout > 30)
-                            timeout -= 30;
-                        else
-                            timeout -= 15;
-                    }
+                    timeout = milliseconds / 1000;
                 }
 
                 m_log.Info("[RADMIN]: Request to restart Region.");
@@ -351,13 +332,6 @@ namespace OpenSim.ApplicationPlugins.RemoteController
 
                 if (requestData.ContainsKey("message"))
                     message = requestData["message"].ToString();
-
-                bool notice = true;
-                if (requestData.ContainsKey("noticetype")
-                    && ((string)requestData["noticetype"] == "dialog"))
-                {
-                    notice = false;
-                }
 
                 if (startupConfig.GetBoolean("SkipDelayOnEmptyRegion", false))
                 {
@@ -389,9 +363,7 @@ namespace OpenSim.ApplicationPlugins.RemoteController
                     if (agents == 0)
                     {
                         m_log.Info("[RADMIN]: No avatars detected, shutting down without delay");
-
-                        times.Clear();
-                        times.Add(0);
+                        timeout = 0;
                     }
                 }
 
@@ -406,7 +378,7 @@ namespace OpenSim.ApplicationPlugins.RemoteController
                 {
                     restartModule = s.RequestModuleInterface<IRestartModule>();
                     if (restartModule != null)
-                        restartModule.ScheduleRestart(UUID.Zero, message, times.ToArray(), notice);
+                        restartModule.ScheduleRestart(UUID.Zero, timeout);
                 }
                 responseData["success"] = true;
             }
