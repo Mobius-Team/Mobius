@@ -59,6 +59,7 @@ namespace OpenSim.Region.ClientStack.Linden
         private bool m_Enabled = false;
 
         private string m_URL;
+		private string m_ExternalSearchURL;
 
         #region ISharedRegionModule Members
 
@@ -72,6 +73,9 @@ namespace OpenSim.Region.ClientStack.Linden
             // Cap doesn't exist
             if (m_URL != string.Empty)
                 m_Enabled = true;
+				
+			config = source.Configs["AvatarPicker"];
+			m_ExternalSearchURL = config.GetString("ExternalAvatarPickerURL", string.Empty);
         }
 
         public void AddRegion(Scene s)
@@ -119,7 +123,13 @@ namespace OpenSim.Region.ClientStack.Linden
         {
             UUID capID = UUID.Random();
 
-            if (m_URL == "localhost")
+            if (m_ExternalSearchURL != string.Empty)
+			{
+                caps.RegisterHandler(
+                    "AvatarPickerSearch",
+                    new ExternalAvatarPickerSearchHandler("/CAPS/" + capID + "/", m_ExternalSearchURL, "ExternalAvatarPickerSearch", "Search for avatars by name"));
+			}
+			else if (m_URL == "localhost")
             {
 //                m_log.DebugFormat("[AVATAR PICKER SEARCH]: /CAPS/{0} in region {1}", capID, m_scene.RegionInfo.RegionName);
                 caps.RegisterHandler(
