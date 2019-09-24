@@ -1476,6 +1476,29 @@
 [DisplayNames]
 	; Enabled = true
 
+[LSLSyntax]
+	; You will need to generate a UUID, then go to /bin/LSLSyntax and rename the appropriate example xml to be your generated UUID with .xml as the file extension. 
+	; e.g. 16dc04d6-1bf6-4a0c-abc4-47aade0a02db.xml
+	; You will also need to enter the UUID you generated as your SyntaxID below.
+	; For the example given above, this would be 16dc04d6-1bf6-4a0c-abc4-47aade0a02db
+	; e.g. SyntaxID=16dc04d6-1bf6-4a0c-abc4-47aade0a02db
+	
+	; A useful tool for generating UUIDs https://www.uuidgenerator.net/
+	
+	;Enabled = true
+	
+	;SyntaxID = 00000000-0000-0000-0000-000000000000
+	
+	; If you would like you change the directory of the LSLSyntax XMLs you can do so here.
+	;SyntaxDir = "./LSLSyntax/"
+
+
+	; If you would like your LSLSyntax fetched from a URL you can specify it here.
+	; The syntax ID will be appended to the end of the URL.
+	; e.g. lslsyntax.main.examplegrid.com/8d885d03-fb30-43d5-a886-e852f7aa1940
+
+	;ExternalSyntaxURL = "lslsyntax.main.examplegrid.com"
+
 [Architecture]
     ;# {Include-Architecture} {} {Choose one of the following architectures} {config-include/Standalone.ini config-include/StandaloneHypergrid.ini config-include/Grid.ini config-include/GridHypergrid.ini config-include/SimianGrid.ini config-include/HyperSimianGrid.ini} config-include/Standalone.ini
     ;; Uncomment one of the following includes as required.  For instance, to create a standalone OpenSim,
