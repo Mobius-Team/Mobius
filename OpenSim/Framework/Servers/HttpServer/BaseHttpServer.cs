@@ -49,6 +49,7 @@ using OpenSim.Framework.Monitoring;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using OpenSim.Framework.Servers;
+using System.Net.NetworkInformation;
 
 namespace OpenSim.Framework.Servers.HttpServer
 {
@@ -2028,10 +2029,15 @@ namespace OpenSim.Framework.Servers.HttpServer
 
             return buffer;
         }
+		
+		public void Start(uint port_min, uint port_max)
+        {
+            Start(true, true, port_min, port_max);
+        }
 
         public void Start()
         {
-            Start(true, true);
+            Start(true, true, m_port, m_port);
         }
 
         /// <summary>
@@ -2041,10 +2047,14 @@ namespace OpenSim.Framework.Servers.HttpServer
         /// If true then poll responses are performed asynchronsly.
         /// Option exists to allow regression tests to perform processing synchronously.
         /// </param>
-        public void Start(bool performPollResponsesAsync, bool runPool)
+        public void Start(bool performPollResponsesAsync, bool runPool, uint port_min, uint port_max)
         {
-            m_log.InfoFormat(
-                "[BASE HTTP SERVER]: Starting {0} server on port {1}", UseSSL ? "HTTPS" : "HTTP", Port);
+            if (port_min == port_max)
+				m_log.InfoFormat(
+                    "[BASE HTTP SERVER]: Starting {0} server on port {1}", UseSSL ? "HTTPS" : "HTTP", Port);
+            else
+                m_log.InfoFormat(
+                    "[BASE HTTP SERVER]: Starting {0} server on first available port between {1} and {2}", UseSSL ? "HTTPS" : "HTTP", port_min, port_max);
 
             try
             {
@@ -2055,7 +2065,28 @@ namespace OpenSim.Framework.Servers.HttpServer
                 {
                     //m_httpListener.Prefixes.Add("http://+:" + m_port + "/");
                     //m_httpListener.Prefixes.Add("http://10.1.1.5:" + m_port + "/");
-                    m_httpListener2 = CoolHTTPListener.Create(m_listenIPAddress, (int)m_port);
+                    
+					if (port_min != port_max)
+                    {
+                        IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+                        List<IPEndPoint> ipEndPoints = new List<IPEndPoint>(ipProperties.GetActiveTcpListeners());
+
+                        for (uint current_port = port_min; current_port < port_max; current_port++)
+                        {
+                            if (ipEndPoints.Find(x => x.Port == current_port) != null)
+                                continue;
+
+                            m_httpListener2 = CoolHTTPListener.Create(m_listenIPAddress, (int)current_port);
+                            m_port = current_port;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        m_port = port_min;
+                        m_httpListener2 = CoolHTTPListener.Create(m_listenIPAddress, (int)m_port);
+                    }
+					
                     m_httpListener2.ExceptionThrown += httpServerException;
                     m_httpListener2.LogWriter = httpserverlog;
 

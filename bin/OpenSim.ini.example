@@ -541,6 +541,10 @@
     ;; entire simulator listens on. This port uses the TCP protocol, while
     ;; the region ports use UDP.
     ; http_listener_port = 9000
+	
+	; Alternatively instead of specifying a port you could specify a range
+	; http_listener_port_min = 9000
+	; http_listener_port_max = 9100
 
     ;; the following option will allow you to bind this instace to a specific IP, for the HTTP portion of the instance.
     ; http_listener_address = <some ip assigned to this system>
