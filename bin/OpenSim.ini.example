@@ -691,9 +691,17 @@
     ; These are enabled by default to localhost. Change if you see fit.
     Cap_GetTexture = "localhost"
     Cap_GetMesh = "localhost"
+	Cap_GetMesh2 = "localhost"
+	Cap_ViewerAsset = "localhost"
     Cap_AvatarPickerSearch = "localhost"
     Cap_GetDisplayNames = "localhost"
     Cap_SetDisplayName = "localhost"
+
+	; This is how many threads you would like each user to have for fetching assets via http.
+	AssetWorkThreads = 4
+	
+	; If you would like to outsource the load of http assets, you can specify the url here.
+	; ExternalViewerAssetsURL = "http://viewerassets.main.examplegrid.com"
 
 
 [SimulatorFeatures]
