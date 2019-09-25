@@ -4,6 +4,22 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.1
+\+ New Region Restart Notification   
+\+ LSLSyntax Module   
+\+ ViewerAsset Module   
+\+ External AvatarPickerSearch Handler   
+\+ Port range settings on simulators   
+\+ Option to have the region's port match the port of the sim   
+\* Merge with osCore2 (2766eef)
+
+#### Beta 1.1 Notes:
+ - The matching port setting will only work for one region per simulator.
+ - A PHP handler for AvatarPickerSearch and ViewerAsset will be included in OSAWS.
+ - I had to remove core's implementation of LSLSyntax and ViewerAsset.
+ - The region restart plugin has been changed to take the amount of time until a restart instead of a list. The RemoteAdminPlugin has been changed to match this behaviour.
+ - To make a region use the same port as the simulator, set its `InternalPort` to `MATCHING` in the ini.
+
 ## Beta 1.0.1
 \+ New ROBUST service to provide display names more efficiently  
 \* `FetchDisplayNamesInterval` is now `DisplayNamesCacheExpirationInHours` with a default value of 12   
