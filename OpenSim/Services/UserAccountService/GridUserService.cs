@@ -210,7 +210,15 @@ namespace OpenSim.Services.UserAccountService
             List<GridUserInfo> ret = new List<GridUserInfo>();
 
             foreach (string id in userIDs)
-                ret.Add(GetGridUserInfo(id));
+            {
+                GridUserInfo userInfo = GetGridUserInfo(id);
+                if (userInfo == null && update_name)
+                {
+                    userInfo = new GridUserInfo();
+                    userInfo.UserID = id;
+                }
+                ret.Add(userInfo);
+            }
 
             if (update_name)
                 return UpdateDisplayNames(ret).ToArray();

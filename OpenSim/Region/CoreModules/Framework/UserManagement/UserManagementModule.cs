@@ -522,9 +522,21 @@ namespace OpenSim.Region.CoreModules.Framework.UserManagement
                 {
                     lock (m_UserCache)
                     {
-                        if ((m_UserCache.TryGetValue(uuid, out userdata) && !update_name ) &&
+                        if (m_UserCache.TryGetValue(uuid, out userdata) &&
                                 userdata.FirstName != "Unknown" && userdata.FirstName != string.Empty)
                         {
+                            if(update_name)
+                            {
+                                if(userdata.HomeURL != string.Empty)
+                                {
+                                    string name = string.Join(" ", userdata.FirstName.Split('.'));
+                                    //m_log.InfoFormat("Adding {0};{1};{2} to missing", userdata.Id, userdata.HomeURL, name);
+                                    missing.Add(string.Format("{0};{1};{2}", userdata.Id, userdata.HomeURL, name));
+                                }
+                                else missing.Add(id);
+                                continue;
+                            }
+
                             if (userdata.HasGridUserTried)
                             {
                                 ret[uuid] = userdata;
