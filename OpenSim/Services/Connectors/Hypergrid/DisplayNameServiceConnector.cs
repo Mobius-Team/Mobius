@@ -127,7 +127,7 @@ namespace OpenSim.Services.Connectors.Hypergrid
 
                 }
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
                 // target grid is offline or didn't send back the expected result
                 //m_log.DebugFormat("[HGGetDisplayNames Connector]: Exception when contacting friends server at {0}: {1}", uri, e.Message);
