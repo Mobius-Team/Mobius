@@ -102,7 +102,7 @@ namespace OpenSim.Services.Connectors.Hypergrid
             {
                 string reply = SynchronousRestFormsRequester.MakeRequest("POST",
                         uri,
-                        reqString);
+                        reqString, 5, null, false);
                 if (reply != string.Empty)
                 {
                     Dictionary<string, object> replyData = ServerUtils.ParseXmlResponse(reply);
