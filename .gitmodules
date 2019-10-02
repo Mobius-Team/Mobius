@@ -1,0 +1,3 @@
+[submodule "OSAWS"]
+	path = OSAWS
+	url = https://github.com/Mobius-Team/OSAWS.git
