@@ -2424,7 +2424,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             {
                 try
                 {
-                    UserAgentServiceConnector userConnection = new UserAgentServiceConnector(serverURI, true);
+                    UserAgentServiceConnector userConnection = new UserAgentServiceConnector(serverURI);
 
                     if (userConnection != null)
                     {
