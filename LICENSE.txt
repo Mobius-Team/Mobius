@@ -1,3 +1,10 @@
+Produced by Rich Williams(aka Bill Blight in OpenSimulator)
+grid@ourgrid.life, watchersphone@gmail.com
+
+Certain customizations may reside outside previouisly granted license(s),
+
+All Copyrights are held by their respective owners.
+
 Copyright (c) Contributors, http://opensimulator.org/ 
 See CONTRIBUTORS.TXT for a full list of copyright holders.
 
