@@ -153,7 +153,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         internal static bool m_OSFunctionsEnabled = true;
         internal static TimeZoneInfo PSTTimeZone = null;
         internal static bool m_PermissionErrortoOwner = true;
-        internal static ThreatLevel m_MaxThreatLevel = ThreatLevel.VeryLow;
+        internal static ThreatLevel m_MaxThreatLevel = ThreatLevel.Severe;
         internal static float m_ScriptDelayFactor = 1.0f;
         internal static float m_ScriptDistanceFactor = 1.0f;
         internal static IConfig m_osslconfig;
@@ -229,11 +229,10 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                 default:
                     break;
                 }
-            try
-	    {
+                try
+	        {
 	    	    PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");            
-	    } 
-            
+	        } 
                 catch
                 {
                     PSTTimeZone = null;
