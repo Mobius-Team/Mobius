@@ -150,9 +150,9 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         private static object m_OSSLLock = new object();
         private static bool m_doneSharedInit = false;
-        internal static bool m_OSFunctionsEnabled = false;
+        internal static bool m_OSFunctionsEnabled = true;
         internal static TimeZoneInfo PSTTimeZone = null;
-        internal static bool m_PermissionErrortoOwner = false;
+        internal static bool m_PermissionErrortoOwner = true;
         internal static ThreatLevel m_MaxThreatLevel = ThreatLevel.VeryLow;
         internal static float m_ScriptDelayFactor = 1.0f;
         internal static float m_ScriptDistanceFactor = 1.0f;
