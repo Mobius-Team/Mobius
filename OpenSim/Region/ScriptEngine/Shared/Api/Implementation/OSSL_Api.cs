@@ -232,7 +232,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             try
 	    {
 	    	    PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");            
-	    {
+	    } 
             
                 catch
                 {
