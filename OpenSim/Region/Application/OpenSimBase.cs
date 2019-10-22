@@ -595,7 +595,7 @@ namespace OpenSim
                 estateOwnerPassword = Config.Configs[ESTATE_SECTION_NAME].GetString("DefaultEstateOwnerPassword", null);
             }
 
-            MainConsole.Instance.Output("Estate {0} has no owner set.", null, regionInfo.EstateSettings.EstateName);
+            MainConsole.Instance.Output("Estate {0} has no owner set.", regionInfo.EstateSettings.EstateName);
             List<char> excluded = new List<char>(new char[1]{' '});
 
 
@@ -1005,7 +1005,7 @@ namespace OpenSim
 
             if (estatesByName.ContainsKey(newName))
             {
-                MainConsole.Instance.Output("An estate named {0} already exists.  Please try again.", null, newName);
+                MainConsole.Instance.Output("An estate named {0} already exists.  Please try again.", newName);
                 return false;
             }
 
