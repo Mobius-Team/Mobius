@@ -8241,7 +8241,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             if (length < 1)
             {
                 buttons.Add(new LSL_String("Ok"));
-                length = 1;
+                message = "You must have at least one button"; 
+		length = 1;
             }
             else if (length > 12)
             {
