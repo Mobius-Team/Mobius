@@ -5751,4 +5751,17 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             return 0;
         }
     }
+                                    //return reason true(1) if an OSSL vunction (by string name) can be called
+                                   //without generating a permission error. else returns false(0)
+        public LSL_Integer osPermissionToCall(string function) //return false(0) if the named OSSL function cannot be called
+        {                                                     //always returns false for any function managed by Thret Level
+            m_host.AddScriptLPS(1);
+            if (!m_OSFunctionsEnabled)          //if all OSSL functins are disabled,
+                return 0;                      //then the answer is always false
+            string reason = CheckThreatLevelTest(ThreatLevel.Severe+1,function);   //actually only tests the Allow_ permissions
+            return string.IsNullOrEmpty(reason);     //don't tell them why, just say yea or nay
+        }               //End of new test permissions of OSSL functions. 
+     }
+
+
 }
