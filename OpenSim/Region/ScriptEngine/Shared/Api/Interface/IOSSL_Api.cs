@@ -562,6 +562,6 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
 
         void osResetAllScripts(LSL_Integer AllLinkset);
         LSL_Integer osIsNotValidNumber(LSL_Float v);
-        LSL_Integer osPermissionToCall(string name);  //returns true(1) if permissions and threat level allow you to call named function
+        LSL_Integer osPerm2Use(string name);  //returns true(1) if permissions and threat level allow you to call named function
     }
 }
