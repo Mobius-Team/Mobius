@@ -5760,7 +5760,5 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             string reason = CheckThreatLevelTest(ThreatLevel.Severe+1,function);   //actually only tests the Allow_ permissions
             return string.IsNullOrEmpty(reason);     //don't tell them why, just say yea or nay
         }               //End of new test permissions of OSSL functions. 
-   }
+    }
 }
-    
-
