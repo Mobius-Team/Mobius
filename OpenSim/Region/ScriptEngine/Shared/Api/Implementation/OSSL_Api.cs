@@ -25,37 +25,29 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Remoting.Lifetime;
-using System.Text;
-using System.Net;
-using System.Threading;
-using System.Xml;
 using log4net;
+using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Nini.Config;
-using OpenSim;
 using OpenSim.Framework;
-
-using OpenSim.Framework.Console;
 using OpenSim.Region.Framework.Interfaces;
 using OpenSim.Region.Framework.Scenes;
 using OpenSim.Region.Framework.Scenes.Scripting;
-using OpenSim.Region.ScriptEngine.Shared;
-using OpenSim.Region.ScriptEngine.Shared.Api.Plugins;
-using OpenSim.Region.ScriptEngine.Shared.ScriptBase;
 using OpenSim.Region.ScriptEngine.Interfaces;
 using OpenSim.Region.ScriptEngine.Shared.Api.Interfaces;
-using TPFlags = OpenSim.Framework.Constants.TeleportFlags;
+using OpenSim.Region.ScriptEngine.Shared.ScriptBase;
+using OpenSim.Services.Connectors.Hypergrid;
 using OpenSim.Services.Interfaces;
-using GridRegion = OpenSim.Services.Interfaces.GridRegion;
+using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Remoting.Lifetime;
+using System.Text;
 using System.Text.RegularExpressions;
-
+using System.Threading;
+using GridRegion = OpenSim.Services.Interfaces.GridRegion;
 using LSL_Float = OpenSim.Region.ScriptEngine.Shared.LSL_Types.LSLFloat;
 using LSL_Integer = OpenSim.Region.ScriptEngine.Shared.LSL_Types.LSLInteger;
 using LSL_Key = OpenSim.Region.ScriptEngine.Shared.LSL_Types.LSLString;
@@ -64,7 +56,7 @@ using LSL_Rotation = OpenSim.Region.ScriptEngine.Shared.LSL_Types.Quaternion;
 using LSL_String = OpenSim.Region.ScriptEngine.Shared.LSL_Types.LSLString;
 using LSL_Vector = OpenSim.Region.ScriptEngine.Shared.LSL_Types.Vector3;
 using PermissionMask = OpenSim.Framework.PermissionMask;
-using OpenSim.Services.Connectors.Hypergrid;
+using TPFlags = OpenSim.Framework.Constants.TeleportFlags;
 
 namespace OpenSim.Region.ScriptEngine.Shared.Api
 {
@@ -112,116 +104,144 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
     //            modification of user data, or allows the compromise of
     //            sensitive data by design.
 
+    // flags functions threat control
+    public enum AllowedControlFlags : int
+    {
+        NONE                = 0,
+        PARCEL_OWNER        = 1,
+        PARCEL_GROUP_MEMBER = 1 << 1,
+        ESTATE_MANAGER      = 1 << 2,
+        ESTATE_OWNER        = 1 << 3,
+        ACTIVE_GOD          = 1 << 4,
+        GOD                 = 1 << 5,
+        GRID_GOD            = 1 << 6,
+
+        // internal
+        THREATLEVEL         = 1 << 28,
+        OWNERUUID           = 1 << 29,
+        CREATORUUID         = 1 << 30,
+        //int thingie       = 1 << 31,
+        ALL = 0x0FFFFFFF
+    }
+
     class FunctionPerms
     {
         public List<UUID> AllowedCreators;
         public List<UUID> AllowedOwners;
-        public List<string> AllowedOwnerClasses;
-
-        public FunctionPerms()
-        {
-            AllowedCreators = new List<UUID>();
-            AllowedOwners = new List<UUID>();
-            AllowedOwnerClasses = new List<string>();
-        }
+        public AllowedControlFlags AllowedControl = AllowedControlFlags.NONE;
     }
 
     [Serializable]
     public class OSSL_Api : MarshalByRefObject, IOSSL_Api, IScriptApi
     {
-        private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public const string GridInfoServiceConfigSectionName = "GridInfoService";
 
-        internal IScriptEngine m_ScriptEngine;
+        // shared things    
+        private static readonly ILog m_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private static object m_OSSLLock = new object();
+        private static bool m_doneSharedInit = false;
+        internal static bool m_OSFunctionsEnabled = true;
+        internal static TimeZoneInfo PSTTimeZone = null;
+        internal static bool m_PermissionErrortoOwner = true;
+        internal static ThreatLevel m_MaxThreatLevel = ThreatLevel.Severe;
+        internal static float m_ScriptDelayFactor = 1.0f;
+        internal static float m_ScriptDistanceFactor = 1.0f;
+        internal static IConfig m_osslconfig;
+
+        internal static ConcurrentDictionary<string, FunctionPerms> m_FunctionPerms = new ConcurrentDictionary<string, FunctionPerms>();
+
+	internal IScriptEngine m_ScriptEngine;
         internal LSL_Api m_LSL_Api = null; // get a reference to the LSL API so we can call methods housed there
         internal SceneObjectPart m_host;
         internal TaskInventoryItem m_item;
-        internal bool m_OSFunctionsEnabled = false;
-        internal ThreatLevel m_MaxThreatLevel = ThreatLevel.VeryLow;
-        internal float m_ScriptDelayFactor = 1.0f;
-        internal float m_ScriptDistanceFactor = 1.0f;
-        internal Dictionary<string, FunctionPerms > m_FunctionPerms = new Dictionary<string, FunctionPerms >();
         protected IUrlModule m_UrlModule = null;
         protected ISoundModule m_SoundModule = null;
-        internal IConfig m_osslconfig;
-        internal TimeZoneInfo PSTTimeZone = null;
 
-        public void Initialize(
-            IScriptEngine scriptEngine, SceneObjectPart host, TaskInventoryItem item)
-        {
+        public void Initialize(IScriptEngine scriptEngine, SceneObjectPart host, TaskInventoryItem item)
+         {
+            //private init
             m_ScriptEngine = scriptEngine;
             m_host = host;
             m_item = item;
 
-            m_osslconfig = m_ScriptEngine.ConfigSource.Configs["OSSL"];
-            if(m_osslconfig == null)
-                m_osslconfig = m_ScriptEngine.Config;
 
             m_UrlModule = m_ScriptEngine.World.RequestModuleInterface<IUrlModule>();
             m_SoundModule = m_ScriptEngine.World.RequestModuleInterface<ISoundModule>();
 
-            if (m_osslconfig.GetBoolean("AllowOSFunctions", false))
-            {
-                m_OSFunctionsEnabled = true;
+            //private init
+            lock (m_OSSLLock)
+             {
+                if(m_doneSharedInit)
+                    return;
+
+                m_osslconfig = m_ScriptEngine.ConfigSource.Configs["OSSL"];
+                if(m_osslconfig == null)
+                    m_osslconfig = m_ScriptEngine.Config;
+
+                if (m_osslconfig.GetBoolean("AllowOSFunctions", true))
+                {    
+	        m_OSFunctionsEnabled = true;
                 // m_log.Warn("[OSSL] OSSL FUNCTIONS ENABLED");
-            }
-
-            m_ScriptDelayFactor =
-                    m_ScriptEngine.Config.GetFloat("ScriptDelayFactor", 1.0f);
-            m_ScriptDistanceFactor =
-                    m_ScriptEngine.Config.GetFloat("ScriptDistanceLimitFactor", 1.0f);
-
-            string risk = m_osslconfig.GetString("OSFunctionThreatLevel", "VeryLow");
-            switch (risk)
-            {
-            case "NoAccess":
-                m_MaxThreatLevel = ThreatLevel.NoAccess;
-                break;
-            case "None":
-                m_MaxThreatLevel = ThreatLevel.None;
-                break;
-            case "VeryLow":
-                m_MaxThreatLevel = ThreatLevel.VeryLow;
-                break;
-            case "Low":
-                m_MaxThreatLevel = ThreatLevel.Low;
-                break;
-            case "Moderate":
-                m_MaxThreatLevel = ThreatLevel.Moderate;
-                break;
-            case "High":
-                m_MaxThreatLevel = ThreatLevel.High;
-                break;
-            case "VeryHigh":
-                m_MaxThreatLevel = ThreatLevel.VeryHigh;
-                break;
-            case "Severe":
-                m_MaxThreatLevel = ThreatLevel.Severe;
-                break;
-            default:
-                break;
-            }
-
-            try
-            {
-                PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
-            }
-            catch
-            {
-                PSTTimeZone = null;
-            }
-            if(PSTTimeZone == null)
-            {
-                try
-                {
-                    PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
                 }
+
+                m_PermissionErrortoOwner = m_osslconfig.GetBoolean("PermissionErrorToOwner", m_PermissionErrortoOwner);
+
+                m_ScriptDelayFactor =  m_ScriptEngine.Config.GetFloat("ScriptDelayFactor", 1.0f);
+                m_ScriptDistanceFactor = m_ScriptEngine.Config.GetFloat("ScriptDistanceLimitFactor", 1.0f);
+
+                string risk = m_osslconfig.GetString("OSFunctionThreatLevel", "VeryLow");
+                switch (risk)
+                {
+                case "NoAccess":
+                    m_MaxThreatLevel = ThreatLevel.NoAccess;
+                    break;
+                case "None":
+                    m_MaxThreatLevel = ThreatLevel.None;
+                    break;
+                case "VeryLow":
+                    m_MaxThreatLevel = ThreatLevel.VeryLow;
+                    break;
+                case "Low":
+                    m_MaxThreatLevel = ThreatLevel.Low;
+                    break;
+                case "Moderate":
+                    m_MaxThreatLevel = ThreatLevel.Moderate;
+                    break;
+                case "High":
+                    m_MaxThreatLevel = ThreatLevel.High;
+                    break;
+                case "VeryHigh":
+                    m_MaxThreatLevel = ThreatLevel.VeryHigh;
+                    break;
+                case "Severe":
+                    m_MaxThreatLevel = ThreatLevel.Severe;
+                    break;
+                default:
+                    break;
+                }
+                try
+	        {
+	    	    PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");            
+	        } 
                 catch
                 {
                     PSTTimeZone = null;
                 }
-            }
+                if(PSTTimeZone == null)
+                {
+                    try
+                    {
+                       PSTTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
+                    }
+                    catch
+                    {
+                        PSTTimeZone = null;
+                    }
+                }
+
+                m_doneSharedInit = true;
+ 	     }
         }
 
         public override Object InitializeLifetimeService()
@@ -286,7 +306,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             if (!m_OSFunctionsEnabled)
-                OSSLError("permission denied.  All OS functions are disabled."); // throws
+                OSSLError("permission denied. All unsafe OSSL funtions disabled"); // throws
         }
 
         // Returns if the function is allowed. Throws a script exception if not allowed.
@@ -294,12 +314,20 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         {
             m_host.AddScriptLPS(1);
             if (!m_OSFunctionsEnabled)
-                OSSLError(String.Format("{0} permission denied.  All OS functions are disabled.", function)); // throws
+            {
+                if (m_PermissionErrortoOwner)
+                    throw new ScriptException("(OWNER)OSSL Permission Error: All unsafe OSSL funtions disabled");
+                else
+                    throw new ScriptException("OSSL Permission Error: All unsafe OSSL funtions disabled");
+            }
 
             string reasonWhyNot = CheckThreatLevelTest(level, function);
             if (!String.IsNullOrEmpty(reasonWhyNot))
             {
-                OSSLError(reasonWhyNot);
+                if (m_PermissionErrortoOwner)
+                    throw new ScriptException("(OWNER)OSSL Permission Error: " + reasonWhyNot);
+                else
+                    throw new ScriptException("OSSL Permission Error: " + reasonWhyNot);
             }
         }
 
@@ -307,186 +335,229 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         //     or a string explaining why this function can't be used.
         private string CheckThreatLevelTest(ThreatLevel level, string function)
         {
-            if (!m_FunctionPerms.ContainsKey(function))
+            FunctionPerms perms;
+            if (!m_FunctionPerms.TryGetValue(function, out perms))
             {
-                FunctionPerms perms = new FunctionPerms();
-                m_FunctionPerms[function] = perms;
+                perms = new FunctionPerms();
 
                 string ownerPerm = m_osslconfig.GetString("Allow_" + function, "");
                 string creatorPerm = m_osslconfig.GetString("Creators_" + function, "");
-                if (ownerPerm == "" && creatorPerm == "")
+                if (string.IsNullOrWhiteSpace(ownerPerm) && string.IsNullOrWhiteSpace(creatorPerm))
                 {
-                    // Default behavior
-                    perms.AllowedOwners = null;
-                    perms.AllowedCreators = null;
-                    perms.AllowedOwnerClasses = null;
+                    // Default Threat level check
+                    perms.AllowedControl = AllowedControlFlags.THREATLEVEL;
                 }
                 else
                 {
-                    bool allowed;
-
-                    if (bool.TryParse(ownerPerm, out allowed))
+                    if (bool.TryParse(ownerPerm, out bool allowed))
                     {
                         // Boolean given
                         if (allowed)
                         {
                             // Allow globally
-                            perms.AllowedOwners.Add(UUID.Zero);
+                            perms.AllowedControl = AllowedControlFlags.ALL;
                         }
+                        // false is fallback 
                     }
                     else
                     {
-                        string[] ids = ownerPerm.Split(new char[] {','});
-                        foreach (string id in ids)
+                        string[] ids;
+                        bool error = false;
+                        if (!string.IsNullOrWhiteSpace(ownerPerm))
                         {
-                            string current = id.Trim();
-                            if (current.ToUpper() == "PARCEL_GROUP_MEMBER" || current.ToUpper() == "PARCEL_OWNER" || current.ToUpper() == "ESTATE_MANAGER" || current.ToUpper() == "ESTATE_OWNER" || current.ToUpper() == "ACTIVE_GOD" || current.ToUpper() == "GRID_GOD" || current.ToUpper() == "GOD")
+                            ids = ownerPerm.Split(new char[] {','});
+                            foreach (string id in ids)
                             {
-                                if (!perms.AllowedOwnerClasses.Contains(current))
-                                    perms.AllowedOwnerClasses.Add(current.ToUpper());
-                            }
-                            else
-                            {
-                                UUID uuid;
-
-                                if (UUID.TryParse(current, out uuid))
+                                string current = id.Trim();
+                                current = current.ToUpper();
+                                switch(current)
                                 {
-                                    if (uuid != UUID.Zero)
-                                        perms.AllowedOwners.Add(uuid);
+                                    case "":
+                                        break;
+                                    case "PARCEL_OWNER":
+                                        perms.AllowedControl |= AllowedControlFlags.PARCEL_OWNER;
+                                        break;
+                                    case "PARCEL_GROUP_MEMBER":
+                                        perms.AllowedControl |= AllowedControlFlags.PARCEL_GROUP_MEMBER;
+                                        break;
+                                    case "ESTATE_MANAGER":
+                                        perms.AllowedControl |= AllowedControlFlags.ESTATE_MANAGER;
+                                        break;
+                                    case "ESTATE_OWNER":
+                                        perms.AllowedControl |= AllowedControlFlags.ESTATE_OWNER;
+                                        break;
+                                    case "ACTIVE_GOD":
+                                        perms.AllowedControl |= AllowedControlFlags.ACTIVE_GOD;
+                                        break;
+                                    case "GOD":
+                                        perms.AllowedControl |= AllowedControlFlags.GOD;
+                                        break;
+                                    case "GRID_GOD":
+                                        perms.AllowedControl |= AllowedControlFlags.GRID_GOD;
+                                        break;
+                                    default:
+                                    {
+                                        if (UUID.TryParse(current, out UUID uuid))
+                                        {
+                                            if (uuid != UUID.Zero)
+                                            {
+                                                if (perms.AllowedOwners == null)
+                                                    perms.AllowedOwners = new List<UUID>();
+                                                perms.AllowedControl |= AllowedControlFlags.OWNERUUID;
+                                                perms.AllowedOwners.Add(uuid);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            error = true;
+                                        }
+                                        break;
+                                    }
                                 }
                             }
+                            if (error)
+                                m_log.WarnFormat("[OSSLENABLE]: error parsing line Allow_{0} = {1}", function, ownerPerm);
                         }
-
-                        ids = creatorPerm.Split(new char[] {','});
-                        foreach (string id in ids)
+                        error = false;
+                        if (!string.IsNullOrWhiteSpace(creatorPerm))
                         {
-                            string current = id.Trim();
-                            UUID uuid;
-
-                            if (UUID.TryParse(current, out uuid))
+                            ids = creatorPerm.Split(new char[] {','});
+                            foreach (string id in ids)
                             {
-                                if (uuid != UUID.Zero)
-                                    perms.AllowedCreators.Add(uuid);
+                                string current = id.Trim();
+                                if (UUID.TryParse(current, out UUID uuid))
+                                {
+                                    if (uuid != UUID.Zero)
+                                    {
+                                        if (perms.AllowedCreators == null)
+                                            perms.AllowedCreators = new List<UUID>();
+                                        perms.AllowedControl |= AllowedControlFlags.CREATORUUID;
+                                        perms.AllowedCreators.Add(uuid);
+                                    }
+                                }
+                                else
+                                {
+                                    error = true;
+                                }
                             }
+                            if (error)
+                                m_log.WarnFormat("[OSSLENABLE]: error parsing line Creators_{0} = {1}", function, creatorPerm);
                         }
+                        // both empty fallback as disabled
                     }
                 }
+                m_FunctionPerms.TryAdd(function,perms);
             }
 
-            // If the list is null, then the value was true / undefined
-            // Threat level governs permissions in this case
-            //
-            // If the list is non-null, then it is a list of UUIDs allowed
-            // to use that particular function. False causes an empty
-            // list and therefore means "no one"
-            //
-            // To allow use by anyone, the list contains UUID.Zero
-            //
-            if (m_FunctionPerms[function].AllowedOwners == null)
+            AllowedControlFlags functionControl = perms.AllowedControl;
+
+            if (functionControl == AllowedControlFlags.THREATLEVEL)
             {
                 // Allow / disallow by threat level
-                if (level > m_MaxThreatLevel)
-                    return
-                        String.Format(
+                if (level <= m_MaxThreatLevel)
+                    return String.Empty;
+
+                return String.Format(
                             "{0} permission denied.  Allowed threat level is {1} but function threat level is {2}.",
                             function, m_MaxThreatLevel, level);
             }
-            else
+
+            if (functionControl == 0)
+                return String.Format("{0} disabled in region configuration", function);
+
+            if (functionControl == AllowedControlFlags.ALL)
+                return String.Empty;
+
+            if (((functionControl & AllowedControlFlags.OWNERUUID) != 0) && perms.AllowedOwners.Contains(m_host.OwnerID))
             {
-                if (!m_FunctionPerms[function].AllowedOwners.Contains(UUID.Zero))
+                // prim owner is in the list of allowed owners
+                return String.Empty;
+            }
+
+            UUID ownerID = m_item.OwnerID;
+
+            if ((functionControl & AllowedControlFlags.PARCEL_OWNER) != 0)
+            {
+                ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
+                if (land.LandData.OwnerID == ownerID)
                 {
-                    // Not anyone. Do detailed checks
-                    if (m_FunctionPerms[function].AllowedOwners.Contains(m_host.OwnerID))
-                    {
-                        // prim owner is in the list of allowed owners
-                        return String.Empty;
-                    }
-
-                    UUID ownerID = m_item.OwnerID;
-
-                    //OSSL only may be used if object is in the same group as the parcel
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("PARCEL_GROUP_MEMBER"))
-                    {
-                        ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
-
-                        if (land.LandData.GroupID == m_item.GroupID && land.LandData.GroupID != UUID.Zero)
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    //Only Parcelowners may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("PARCEL_OWNER"))
-                    {
-                        ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
-
-                        if (land.LandData.OwnerID == ownerID)
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    //Only Estate Managers may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("ESTATE_MANAGER"))
-                    {
-                        //Only Estate Managers may use the function
-                        if (World.RegionInfo.EstateSettings.IsEstateManagerOrOwner(ownerID) && World.RegionInfo.EstateSettings.EstateOwner != ownerID)
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    //Only regionowners may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("ESTATE_OWNER"))
-                    {
-                        if (World.RegionInfo.EstateSettings.EstateOwner == ownerID)
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-
-                    //Only grid gods may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("GRID_GOD"))
-                    {
-                        if (World.Permissions.IsGridGod(ownerID))
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    //Any god may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("GOD"))
-                    {
-                        if (World.Permissions.IsAdministrator(ownerID))
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    //Only active gods may use the function
-                    if (m_FunctionPerms[function].AllowedOwnerClasses.Contains("ACTIVE_GOD"))
-                    {
-                        ScenePresence sp = World.GetScenePresence(ownerID);
-                        if (sp != null && !sp.IsDeleted && sp.IsGod)
-                        {
-                            return String.Empty;
-                        }
-                    }
-
-                    if (!m_FunctionPerms[function].AllowedCreators.Contains(m_item.CreatorID))
-                        return(
-                            String.Format("{0} permission denied. Script creator is not in the list of users allowed to execute this function and prim owner also has no permission.",
-                            function));
-
-                    if (m_item.CreatorID != ownerID)
-                    {
-                        if ((m_item.CurrentPermissions & (uint)PermissionMask.Modify) != 0)
-                            return String.Format("{0} permission denied. Script permissions error.", function);
-
-                    }
+                    return String.Empty;
                 }
             }
+
+            //OSSL only may be used if object is in the same group as the parcel
+            if ((functionControl & AllowedControlFlags.PARCEL_GROUP_MEMBER) != 0)
+            {
+                ILandObject land = World.LandChannel.GetLandObject(m_host.AbsolutePosition);
+                if (land.LandData.GroupID == m_item.GroupID && land.LandData.GroupID != UUID.Zero)
+                {
+                    return String.Empty;
+                }
+            }
+
+            //Only Estate Managers may use the function
+            if ((functionControl & AllowedControlFlags.ESTATE_MANAGER) != 0)
+            {
+                //Only Estate Managers may use the function
+                if (World.RegionInfo.EstateSettings.IsEstateManagerOrOwner(ownerID) && World.RegionInfo.EstateSettings.EstateOwner != ownerID)
+                {
+                    return String.Empty;
+                }
+            }
+
+            //Only regionowners may use the function
+            if ((functionControl & AllowedControlFlags.ESTATE_OWNER) != 0)
+            {
+                if (World.RegionInfo.EstateSettings.EstateOwner == ownerID)
+                {
+                    return String.Empty;
+                }
+            }
+
+            //Only grid gods may use the function
+            if ((functionControl & AllowedControlFlags.GRID_GOD) != 0)
+            {
+                if (World.Permissions.IsGridGod(ownerID))
+                {
+                    return String.Empty;
+                }
+            }
+
+            //Any god may use the function
+            if ((functionControl & AllowedControlFlags.GOD) != 0)
+            {
+                if (World.Permissions.IsAdministrator(ownerID))
+                {
+                    return String.Empty;
+                }
+            }
+
+            //Only active gods may use the function
+            if ((functionControl & AllowedControlFlags.ACTIVE_GOD) != 0)
+            {
+                ScenePresence sp = World.GetScenePresence(ownerID);
+                if (sp != null && !sp.IsDeleted && sp.IsGod)
+                {
+                    return String.Empty;
+                }
+            }
+
+            // else if no creators its denied
+            if((functionControl & AllowedControlFlags.CREATORUUID) == 0)
+                return String.Format("{0} permission denied.", function);
+
+            if (!perms.AllowedCreators.Contains(m_item.CreatorID))
+                return(
+                    String.Format("{0} permission denied. Script creator is not in the list of users allowed to execute this function and prim owner also has no permission.",
+                    function));
+
+            if (m_item.CreatorID != ownerID)
+            {
+                if ((m_item.CurrentPermissions & (uint)PermissionMask.Modify) != 0)
+                    return String.Format("{0} permission denied. Script creator is not prim owner.", function);
+
+            }
+
             return String.Empty;
         }
 
@@ -663,7 +734,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
         public void osSetRot(UUID target, Quaternion rotation)
         {
-            // This function has no security. It can be used to destroy
+            // if enabled It can be used to destroy
             // arbitrary builds the user would normally have no rights to
             //
             CheckThreatLevel(ThreatLevel.VeryHigh, "osSetRot");
@@ -688,10 +759,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public string osSetDynamicTextureURL(string dynamicID, string contentType, string url, string extraParams,
                                              int timer)
         {
-            // This may be upgraded depending on the griefing or DOS
-            // potential, or guarded with a delay
-            //
-            CheckThreatLevel(ThreatLevel.VeryLow, "osSetDynamicTextureURL");
+            CheckThreatLevel(ThreatLevel.VeryHigh, "osSetDynamicTextureURL");
 
             if (dynamicID == String.Empty)
             {
@@ -712,7 +780,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public string osSetDynamicTextureURLBlend(string dynamicID, string contentType, string url, string extraParams,
                                              int timer, int alpha)
         {
-            CheckThreatLevel(ThreatLevel.VeryLow, "osSetDynamicTextureURLBlend");
+            CheckThreatLevel(ThreatLevel.VeryHigh, "osSetDynamicTextureURLBlend");
 
             if (dynamicID == String.Empty)
             {
@@ -733,7 +801,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
         public string osSetDynamicTextureURLBlendFace(string dynamicID, string contentType, string url, string extraParams,
                                              bool blend, int disp, int timer, int alpha, int face)
         {
-            CheckThreatLevel(ThreatLevel.VeryLow, "osSetDynamicTextureURLBlendFace");
+            CheckThreatLevel(ThreatLevel.VeryHigh, "osSetDynamicTextureURLBlendFace");
 
             if (dynamicID == String.Empty)
             {
@@ -2405,7 +2473,7 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
             {
                 try
                 {
-                    UserAgentServiceConnector userConnection = new UserAgentServiceConnector(serverURI, true);
+                    UserAgentServiceConnector userConnection = new UserAgentServiceConnector(serverURI);
 
                     if (userConnection != null)
                     {
@@ -5617,5 +5685,61 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
 
             return LSL_Rotation.Slerp(a, b, amount);
         }
+
+        public void osResetAllScripts(LSL_Integer linkset)
+        {
+            UUID me = m_item.ItemID;
+            List<TaskInventoryItem> scripts = new List<TaskInventoryItem>();
+
+            if(linkset != 0)
+            {
+                SceneObjectGroup sog = m_host.ParentGroup;
+                if(sog.inTransit || sog.IsDeleted)
+                    return;
+
+                SceneObjectPart[] parts = sog.Parts;
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    scripts.AddRange(parts[i].Inventory.GetInventoryItems(InventoryType.LSL));
+                }
+            }
+            else
+                scripts.AddRange(m_host.Inventory.GetInventoryItems(InventoryType.LSL));
+
+            foreach(TaskInventoryItem script in scripts)
+            {
+                if(script.ItemID == me)
+                    continue;
+                m_ScriptEngine.ResetScript(script.ItemID);
+            }
+
+            if (m_UrlModule != null)
+                m_UrlModule.ScriptRemoved(me);
+
+            m_ScriptEngine.ApiResetScript(me);
+
+        }
+
+        public LSL_Integer osIsNotValidNumber(LSL_Float v)
+        {
+            double d = v;
+            if (double.IsNaN(d))
+                return 1;
+            if (double.IsNegativeInfinity(d))
+                return 2;
+            if (double.IsPositiveInfinity(d))
+                return 3;
+            return 0;
+        }
+                                    //return reason true(1) if an OSSL vunction (by string name) can be called
+                                   //without generating a permission error. else returns false(0)
+        public LSL_Integer osPerm2Use(string function) //return false(0) if the named OSSL function cannot be called
+        {                                                     //always returns false for any function managed by Thret Level
+            m_host.AddScriptLPS(1);
+            if (!m_OSFunctionsEnabled)          //if all OSSL functins are disabled,
+                return 0;                      //then the answer is always false
+            string reason = CheckThreatLevelTest(ThreatLevel.Severe+1,function);   //actually only tests the Allow_ permissions
+            return string.IsNullOrEmpty(reason);     //don't tell them why, just say yea or nay
+        }               //End of new test permissions of OSSL functions. 
     }
 }

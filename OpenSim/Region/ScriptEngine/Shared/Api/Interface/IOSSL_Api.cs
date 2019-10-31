@@ -559,5 +559,9 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api.Interfaces
         LSL_Key osGetLastChangedEventKey();
         LSL_Float osGetPSTWallclock();
         LSL_Rotation osSlerp(LSL_Rotation a, LSL_Rotation b, LSL_Float amount);
+
+        void osResetAllScripts(LSL_Integer AllLinkset);
+        LSL_Integer osIsNotValidNumber(LSL_Float v);
+        LSL_Integer osPerm2Use(string name);  //returns true(1) if permissions and threat level allow you to call named function
     }
 }

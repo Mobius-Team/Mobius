@@ -92,6 +92,7 @@ namespace OpenSim.Services.LLLoginService
         protected string m_MessageUrl;
         protected string m_DSTZone;
         protected bool m_allowDuplicatePresences = false;
+        protected string m_messageKey;
 
         IConfig m_LoginServerConfig;
 //        IConfig m_ClientsConfig;
@@ -159,6 +160,9 @@ namespace OpenSim.Services.LLLoginService
                     m_MapTileURL = m_MapTileURL + "/";
             }
 
+            IConfig messagingConfig = config.Configs["Messaging"];
+            if (messagingConfig != null)
+                m_messageKey = messagingConfig.GetString("MessageKey", String.Empty);
             // These are required; the others aren't
             if (accountService == string.Empty || authService == string.Empty)
                 throw new Exception("LoginService is missing service specifications");
@@ -1170,22 +1174,22 @@ namespace OpenSim.Services.LLLoginService
                     if (cmd.Length > 2)
                     {
                         if (Int32.TryParse(cmd[2], out m_MinLoginLevel))
-                            MainConsole.Instance.Output("Set minimum login level to {0}", null, m_MinLoginLevel);
+                            MainConsole.Instance.Output("Set minimum login level to {0}", m_MinLoginLevel);
                         else
-                            MainConsole.Instance.Output("ERROR: {0} is not a valid login level", null, cmd[2]);
+                            MainConsole.Instance.Output("ERROR: {0} is not a valid login level",  cmd[2]);
                     }
                     break;
 
                 case "reset":
                     m_MinLoginLevel = m_LoginServerConfig.GetInt("MinLoginLevel", 0);
-                    MainConsole.Instance.Output("Reset min login level to {0}", null, m_MinLoginLevel);
+                    MainConsole.Instance.Output("Reset min login level to {0}", m_MinLoginLevel);
                     break;
 
                 case "text":
                     if (cmd.Length > 2)
                     {
                         m_WelcomeMessage = cmd[2];
-                        MainConsole.Instance.Output("Login welcome message set to '{0}'", null, m_WelcomeMessage);
+                        MainConsole.Instance.Output("Login welcome message set to '{0}'", m_WelcomeMessage);
                     }
                     break;
             }
@@ -1218,7 +1222,7 @@ namespace OpenSim.Services.LLLoginService
             msg.Position = Vector3.Zero;
             msg.RegionID = scopeID.Guid;
             msg.binaryBucket = new byte[1] {0};
-            InstantMessageServiceConnector.SendInstantMessage(regURL,msg);
+            InstantMessageServiceConnector.SendInstantMessage(regURL,msg, m_messageKey);
 
             m_GridUserService.LoggedOut(agentID.ToString(),
                 UUID.Zero, guinfo.LastRegionID, guinfo.LastPosition, guinfo.LastLookAt);

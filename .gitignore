@@ -12,4 +12,6 @@ Robust32.vshost.exe
 Robust32.exe
 *.sln
 *.build
-
+*.orig
+*.swp
+*.cache

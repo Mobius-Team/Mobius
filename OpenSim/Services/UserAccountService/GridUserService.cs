@@ -111,7 +111,7 @@ namespace OpenSim.Services.UserAccountService
                 MainConsole.Instance.Output(cdl.ToString());
             }
 
-            MainConsole.Instance.Output("Entries: {0}", null, data.Length);
+            MainConsole.Instance.Output("Entries: {0}", data.Length);
         }
 
         protected void HandleShowGridUsersOnline(string module, string[] cmdparams)
@@ -140,7 +140,7 @@ namespace OpenSim.Services.UserAccountService
                 }
             }
 
-            MainConsole.Instance.Output("Users online: {0}", null, onlineRecentlyCount);
+            MainConsole.Instance.Output("Users online: {0}", onlineRecentlyCount);
         }
 
         private GridUserData GetGridUserData(string userID)
