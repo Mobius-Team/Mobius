@@ -126,6 +126,16 @@ namespace OpenSim.Services.UserAccountService
                         "Reset a user password", HandleResetUserPassword);
 
                     MainConsole.Instance.Commands.AddCommand("Users", false,
+                            "set user rsakey",
+                            "set user rsakey [<first> [<last> [<public key>]]]",
+                        "Set the public key for a specified user", HandleSetUserPublicKey);
+
+                    MainConsole.Instance.Commands.AddCommand("Users", false,
+                            "allow password login",
+                            "allow password login [<first> [<last>] [<true/false>]]]",
+                        "Enable or Disable login via password for a specified user", HandleAllowPasswordLogin);
+
+                    MainConsole.Instance.Commands.AddCommand("Users", false,
                         "reset user email",
                         "reset user email [<first> [<last> [<email>]]]",
                         "Reset a user email address", HandleResetUserEmail);
@@ -1054,6 +1064,76 @@ namespace OpenSim.Services.UserAccountService
             item.CurrentPermissions &= item.NextPermissions;
             item.BasePermissions &= item.NextPermissions;
             item.EveryOnePermissions &= item.NextPermissions;
+        }
+
+        protected void HandleSetUserPublicKey(string module, string[] cmdparams)
+        {
+            string firstName;
+            string lastName;
+            string publicKey;
+
+            if (cmdparams.Length < 4)
+                firstName = MainConsole.Instance.Prompt("First name");
+            else firstName = cmdparams[3];
+
+            if (cmdparams.Length < 5)
+                lastName = MainConsole.Instance.Prompt("Last name", "Resident");
+            else lastName = cmdparams[4];
+
+            if (cmdparams.Length < 6)
+                publicKey = MainConsole.Instance.Prompt("Public Key");
+            else publicKey = cmdparams[5];
+
+            UserAccount account = GetUserAccount(UUID.Zero, firstName, lastName);
+            if (account == null)
+            {
+                MainConsole.Instance.Output("No such user as {0} {1}", null, firstName, lastName);
+                return;
+            }
+
+            bool success = false;
+            if (m_AuthenticationService != null)
+                success = m_AuthenticationService.SetPublicKey(account.PrincipalID, publicKey);
+
+            if (!success)
+                MainConsole.Instance.Output("Unable to set public key for account {0} {1}.", null, firstName, lastName);
+            else
+                MainConsole.Instance.Output("Public key set for user {0} {1}", null, firstName, lastName);
+        }
+
+        protected void HandleAllowPasswordLogin(string module, string[] cmdparams)
+        {
+            string firstName;
+            string lastName;
+            bool allow_password_login;
+
+            if (cmdparams.Length < 4)
+                firstName = MainConsole.Instance.Prompt("First name");
+            else firstName = cmdparams[3];
+
+            if (cmdparams.Length < 5)
+                lastName = MainConsole.Instance.Prompt("Last name", "Resident");
+            else lastName = cmdparams[4];
+
+            if (cmdparams.Length < 6)
+                allow_password_login = MainConsole.Instance.Prompt("Allow Password Login", "false") != "false";
+            else allow_password_login = cmdparams[5] != "false";
+
+            UserAccount account = GetUserAccount(UUID.Zero, firstName, lastName);
+            if (account == null)
+            {
+                MainConsole.Instance.Output("No such user as {0} {1}", null, firstName, lastName);
+                return;
+            }
+
+            bool success = false;
+            if (m_AuthenticationService != null)
+                success = m_AuthenticationService.EnforceRSALogin(account.PrincipalID, !allow_password_login);
+
+            if (!success)
+                MainConsole.Instance.Output("Unable to disable password login for account {0} {1}.", null, firstName, lastName);
+            else
+                MainConsole.Instance.Output("Password login {0} for user {1} {2}", null, allow_password_login ? "enabled" : "disabled", firstName, lastName);
         }
     }
 }

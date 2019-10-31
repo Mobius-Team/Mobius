@@ -68,6 +68,13 @@ namespace OpenSim.Services.Interfaces
         //
         string Authenticate(UUID principalID, string password, int lifetime);
         string Authenticate(UUID principalID, string password, int lifetime, out UUID realID);
+        bool RSAAuthenticate(UUID principalID, int lifetime, out string magic, out string key);
+
+        bool FinishRSALogin(UUID principalID, string data, out string token);
+
+        bool SetPublicKey(UUID principalID, string public_key);
+
+        bool EnforceRSALogin(UUID principalID, bool enforce);
 
         //////////////////////////////////////////////////////
         // Verification

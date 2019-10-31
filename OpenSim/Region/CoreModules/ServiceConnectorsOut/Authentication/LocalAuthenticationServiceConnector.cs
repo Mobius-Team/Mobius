@@ -177,6 +177,26 @@ namespace OpenSim.Region.CoreModules.ServiceConnectorsOut.Authentication
             return m_AuthenticationService.SetAuthInfo(info);
         }
 
+        public bool RSAAuthenticate(UUID principalID, int lifetime, out string magic, out string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool FinishRSALogin(UUID principalID, string data, out string token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetPublicKey(UUID principalID, string public_key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EnforceRSALogin(UUID principalID, bool enforce)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

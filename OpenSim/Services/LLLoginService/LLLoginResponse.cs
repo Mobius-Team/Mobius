@@ -44,6 +44,40 @@ using OSDMap = OpenMetaverse.StructuredData.OSDMap;
 
 namespace OpenSim.Services.LLLoginService
 {
+    public class OSRSALoginResponse : OpenSim.Services.Interfaces.RSALoginResponse
+    {
+        private string m_password = string.Empty;
+        private string m_key = string.Empty;
+        private string m_message = string.Empty;
+        public override Hashtable ToHashtable()
+        {
+            Hashtable loginError = new Hashtable();
+            loginError["reason"] = "rsa_request";
+            loginError["key"] = m_key;
+            loginError["token"] = m_password;
+            loginError["login"] = "false";
+            return loginError;
+        }
+
+        public override OSD ToOSDMap()
+        {
+            OSDMap map = new OSDMap();
+
+            map["reason"] = OSD.FromString("rsa_request");
+            map["key"] = OSD.FromString(m_key);
+            map["token"] = OSD.FromString(m_password);
+            map["login"] = OSD.FromString("false");
+
+            return map;
+        }
+
+        public OSRSALoginResponse(string password, string key)
+        {
+            m_password = password;
+            m_key = key;
+        }
+    }
+
     public class LLFailedLoginResponse : OpenSim.Services.Interfaces.FailedLoginResponse
     {
         protected string m_key;
@@ -58,6 +92,8 @@ namespace OpenSim.Services.LLLoginService
         public static LLFailedLoginResponse UnverifiedAccountProblem;
         public static LLFailedLoginResponse AlreadyLoggedInProblem;
         public static LLFailedLoginResponse InternalError;
+        public static LLFailedLoginResponse RSALoginOnly;
+        public static LLFailedLoginResponse NoRSALogin;
 
         static LLFailedLoginResponse()
         {
@@ -86,6 +122,12 @@ namespace OpenSim.Services.LLLoginService
                 "If this takes longer than a few minutes please contact the grid owner. ",
                 "false");
             InternalError = new LLFailedLoginResponse("Internal Error", "Error generating Login Response", "false");
+            RSALoginOnly = new LLFailedLoginResponse("key",
+                "This account requires an RSA login.",
+                "false");
+            NoRSALogin = new LLFailedLoginResponse("key",
+                "This account does not allow RSA logins.",
+                "false");
         }
 
         public LLFailedLoginResponse(string key, string value, string login)
