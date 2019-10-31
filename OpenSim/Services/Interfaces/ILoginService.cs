@@ -45,10 +45,14 @@ namespace OpenSim.Services.Interfaces
     {
     }
 
+    public abstract class RSALoginResponse : LoginResponse
+    {
+    }
+
     public interface ILoginService
     {
         LoginResponse Login(string firstName, string lastName, string passwd, string startLocation, UUID scopeID,
-            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient);
+            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient, bool rsa_login = false, string rsa_data = "");
         Hashtable SetLevel(string firstName, string lastName, string passwd, int level, IPEndPoint clientIP);
     }
 

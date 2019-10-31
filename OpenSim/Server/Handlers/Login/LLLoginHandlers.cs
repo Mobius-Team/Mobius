@@ -92,7 +92,8 @@ namespace OpenSim.Server.Handlers.Login
                     requestData.ContainsKey("last") && requestData["last"] != null ) ||
                     (requestData.ContainsKey("username") && requestData["username"] != null)) && (
                         (requestData.ContainsKey("passwd") && requestData["passwd"] != null) ||
-                        (!requestData.ContainsKey("passwd") && requestData.ContainsKey("web_login_key") && requestData["web_login_key"] != null && requestData["web_login_key"].ToString() != UUID.Zero.ToString())
+                        (!requestData.ContainsKey("passwd") && requestData.ContainsKey("web_login_key") && requestData["web_login_key"] != null && requestData["web_login_key"].ToString() != UUID.Zero.ToString()) ||
+                        (!requestData.ContainsKey("passwd") && requestData.ContainsKey("rsa_login") && requestData["rsa_login"] != null)
                     ))
                 {
                     string first = null;
@@ -110,6 +111,8 @@ namespace OpenSim.Server.Handlers.Login
                     }
                     
                     string passwd = null;
+                    bool rsa_login = false;
+                    string rsa_value = "";
                     if (requestData.ContainsKey("passwd"))
                     {
                         passwd = requestData["passwd"].ToString();
@@ -118,6 +121,11 @@ namespace OpenSim.Server.Handlers.Login
                     {
                         passwd = "$1$" + requestData["web_login_key"].ToString();
                         m_log.InfoFormat("[LOGIN]: XMLRPC Login Req key {0}", passwd);
+                    }
+                    else if (requestData.ContainsKey("rsa_login"))
+                    {
+                        rsa_login = true;
+                        rsa_value = requestData["rsa_login"].ToString();
                     }
                     string startLocation = string.Empty;
                     UUID scopeID = UUID.Zero;
@@ -151,7 +159,7 @@ namespace OpenSim.Server.Handlers.Login
                         LibOMVclient = true;
 
                     LoginResponse reply = null;
-                    reply = m_LocalService.Login(first, last, passwd, startLocation, scopeID, clientVersion, channel, mac, id0, remoteClient, LibOMVclient);
+                    reply = m_LocalService.Login(first, last, passwd, startLocation, scopeID, clientVersion, channel, mac, id0, remoteClient, LibOMVclient, rsa_login, rsa_value);
 
                     XmlRpcResponse response = new XmlRpcResponse();
                     response.Value = reply.ToHashtable();

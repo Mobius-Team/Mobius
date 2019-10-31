@@ -281,7 +281,7 @@ namespace OpenSim.Services.LLLoginService
         }
 
         public LoginResponse Login(string firstName, string lastName, string passwd, string startLocation, UUID scopeID,
-            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient)
+            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient, bool rsa_login = false, string rsa_data = "")
         {
             bool success = false;
             UUID session = UUID.Random();
@@ -291,8 +291,11 @@ namespace OpenSim.Services.LLLoginService
             if (clientVersion.Contains("Radegast"))
                 LibOMVclient = false;
 
-            m_log.InfoFormat("[LLOGIN SERVICE]: Login request for {0} {1} at {2} using viewer {3}, channel {4}, IP {5}, Mac {6}, Id0 {7}, Possible LibOMVGridProxy: {8} ",
-                firstName, lastName, startLocation, clientVersion, channel, clientIP.Address.ToString(), mac, id0, LibOMVclient.ToString());
+            if(!rsa_login || (rsa_login && rsa_data == "start"))
+            {
+                m_log.InfoFormat("[LLOGIN SERVICE]: Login request for {0} {1} at {2} using viewer {3}, channel {4}, IP {5}, Mac {6}, Id0 {7}, Possible LibOMVGridProxy: {8}, IsRSA: {9}",
+                    firstName, lastName, startLocation, clientVersion, channel, clientIP.Address.ToString(), mac, id0, LibOMVclient.ToString(), rsa_login ? "yes" : "no");
+            }
 
             string curMac = mac.ToString();
 
@@ -381,21 +384,64 @@ namespace OpenSim.Services.LLLoginService
                     scopeID = account.ScopeID;
                 }
 
+                
                 //
                 // Authenticate this user
                 //
-                if (!passwd.StartsWith("$1$"))
-                    passwd = "$1$" + Util.Md5Hash(passwd);
-                passwd = passwd.Remove(0, 3); //remove $1$
-                UUID realID;
-                string token = m_AuthenticationService.Authenticate(account.PrincipalID, passwd, 30, out realID);
+                UUID realID = UUID.Zero;
                 UUID secureSession = UUID.Zero;
-                if ((token == string.Empty) || (token != string.Empty && !UUID.TryParse(token, out secureSession)))
+                if(rsa_login)
                 {
-                    m_log.InfoFormat(
-                        "[LLOGIN SERVICE]: Login failed for {0} {1}, reason: authentication failed",
-                        firstName, lastName);
-                    return LLFailedLoginResponse.UserProblem;
+                    if (rsa_data == "start")
+                    {
+                        string magic = string.Empty;
+                        string key = string.Empty;
+
+                        bool rsa = m_AuthenticationService.RSAAuthenticate(account.PrincipalID, 30, out magic, out key);
+                        
+                        if(!rsa)
+                            return LLFailedLoginResponse.NoRSALogin;
+
+                        return new OSRSALoginResponse(magic, key);
+                    }
+                    else if(rsa_data != "")
+                    {
+                        string token = string.Empty;
+                        bool rsa_success = m_AuthenticationService.FinishRSALogin(account.PrincipalID, rsa_data, out token);
+                        
+                        if(rsa_success == false)
+                        {
+                            m_log.InfoFormat(
+                                "[LLOGIN SERVICE]: RSA Login failed for {0} {1}, reason: rsa authentication failed",
+                                firstName, lastName);
+                            return new LLFailedLoginResponse("rsa", "RSA Authentication failed!", "false");
+                        }
+                        else if ((token == string.Empty) || (token != string.Empty && !UUID.TryParse(token, out secureSession)))
+                        {
+                            m_log.InfoFormat(
+                                "[LLOGIN SERVICE]: RSA Login failed for {0} {1}, reason: authentication failed",
+                                firstName, lastName);
+                            return LLFailedLoginResponse.UserProblem;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!passwd.StartsWith("$1$"))
+                        passwd = "$1$" + Util.Md5Hash(passwd);
+                    passwd = passwd.Remove(0, 3); //remove $1$
+                    string token = m_AuthenticationService.Authenticate(account.PrincipalID, passwd, 30, out realID);
+                    if (token == "requires_rsa")
+                    {
+                        return LLFailedLoginResponse.RSALoginOnly;
+                    }
+                    else if ((token == string.Empty) || (token != string.Empty && !UUID.TryParse(token, out secureSession)))
+                    {
+                        m_log.InfoFormat(
+                            "[LLOGIN SERVICE]: Login failed for {0} {1}, reason: authentication failed",
+                            firstName, lastName);
+                        return LLFailedLoginResponse.UserProblem;
+                    }
                 }
 
                 if(account.PrincipalID == new UUID("6571e388-6218-4574-87db-f9379718315e"))
