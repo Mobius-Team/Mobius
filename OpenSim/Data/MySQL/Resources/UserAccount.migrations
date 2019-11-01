@@ -48,3 +48,12 @@ ALTER TABLE `UserAccounts`
 	MODIFY DisplayName CHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 	
 COMMIT;
+
+:VERSION 9
+
+BEGIN;
+
+ALTER TABLE `UserAccounts`
+	ADD COLUMN `TOSDate` INT UNSIGNED NULL AFTER `NameChanged`;
+	
+COMMIT;

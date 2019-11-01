@@ -95,6 +95,7 @@ namespace OpenSim.Services.Interfaces
         public Boolean LocalToGrid = true;
 		public string DisplayName = string.Empty;
         public int NameChanged;
+        public int TOSDate;
 
         public Dictionary<string, object> ServiceURLs;
 
@@ -132,6 +133,9 @@ namespace OpenSim.Services.Interfaces
                 DisplayName = kvp["DisplayName"].ToString();
             if (kvp.ContainsKey("NameChanged") && kvp["NameChanged"] != null)
                 NameChanged = Convert.ToInt32(kvp["NameChanged"].ToString());
+
+            if (kvp.ContainsKey("TOSDate") && kvp["TOSDate"] != null)
+                TOSDate = Convert.ToInt32(kvp["TOSDate"].ToString());
 
             if (kvp.ContainsKey("Created"))
                 Created = Convert.ToInt32(kvp["Created"].ToString());
@@ -172,6 +176,8 @@ namespace OpenSim.Services.Interfaces
                 result["DisplayName"] = DisplayName;
 
             result["NameChanged"] = NameChanged;
+   
+            result["TOSDate"] = TOSDate;
 			
             string str = string.Empty;
             foreach (KeyValuePair<string, object> kvp in ServiceURLs)

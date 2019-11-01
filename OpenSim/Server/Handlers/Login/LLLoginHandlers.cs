@@ -158,8 +158,12 @@ namespace OpenSim.Server.Handlers.Login
                     if (request.Params.Count > 4 && (string)request.Params[4] == "gridproxy")
                         LibOMVclient = true;
 
+                    bool agree_to_tos = false;
+                    if (requestData.Contains("agree_to_tos") && requestData["agree_to_tos"] != null)
+                        agree_to_tos = requestData["agree_to_tos"].ToString() == "1";
+
                     LoginResponse reply = null;
-                    reply = m_LocalService.Login(first, last, passwd, startLocation, scopeID, clientVersion, channel, mac, id0, remoteClient, LibOMVclient, rsa_login, rsa_value);
+                    reply = m_LocalService.Login(first, last, passwd, startLocation, scopeID, clientVersion, channel, mac, id0, remoteClient, LibOMVclient, rsa_login, rsa_value, agree_to_tos);
 
                     XmlRpcResponse response = new XmlRpcResponse();
                     response.Value = reply.ToHashtable();

@@ -52,7 +52,7 @@ namespace OpenSim.Services.Interfaces
     public interface ILoginService
     {
         LoginResponse Login(string firstName, string lastName, string passwd, string startLocation, UUID scopeID,
-            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient, bool rsa_login = false, string rsa_data = "");
+            string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP, bool LibOMVclient, bool rsa_login = false, string rsa_data = "", bool agree_to_tos = false);
         Hashtable SetLevel(string firstName, string lastName, string passwd, int level, IPEndPoint clientIP);
     }
 

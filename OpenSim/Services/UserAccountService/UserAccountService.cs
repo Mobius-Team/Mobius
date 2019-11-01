@@ -230,6 +230,9 @@ namespace OpenSim.Services.UserAccountService
             if (d.Data.ContainsKey("NameChanged") && !string.IsNullOrWhiteSpace(d.Data["NameChanged"]?.ToString()))
                 u.NameChanged = Convert.ToInt32(d.Data["NameChanged"].ToString());
 
+            if (d.Data.ContainsKey("TOSDate") && !string.IsNullOrWhiteSpace(d.Data["TOSDate"]?.ToString()))
+                u.TOSDate = Convert.ToInt32(d.Data["TOSDate"].ToString());
+
             if (d.Data.ContainsKey("ServiceURLs") && d.Data["ServiceURLs"] != null)
             {
                 string[] URLs = d.Data["ServiceURLs"].ToString().Split(new char[] { ' ' });
@@ -345,6 +348,7 @@ namespace OpenSim.Services.UserAccountService
                 d.Data["UserTitle"] = data.UserTitle.ToString();
 			d.Data["DisplayName"] = data.DisplayName;
             d.Data["NameChanged"] = data.NameChanged.ToString();
+            d.Data["TOSDate"] = data.TOSDate.ToString();
 
             List<string> parts = new List<string>();
 
