@@ -4,6 +4,15 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.2
+\+ Added RSA Login Support   
+\+ Added TOS Support   
+\* Resident is now trimmed from the username of login messages   
+\* Merge with osCore2 (8ad04c3)   
+
+### Beta 1.2 Notes:
+ - RSA Logins are a work in progress and currently only support PEM format for public/private keys. In the future I would like to add more supported formats.
+
 ## Beta 1.1.1
 \* Fixed some null reference nonsense for GridUsers and Display Names   
 \* Updated OSAWS submodule   
