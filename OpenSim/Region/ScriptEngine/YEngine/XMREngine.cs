@@ -854,13 +854,24 @@ namespace OpenSim.Region.ScriptEngine.Yengine
         public bool PostScriptEvent(UUID itemID, EventParams parms)
         {
             XMRInstance instance = GetInstance(itemID);
-            if(instance == null)
+            if (instance == null)
                 return false;
 
             TraceCalls("[YEngine]: YEngine.PostScriptEvent({0},{1})", itemID.ToString(), parms.EventName);
 
             instance.PostEvent(parms);
             return true;
+        }
+
+        public void CancelScriptEvent(UUID itemID, string eventName)
+        {
+            XMRInstance instance = GetInstance(itemID);
+            if (instance == null)
+                return;
+
+            TraceCalls("[YEngine]: YEngine.CancelScriptEvent({0},{1})", itemID.ToString(), eventName);
+
+            instance.CancelEvent(eventName);
         }
 
         // Events targeted at all scripts in the given prim.
@@ -1231,15 +1242,17 @@ namespace OpenSim.Region.ScriptEngine.Yengine
 
                 // Requested engine not defined, warn on console.
                 // Then we try to handle it if we're the default engine, else we ignore it.
-//                m_log.Warn("[YEngine]: " + itemID.ToString() + " requests undefined/disabled engine " + engineName);
-//                m_log.Info("[YEngine]: - " + part.GetWorldPosition());
-//                m_log.Info("[YEngine]: first line: " + firstline);
+                //m_log.Warn("[YEngine]: " + itemID.ToString() + " requests undefined/disabled engine " + engineName);
+                //m_log.Info("[YEngine]: - " + part.GetWorldPosition());
+                //m_log.Info("[YEngine]: first line: " + firstline);
                 if(defEngine != ScriptEngineName)
                 {
-//                    m_log.Info("[YEngine]: leaving it to the default script engine (" + defEngine + ") to process it");
+                    //m_log.Info("[YEngine]: leaving it to the default script engine (" + defEngine + ") to process it");
                     return;
                 }
-//                m_log.Info("[YEngine]: will attempt to processing it anyway as default script engine");
+                // m_log.Info("[YEngine]: will attempt to processing it anyway as default script engine");
+
+                langsrt = "";
             }
 
             if(!string.IsNullOrEmpty(langsrt) && langsrt !="lsl")

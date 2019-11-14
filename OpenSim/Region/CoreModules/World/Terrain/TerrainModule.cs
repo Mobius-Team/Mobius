@@ -65,11 +65,6 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             Smooth = 3,
             Noise = 4,
             Revert = 5,
-
-            // Extended brushes
-            Erode = 255,
-            Weather = 254,
-            Olsen = 253
         }
 
         #endregion
@@ -81,13 +76,12 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 #pragma warning restore 414
 
         private readonly Commander m_commander = new Commander("terrain");
+        private readonly Dictionary<string, ITerrainLoader> m_loaders = new Dictionary<string, ITerrainLoader>();
         private readonly Dictionary<StandardTerrainEffects, ITerrainFloodEffect> m_floodeffects =
             new Dictionary<StandardTerrainEffects, ITerrainFloodEffect>();
-        private readonly Dictionary<string, ITerrainLoader> m_loaders = new Dictionary<string, ITerrainLoader>();
         private readonly Dictionary<StandardTerrainEffects, ITerrainPaintableEffect> m_painteffects =
             new Dictionary<StandardTerrainEffects, ITerrainPaintableEffect>();
-        private Dictionary<string, ITerrainModifier> m_modifyOperations =
-             new Dictionary<string, ITerrainModifier>();
+        private Dictionary<string, ITerrainModifier> m_modifyOperations = new Dictionary<string, ITerrainModifier>();
         private Dictionary<string, ITerrainEffect> m_plugineffects;
         private ITerrainChannel m_channel;
         private ITerrainChannel m_baked;
@@ -520,13 +514,39 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         /// <param name="size">The size of the brush (0=small, 1=medium, 2=large)</param>
         /// <param name="action">0=LAND_LEVEL, 1=LAND_RAISE, 2=LAND_LOWER, 3=LAND_SMOOTH, 4=LAND_NOISE, 5=LAND_REVERT</param>
         /// <param name="agentId">UUID of script-owner</param>
-        public void ModifyTerrain(UUID user, Vector3 pos, byte size, byte action, UUID agentId)
+        public void ModifyTerrain(UUID user, Vector3 pos, byte size, byte action)
         {
-            float duration = 0.25f;
-            if (action == 0)
-                duration = 4.0f;
+            float duration;
+            float brushSize;
+            if (size > 2)
+            {
+                size = 3;
+                brushSize = 4.0f;
+            }
+            else
+            {
+                size++;
+                brushSize = size;
+            }
 
-            client_OnModifyTerrain(user, (float)pos.Z, duration, size, action, pos.Y, pos.X, pos.Y, pos.X, agentId);
+            switch((StandardTerrainEffects)action)
+            {
+                case StandardTerrainEffects.Flatten:
+                    duration = 7.29f * size * size;
+                    break;
+                case StandardTerrainEffects.Smooth:
+                case StandardTerrainEffects.Revert:
+                    duration = 0.06f * size * size;
+                    break;
+                case StandardTerrainEffects.Noise:
+                    duration = 0.46f * size * size;
+                    break;
+                default:
+                    duration = 0.25f;
+                    break;
+            }
+
+            client_OnModifyTerrain(user, pos.Z, duration, brushSize, action, pos.Y, pos.X, pos.Y, pos.X, -1);
         }
 
         /// <summary>
@@ -686,9 +706,6 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             m_painteffects[StandardTerrainEffects.Noise] = new NoiseSphere();
             m_painteffects[StandardTerrainEffects.Flatten] = new FlattenSphere();
             m_painteffects[StandardTerrainEffects.Revert] = new RevertSphere(m_baked);
-            m_painteffects[StandardTerrainEffects.Erode] = new ErodeSphere();
-            m_painteffects[StandardTerrainEffects.Weather] = new WeatherSphere();
-            m_painteffects[StandardTerrainEffects.Olsen] = new OlsenSphere();
 
             // Area of effect selection effects
             m_floodeffects[StandardTerrainEffects.Raise] = new RaiseArea();
@@ -1310,9 +1327,18 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             return ret;
         }
 
-        private void client_OnModifyTerrain(UUID user, float height, float seconds, byte size, byte action,
-                                            float north, float west, float south, float east, UUID agentId)
+        private double NextModifyTerrainTime = double.MinValue;
+
+        private void client_OnModifyTerrain(UUID user, float height, float seconds, float brushSize, byte action,
+                                            float north, float west, float south, float east, int parcelLocalID)
         {
+            double now = Util.GetTimeStamp();
+            if(now < NextModifyTerrainTime)
+                return;
+
+            NextModifyTerrainTime = double.MaxValue; // block it
+
+            //m_log.DebugFormat("brushs {0} seconds {1} height {2}, parcel {3}", brushSize, seconds, height, parcelLocalID);
             bool god = m_scene.Permissions.IsGod(user);
             bool allowed = false;
             if (north == south && east == west)
@@ -1320,26 +1346,21 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                 if (m_painteffects.ContainsKey((StandardTerrainEffects)action))
                 {
                     bool[,] allowMask = new bool[m_channel.Width, m_channel.Height];
+                    
                     allowMask.Initialize();
-                    int n = size + 1;
-                    if (n > 2)
-                        n = 4;
 
-                    int zx = (int)(west + 0.5);
-                    int zy = (int)(north + 0.5);
-
-                    int startX = zx - n;
+                    int startX = (int)(west - brushSize + 0.5);
                     if (startX < 0)
                         startX = 0;
 
-                    int startY = zy - n;
+                    int startY = (int)(north - brushSize + 0.5);
                     if (startY < 0)
                         startY = 0;
 
-                    int endX = zx + n;
+                    int endX = (int)(west + brushSize + 0.5);
                     if (endX >= m_channel.Width)
                         endX = m_channel.Width - 1;
-                    int endY = zy + n;
+                    int endY = (int)(north + brushSize + 0.5);
                     if (endY >= m_channel.Height)
                         endY = m_channel.Height - 1;
 
@@ -1349,7 +1370,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                     {
                         for (y = startY; y <= endY; y++)
                         {
-                            if (m_scene.Permissions.CanTerraformLand(agentId, new Vector3(x, y, 0)))
+                            if (m_scene.Permissions.CanTerraformLand(user, new Vector3(x, y, -1)))
                             {
                                 allowMask[x, y] = true;
                                 allowed = true;
@@ -1360,7 +1381,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                     {
                         StoreUndoState();
                         m_painteffects[(StandardTerrainEffects) action].PaintEffect(
-                            m_channel, allowMask, west, south, height, size, seconds,
+                            m_channel, allowMask, west, south, height, brushSize, seconds,
                             startX, endX, startY, endY);
 
                         //block changes outside estate limits
@@ -1405,25 +1426,53 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                     else if (endY >= m_channel.Height)
                         endY = m_channel.Height - 1;
 
-
                     int x, y;
-
-                    for (x = startX; x <= endX; x++)
+                    if (parcelLocalID == -1)
                     {
-                        for (y = startY; y <= endY; y++)
+                        for (x = startX; x <= endX; x++)
                         {
-                            if (m_scene.Permissions.CanTerraformLand(agentId, new Vector3(x, y, 0)))
+                            for (y = startY; y <= endY; y++)
                             {
-                                fillArea[x, y] = true;
-                                allowed = true;
+                                if (m_scene.Permissions.CanTerraformLand(user, new Vector3(x, y, -1)))
+                                {
+                                    fillArea[x, y] = true;
+                                    allowed = true;
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        if (!m_scene.Permissions.CanTerraformLand(user, new Vector3(-1, -1, parcelLocalID)))
+                            return;
+
+                        ILandObject parcel = m_scene.LandChannel.GetLandObject(parcelLocalID);
+                        if(parcel == null)
+                            return;
+                        bool [,] parcelmap = parcel.GetLandBitmap();
+//ugly
+                        for (x = startX; x <= endX; x++)
+                        {
+                            int px = x >> 2;
+                            y = startY;
+                            while( y <= endY)
+                            {
+                                int py = y >> 2;
+                                bool inp = parcelmap[px, py];
+                                fillArea[x, y++] = inp;
+                                fillArea[x, y++] = inp;
+                                fillArea[x, y++] = inp;
+                                fillArea[x, y++] = inp;
+                            }
+                        }
+
+                        allowed = true;
                     }
 
                     if (allowed)
                     {
                         StoreUndoState();
-                        m_floodeffects[(StandardTerrainEffects)action].FloodEffect(m_channel, fillArea, size,
+                        m_floodeffects[(StandardTerrainEffects)action].FloodEffect(m_channel, fillArea, height, seconds,
                             startX, endX, startY, endY);
 
                         //block changes outside estate limits
@@ -1436,6 +1485,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                     m_log.Debug("Unknown terrain flood type " + action);
                 }
             }
+            NextModifyTerrainTime = Util.GetTimeStamp() + 0.02; // 20ms cooldown
         }
 
         private void client_OnBakeTerrain(IClientAPI remoteClient)
@@ -1514,8 +1564,8 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                 {
                     for (int y = 0; y < m_channel.Height / 2; y++)
                     {
-                        double height = m_channel[x, y];
-                        double flippedHeight = m_channel[x, (int)m_channel.Height - 1 - y];
+                        float height = m_channel[x, y];
+                        float flippedHeight = m_channel[x, (int)m_channel.Height - 1 - y];
                         m_channel[x, y] = flippedHeight;
                         m_channel[x, (int)m_channel.Height - 1 - y] = height;
 
@@ -1528,8 +1578,8 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                 {
                     for (int x = 0; x < m_channel.Width / 2; x++)
                     {
-                        double height = m_channel[x, y];
-                        double flippedHeight = m_channel[(int)m_channel.Width - 1 - x, y];
+                        float height = m_channel[x, y];
+                        float flippedHeight = m_channel[(int)m_channel.Width - 1 - x, y];
                         m_channel[x, y] = flippedHeight;
                         m_channel[(int)m_channel.Width - 1 - x, y] = height;
 
@@ -1544,11 +1594,11 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 
         private void InterfaceRescaleTerrain(Object[] args)
         {
-            double desiredMin = (double)args[0];
-            double desiredMax = (double)args[1];
+            float desiredMin = (float)args[0];
+            float desiredMax = (float)args[1];
 
             // determine desired scaling factor
-            double desiredRange = desiredMax - desiredMin;
+            float desiredRange = desiredMax - desiredMin;
             //m_log.InfoFormat("Desired {0}, {1} = {2}", new Object[] { desiredMin, desiredMax, desiredRange });
 
             if (desiredRange == 0d)
@@ -1559,8 +1609,8 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             else
             {
                 //work out current heightmap range
-                double currMin = double.MaxValue;
-                double currMax = double.MinValue;
+                float currMin = float.MaxValue;
+                float currMax = float.MinValue;
 
                 int width = m_channel.Width;
                 int height = m_channel.Height;
@@ -1569,7 +1619,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                 {
                     for(int y = 0; y < height; y++)
                     {
-                        double currHeight = m_channel[x, y];
+                        float currHeight = m_channel[x, y];
                         if (currHeight < currMin)
                         {
                             currMin = currHeight;
@@ -1581,8 +1631,8 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                     }
                 }
 
-                double currRange = currMax - currMin;
-                double scale = desiredRange / currRange;
+                float currRange = currMax - currMin;
+                float scale = desiredRange / currRange;
 
                 //m_log.InfoFormat("Current {0}, {1} = {2}", new Object[] { currMin, currMax, currRange });
                 //m_log.InfoFormat("Scale = {0}", scale);
@@ -1592,7 +1642,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                 {
                     for(int y = 0; y < height; y++)
                     {
-                        double currHeight = m_channel[x, y] - currMin;
+                        float currHeight = m_channel[x, y] - currMin;
                         m_channel[x, y] = desiredMin + (currHeight * scale);
                     }
                 }
@@ -1602,7 +1652,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 
         private void InterfaceElevateTerrain(Object[] args)
         {
-            double val = (double)args[0];
+            float val = (float)args[0];
 
             int x, y;
             for (x = 0; x < m_channel.Width; x++)
@@ -1613,7 +1663,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         private void InterfaceMultiplyTerrain(Object[] args)
         {
             int x, y;
-            double val = (double)args[0];
+            float val = (float)args[0];
 
             for (x = 0; x < m_channel.Width; x++)
                 for (y = 0; y < m_channel.Height; y++)
@@ -1623,7 +1673,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         private void InterfaceLowerTerrain(Object[] args)
         {
             int x, y;
-            double val = (double)args[0];
+            float val = (float)args[0];
 
             for (x = 0; x < m_channel.Width; x++)
                 for (y = 0; y < m_channel.Height; y++)
@@ -1633,7 +1683,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         public void InterfaceFillTerrain(Object[] args)
         {
             int x, y;
-            double val = (double)args[0];
+            float val = (float)args[0];
 
             for (x = 0; x < m_channel.Width; x++)
                 for (y = 0; y < m_channel.Height; y++)
@@ -1643,7 +1693,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         private void InterfaceMinTerrain(Object[] args)
         {
             int x, y;
-            double val = (double)args[0];
+            float val = (float)args[0];
             for (x = 0; x < m_channel.Width; x++)
             {
                 for(y = 0; y < m_channel.Height; y++)
@@ -1656,7 +1706,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
         private void InterfaceMaxTerrain(Object[] args)
         {
             int x, y;
-            double val = (double)args[0];
+            float val = (float)args[0];
             for (x = 0; x < m_channel.Width; x++)
             {
                 for(y = 0; y < m_channel.Height; y++)
@@ -1683,8 +1733,8 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 
         private void InterfaceShowDebugStats(Object[] args)
         {
-            double max = Double.MinValue;
-            double min = double.MaxValue;
+            float max = float.MinValue;
+            float min = float.MaxValue;
             double sum = 0;
 
             int x;
@@ -1705,20 +1755,6 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 
             MainConsole.Instance.Output("Channel {0}x{1}", m_channel.Width, m_channel.Height);
             MainConsole.Instance.Output("max/min/avg/sum: {0}/{1}/{2}/{3}", max, min, avg, sum);
-        }
-
-        private void InterfaceEnableExperimentalBrushes(Object[] args)
-        {
-            if ((bool)args[0])
-            {
-                m_painteffects[StandardTerrainEffects.Revert] = new WeatherSphere();
-                m_painteffects[StandardTerrainEffects.Flatten] = new OlsenSphere();
-                m_painteffects[StandardTerrainEffects.Smooth] = new ErodeSphere();
-            }
-            else
-            {
-                InstallDefaultEffects();
-            }
         }
 
         private void InterfaceRunPluginEffect(Object[] args)
@@ -1796,19 +1832,19 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             Command fillRegionCommand =
                 new Command("fill", CommandIntentions.COMMAND_HAZARDOUS, InterfaceFillTerrain, "Fills the current heightmap with a specified value.");
             fillRegionCommand.AddArgument("value", "The numeric value of the height you wish to set your region to.",
-                                          "Double");
+                                          "Float");
 
             Command elevateCommand =
                 new Command("elevate", CommandIntentions.COMMAND_HAZARDOUS, InterfaceElevateTerrain, "Raises the current heightmap by the specified amount.");
-            elevateCommand.AddArgument("amount", "The amount of height to add to the terrain in meters.", "Double");
+            elevateCommand.AddArgument("amount", "The amount of height to add to the terrain in meters.", "Float");
 
             Command lowerCommand =
                 new Command("lower", CommandIntentions.COMMAND_HAZARDOUS, InterfaceLowerTerrain, "Lowers the current heightmap by the specified amount.");
-            lowerCommand.AddArgument("amount", "The amount of height to remove from the terrain in meters.", "Double");
+            lowerCommand.AddArgument("amount", "The amount of height to remove from the terrain in meters.", "Float");
 
             Command multiplyCommand =
                 new Command("multiply", CommandIntentions.COMMAND_HAZARDOUS, InterfaceMultiplyTerrain, "Multiplies the heightmap by the value specified.");
-            multiplyCommand.AddArgument("value", "The value to multiply the heightmap by.", "Double");
+            multiplyCommand.AddArgument("value", "The value to multiply the heightmap by.", "Float");
 
             Command bakeRegionCommand =
                 new Command("bake", CommandIntentions.COMMAND_HAZARDOUS, InterfaceBakeTerrain, "Saves the current terrain into the regions baked map.");
@@ -1821,14 +1857,14 @@ namespace OpenSim.Region.CoreModules.World.Terrain
 
             Command rescaleCommand =
                 new Command("rescale", CommandIntentions.COMMAND_HAZARDOUS, InterfaceRescaleTerrain, "Rescales the current terrain to fit between the given min and max heights");
-            rescaleCommand.AddArgument("min", "min terrain height after rescaling", "Double");
-            rescaleCommand.AddArgument("max", "max terrain height after rescaling", "Double");
+            rescaleCommand.AddArgument("min", "min terrain height after rescaling", "Float");
+            rescaleCommand.AddArgument("max", "max terrain height after rescaling", "Float");
 
             Command minCommand = new Command("min", CommandIntentions.COMMAND_HAZARDOUS, InterfaceMinTerrain, "Sets the minimum terrain height to the specified value.");
-            minCommand.AddArgument("min", "terrain height to use as minimum", "Double");
+            minCommand.AddArgument("min", "terrain height to use as minimum", "Float");
 
             Command maxCommand = new Command("max", CommandIntentions.COMMAND_HAZARDOUS, InterfaceMaxTerrain, "Sets the maximum terrain height to the specified value.");
-            maxCommand.AddArgument("min", "terrain height to use as maximum", "Double");
+            maxCommand.AddArgument("min", "terrain height to use as maximum", "Float");
 
 
             // Debug
@@ -1841,12 +1877,7 @@ namespace OpenSim.Region.CoreModules.World.Terrain
                             "Shows terrain height at a given co-ordinate.");
             showCommand.AddArgument("point", "point in <x>,<y> format with no spaces (e.g. 45,45)", "String");
 
-            Command experimentalBrushesCommand =
-                new Command("newbrushes", CommandIntentions.COMMAND_HAZARDOUS, InterfaceEnableExperimentalBrushes,
-                            "Enables experimental brushes which replace the standard terrain brushes. WARNING: This is a debug setting and may be removed at any time.");
-            experimentalBrushesCommand.AddArgument("Enabled?", "true / false - Enable new brushes", "Boolean");
-
-            // Plugins
+             // Plugins
             Command pluginRunCommand =
                 new Command("effect", CommandIntentions.COMMAND_HAZARDOUS, InterfaceRunPluginEffect, "Runs a specified plugin effect");
             pluginRunCommand.AddArgument("name", "The plugin effect you wish to run, or 'list' to see all plugins", "String");
@@ -1861,7 +1892,6 @@ namespace OpenSim.Region.CoreModules.World.Terrain
             m_commander.RegisterCommand("multiply", multiplyCommand);
             m_commander.RegisterCommand("bake", bakeRegionCommand);
             m_commander.RegisterCommand("revert", revertRegionCommand);
-            m_commander.RegisterCommand("newbrushes", experimentalBrushesCommand);
             m_commander.RegisterCommand("show", showCommand);
             m_commander.RegisterCommand("stats", showDebugStatsCommand);
             m_commander.RegisterCommand("effect", pluginRunCommand);
