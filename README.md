@@ -9,6 +9,9 @@ Features will be developed on their own branches that are based on master until 
 \* Corrected a mistake in the auth migration   
 \* Merge with osCore2 (433a2fa)   
 
+### Beta 1.3 Notes:
+ - Like with Display Names, your AbuseReportsService ConnectionString will need to include `CharSet=utf8mb4;` in order to use special characters.
+
 ## Beta 1.2
 \+ Added RSA Login Support   
 \+ Added TOS Support   
