@@ -1,3 +1,6 @@
 [submodule "OSAWS"]
 	path = OSAWS
 	url = https://github.com/Mobius-Team/OSAWS.git
+[submodule "NoobDash"]
+	path = NoobDash
+	url = https://github.com/Mobius-Team/NoobDash.git
