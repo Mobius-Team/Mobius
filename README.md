@@ -4,6 +4,11 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.3
+\+ Added support for Abuse Reports   
+\* Corrected a mistake in the auth migration   
+\* Merge with osCore2 (433a2fa)   
+
 ## Beta 1.2
 \+ Added RSA Login Support   
 \+ Added TOS Support   
