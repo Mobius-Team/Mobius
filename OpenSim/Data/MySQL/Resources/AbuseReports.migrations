@@ -1,0 +1,28 @@
+# -----------------
+:VERSION 1
+
+BEGIN;
+
+CREATE TABLE `AbuseReports` (
+  `ReportID` int(11) NOT NULL AUTO_INCREMENT,
+  `SenderID` char(36) COLLATE utf8_unicode_ci NOT NULL,
+  `SenderName` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Time` int(11) DEFAULT NULL,
+  `AbuseRegionID` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `AbuseRegionName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `AbuserID` char(36) COLLATE utf8_unicode_ci NOT NULL,
+  `AbuserName` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `Category` int(11) DEFAULT NULL,
+  `CheckFlags` int(11) DEFAULT NULL,
+  `Details` varchar(1280) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `ObjectID` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Position` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ReportType` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Summary` varchar(4608) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `Version` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
+  `ImageData` longblob,
+  PRIMARY KEY (`ReportID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+COMMIT;
+

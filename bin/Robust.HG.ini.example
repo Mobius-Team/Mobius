@@ -114,6 +114,9 @@
     ;; Uncomment if you want to have centralized estate data
     ; EstateDataService = "${Const|PrivatePort}/OpenSim.Server.Handlers.dll:EstateDataRobustConnector"
 
+    ;; Uncomment if you want to have abuse reports
+    ; AbuseReportsServiceConnector = "${Const|PrivatePort}/OpenSim.Server.Handlers.dll:AbuseReportsServiceConnector"
+
     ;; Additions for Hypergrid
 
     GatekeeperServiceInConnector = "${Const|PublicPort}/OpenSim.Server.Handlers.dll:GatekeeperServiceInConnector"
@@ -846,3 +849,8 @@
     LocalServiceModule = "OpenSim.Server.Handlers.dll:XBakes"
     ;; This directory must be writable by the user ROBUST runs as. It will be created automatically.
     BaseDirectory = "./bakes"
+
+[AbuseReportsService]
+    LocalServiceModule = "OpenSim.Services.AbuseReportsService.dll:AbuseReportsService"
+    ;; ConnectionString = "Data Source=localhost;Database=robust;User ID=robust;Password=*****;Old Guids=true;CharSet=utf8mb4;"
+

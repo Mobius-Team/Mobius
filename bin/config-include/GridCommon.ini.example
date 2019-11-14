@@ -235,6 +235,12 @@
     ; Example:
     ; Region_Test_1 = "DisallowForeigners"
 
+[AbuseReportsService]
+    ;
+    ; Change this to your grid-wide grid server
+    ;
+    AbuseReportsServerURI = "${Const|BaseURL}:${Const|PrivatePort}"
+
 ;; Uncomment if you are using SimianGrid for grid services
 [SimianGrid]
     ;; SimianGrid services URL
