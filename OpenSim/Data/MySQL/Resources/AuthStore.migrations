@@ -33,3 +33,13 @@ ALTER TABLE `auth`
 	
 COMMIT;
 
+:VERSION 6
+
+BEGIN;
+
+ALTER TABLE `auth` 
+	CHANGE COLUMN `rsaOnly` `rsaOnly` CHAR(1) NULL DEFAULT '0' ,
+	CHANGE COLUMN `rsaKey` `rsaKey` VARCHAR(512) NULL DEFAULT '';
+
+COMMIT;
+
