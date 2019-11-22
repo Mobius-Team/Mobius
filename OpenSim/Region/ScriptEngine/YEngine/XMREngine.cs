@@ -122,7 +122,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
         public XMRInstQueue m_YieldQueue = new XMRInstQueue();
         public XMRInstQueue m_SleepQueue = new XMRInstQueue();
         private string m_LockedDict = "nobody";
-
+        private ThreadPriority m_workersPrio;
         public Yengine()
         {
         }
@@ -207,8 +207,8 @@ namespace OpenSim.Region.ScriptEngine.Yengine
             if(!m_Enabled)
                 return;
 
-            numThreadScriptWorkers = m_Config.GetInt("NumThreadScriptWorkers", 1);
-
+            numThreadScriptWorkers = m_Config.GetInt("NumThreadScriptWorkers", 2);
+            string priority = m_Config.GetString("Priority", "Normal");
             m_TraceCalls = m_Config.GetBoolean("TraceCalls", false);
             m_Verbose = m_Config.GetBoolean("Verbose", false);
             m_ScriptDebug = m_Config.GetBoolean("ScriptDebug", false);
@@ -250,21 +250,29 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 return;
             }
 
-            m_SleepThread = StartMyThread(RunSleepThread, "Yengine sleep", ThreadPriority.Normal);
-            for(int i = 0; i < numThreadScriptWorkers; i++)
-                StartThreadWorker(i);
+            m_workersPrio = ThreadPriority.Normal;
+            switch (priority)
+            {
+                case "Lowest":
+                    m_workersPrio = ThreadPriority.Lowest;
+                    break;
+                case "BelowNormal":
+                    m_workersPrio = ThreadPriority.BelowNormal;
+                    break;
+                case "Normal":
+                    m_workersPrio = ThreadPriority.Normal;
+                    break;
+                case "AboveNormal":
+                    m_workersPrio = ThreadPriority.AboveNormal;
+                    break;
+                case "Highest":
+                    m_workersPrio = ThreadPriority.Highest;
+                    break;
+                default:
+                    m_log.ErrorFormat("[YEngine] Invalid thread priority: '{0}'. Assuming Normal", priority);
+                    break;
+            }
 
-            m_log.InfoFormat("[YEngine]: Enabled, {0}.{1} Meg (0x{2}) stacks",
-                    (m_StackSize >> 20).ToString(),
-                    (((m_StackSize % 0x100000) * 1000)
-                            >> 20).ToString("D3"),
-                    m_StackSize.ToString("X"));
-
-            m_log.InfoFormat("[YEngine]:  ... {0}.{1} Meg (0x{2}) heaps",
-                    (m_HeapSize >> 20).ToString(),
-                    (((m_HeapSize % 0x100000) * 1000)
-                            >> 20).ToString("D3"),
-                    m_HeapSize.ToString("X"));
 
             m_MaintenanceInterval = m_Config.GetInt("MaintenanceInterval", 10);
 
@@ -300,6 +308,22 @@ namespace OpenSim.Region.ScriptEngine.Yengine
             m_ScriptBasePath = Path.Combine(m_ScriptBasePath, scene.RegionInfo.RegionID.ToString());
 
             Directory.CreateDirectory(m_ScriptBasePath);
+
+            string sceneName = m_Scene.Name;
+
+            m_log.InfoFormat("[YEngine]: Enabled for region {0}", sceneName);
+
+            m_log.InfoFormat("[YEngine]: {0}.{1}MB stacksize, {2}.{3}MB heapsize",
+                    (m_StackSize >> 20).ToString(),
+                    (((m_StackSize % 0x100000) * 1000)
+                            >> 20).ToString("D3"),
+                    (m_HeapSize >> 20).ToString(),
+                    (((m_HeapSize % 0x100000) * 1000)
+                            >> 20).ToString("D3"));
+
+            m_SleepThread = StartMyThread(RunSleepThread, "Yengine sleep" + " (" + sceneName + ")", ThreadPriority.Normal);
+            for (int i = 0; i < numThreadScriptWorkers; i++)
+                StartThreadWorker(i, m_workersPrio, sceneName);
 
             m_Scene.EventManager.OnRezScript += OnRezScript;
 
