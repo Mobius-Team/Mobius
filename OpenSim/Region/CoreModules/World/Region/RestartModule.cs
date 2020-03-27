@@ -87,7 +87,7 @@ namespace OpenSim.Region.CoreModules.World.Region
 
             MainConsole.Instance.Commands.AddCommand("Regions",
                     false, "region restart notice",
-                    "region restart <delta seconds>+",
+                    "region restart notice <delta seconds>+",
                     "Schedule a region restart",
                     "Schedule a region restart after a given number of seconds.  The region is restarted in delta seconds time.",
                     HandleRegionRestart);
@@ -145,8 +145,10 @@ namespace OpenSim.Region.CoreModules.World.Region
             while (seconds > 0)
             {
                 times.Add(seconds);
-                if (seconds > 300)
-                    seconds -= 120;
+                if(seconds >= 600)
+                    seconds -= 300;
+                else if (seconds > 60)
+                    seconds -= 60;
                 else if (seconds > 30)
                     seconds -= 30;
                 else
@@ -322,7 +324,7 @@ namespace OpenSim.Region.CoreModules.World.Region
                     MainConsole.Instance.Output("Region restart aborted");
                     return;
                 }
-                else if (!int.TryParse(args[2], out seconds))
+                else if (!int.TryParse(args[3], out seconds))
                 {
                     MainConsole.Instance.Output("Error: restart region <abort/delta seconds>");
                     return;
