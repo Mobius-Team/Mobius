@@ -86,6 +86,8 @@ namespace OpenSim.Region.ScriptEngine.Yengine
             m_StackSize = stackSize;
             m_StackLeft = stackSize;
             m_HeapSize = heapSize;
+            m_localsHeapUsed = 0;
+            m_arraysHeapUsed = 0;
             m_CompilerErrors = errors;
             m_StateFileName = GetStateFileName(scriptBasePath, m_ItemID);
 
@@ -903,7 +905,7 @@ namespace OpenSim.Region.ScriptEngine.Yengine
                 glblVars.iarStrings = strings;
                 glblVars.iarLists = lists;
 
-                AddHeapUse(heapsz);
+                AddArraysHeapUse(heapsz);
                 CheckRunLockInvariants(true);
             }
 
