@@ -736,6 +736,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         public const int PARCEL_DETAILS_GROUP_SOUNDS = 8;
         // constants for llGetParcelDetails os specific
         public const int PARCEL_DETAILS_DWELL = 64;
+        // Mobius specific
+        public const int PARCEL_DETAILS_LANDING_POINT = 128;
 
         //osSetParcelDetails
         public const int PARCEL_DETAILS_CLAIMDATE = 10;
