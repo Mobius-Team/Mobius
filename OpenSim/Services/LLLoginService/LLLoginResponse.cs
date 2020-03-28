@@ -94,6 +94,8 @@ namespace OpenSim.Services.LLLoginService
         public static LLFailedLoginResponse InternalError;
         public static LLFailedLoginResponse RSALoginOnly;
         public static LLFailedLoginResponse NoRSALogin;
+        public static LLFailedLoginResponse BannedHardwareOrIP;
+        public static LLFailedLoginResponse ClientNotAllowed;
 
         static LLFailedLoginResponse()
         {
@@ -128,6 +130,8 @@ namespace OpenSim.Services.LLLoginService
             NoRSALogin = new LLFailedLoginResponse("key",
                 "This account does not allow RSA logins.",
                 "false");
+            BannedHardwareOrIP = new LLFailedLoginResponse("presence", "You are banned from this grid.", "false");
+            ClientNotAllowed = new LLFailedLoginResponse("presence", "The client you are using is not allowed on this grid.", "false");
         }
 
         public LLFailedLoginResponse(string key, string value, string login)
