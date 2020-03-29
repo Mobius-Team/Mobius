@@ -4,6 +4,14 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.4
+\+ Added osTriggerSoundAtPoint  
+\+ Added PARCEL_DETAILS_LANDING_POINT   
+\+ Added a basic hardware/ip banning service    
+\* Fixed mistakes in the region restart module   
+\* Removed jOpenSim    
+\* Merge with osCore2 (8bc51b)   
+
 ## Beta 1.3
 \+ Added support for Abuse Reports   
 \* Corrected a mistake in the auth migration   
@@ -65,7 +73,6 @@ Features will be developed on their own branches that are based on master until 
  - Display names of HG visitors are updated when they arrive.
 
 # Mobius inherits the following from osCore2:
-- [JOpenSim](http://jopensim.com) is included by default
 - [phpmutelist](https://github.com/kcozens/OpenSimMutelist) is included by default
 - YEngine (formerly XMR) is included and is the default script engine
 - Bulletsim has been removed and UbODE is the default physics engine
