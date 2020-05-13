@@ -445,6 +445,7 @@
     SimulationService ="OpenSim.Services.Connectors.dll:SimulationServiceConnector"
     LibraryService = "OpenSim.Services.InventoryService.dll:LibraryService"
     FriendsService = "OpenSim.Services.FriendsService.dll:FriendsService"
+	AccessControlService = "OpenSim.Services.AccessControlService.dll:AccessControlService"
 
     ; The minimum user level required for a user to be able to login.  0 by default
     ; If you disable a particular user's account then you can set their login level below this number.

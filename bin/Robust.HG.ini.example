@@ -505,6 +505,7 @@
     SimulationService ="OpenSim.Services.Connectors.dll:SimulationServiceConnector"
     LibraryService = "OpenSim.Services.InventoryService.dll:LibraryService"
     FriendsService = "OpenSim.Services.FriendsService.dll:FriendsService"
+	AccessControlService = "OpenSim.Services.AccessControlService.dll:AccessControlService"
     ; The minimum user level required for a user to be able to login.  0 by default
     ; If you disable a particular user's account then you can set their login level below this number.
     ; You can also change this level from the console though these changes will not be persisted.
@@ -666,6 +667,7 @@
     GridService = "OpenSim.Services.GridService.dll:GridService"
     AuthenticationService = "OpenSim.Services.Connectors.dll:AuthenticationServicesConnector"
     SimulationService ="OpenSim.Services.Connectors.dll:SimulationServiceConnector"
+	AccessControlService = "OpenSim.Services.AccessControlService.dll:AccessControlService"
     ; how does the outside world reach me? This acts as public key too.
     ;; If you have GatekeeperURI set under [Hypergrid], no need to set it here, leave it commented
     ; ExternalName = "${Const|BaseURL}:${Const|PublicPort}"
