@@ -87,5 +87,113 @@ namespace OpenSim.Data.MySQL
             
             return is_banned;
         }
+
+        public bool BanIPAddress(string ip)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("INSERT IGNORE INTO `banned_ips` (`ip`) VALUES(?ip)", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?ip", ip);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool UnbanIPAddress(string ip)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("DELETE FROM `banned_ips` WHERE ip=?ip LIMIT 1", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?ip", ip);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool BanMacAddress(string mac)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("INSERT IGNORE INTO `banned_macs` (`mac`) VALUES(?mac)", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?mac", mac);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool UnbanMacAddress(string mac)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("DELETE FROM `banned_macs` WHERE mac=?mac LIMIT 1", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?mac", mac);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool BanID0(string id0)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("INSERT IGNORE INTO `banned_id0s` (`id0`) VALUES(?id0)", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?id0", id0);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool UnbanID0(string id0)
+        {
+            using (MySqlConnection dbcon = new MySqlConnection(m_connectionString))
+            {
+                dbcon.Open();
+
+                using (MySqlCommand cmd
+                    = new MySqlCommand("DELETE FROM `banned_id0s` WHERE id0=?id0 LIMIT 1", dbcon))
+                {
+                    cmd.Parameters.AddWithValue("?id0", id0);
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
     }
 }
