@@ -4,6 +4,17 @@ This is our public version of Mobius. Features will be added here once they reac
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
 
+## Beta 1.4.1
+\+ Added PARCEL_DETAILS_TELEPORT_ROUTING   
+\+ Added PARCEL_DETAILS_OBJECT_RETURN    
+\+ Added commands to add/remove ip and hardware bans   
+\+ Added a few terrain commands to the inworld region console   
+\* Updated the ini examples to include the new access service   
+\* Changed the solution name to Mobius   
+
+### Beta 1.4.1 Notes:
+ - The inworld region console now allows estate managers to elevate, lower, and fill the region's terrain. I've also added a new command for loading the terrain using a texture uuid of an uploaded height map.
+
 ## Beta 1.4
 \+ Added osTriggerSoundAtPos  
 \+ Added PARCEL_DETAILS_LANDING_POINT   
