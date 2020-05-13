@@ -14416,6 +14416,12 @@ namespace OpenSim.Region.ScriptEngine.Shared.Api
                     case "128":
                         ret.Add(new LSL_Vector(land.UserLocation));
                         break;
+                    case "129":
+                        ret.Add(new LSL_Integer(land.LandingType));
+                        break;
+                    case "130":
+                        ret.Add(new LSL_Integer(land.OtherCleanTime));
+                        break;
                     default:
                         ret.Add(new LSL_Integer(0));
                         break;

@@ -738,6 +738,8 @@ namespace OpenSim.Region.ScriptEngine.Shared.ScriptBase
         public const int PARCEL_DETAILS_DWELL = 64;
         // Mobius specific
         public const int PARCEL_DETAILS_LANDING_POINT = 128;
+        public const int PARCEL_DETAILS_TELEPORT_ROUTING = 129;
+        public const int PARCEL_DETAILS_OBJECT_RETURN = 130;
 
         //osSetParcelDetails
         public const int PARCEL_DETAILS_CLAIMDATE = 10;
