@@ -6,6 +6,18 @@ setlocal ENABLEEXTENSIONS
 set VALUE_NAME=MSBuildToolsPath
 
 
+rem try find vs2019
+if "%PROCESSOR_ARCHITECTURE%"=="x86" set PROGRAMS=%ProgramFiles%
+if defined ProgramFiles(x86) set PROGRAMS=%ProgramFiles(x86)%
+
+for %%e in (Enterprise Professional Community) do (
+    if exist "%PROGRAMS%\Microsoft Visual Studio\2019\%%e\MSBuild\Current\Bin\MSBuild.exe" (
+
+        set ValueValue="%PROGRAMS%\Microsoft Visual Studio\2019\%%e\MSBuild\Current\Bin\"
+		goto :found
+    )
+)
+
 rem try find vs2017
 if "%PROCESSOR_ARCHITECTURE%"=="x86" set PROGRAMS=%ProgramFiles%
 if defined ProgramFiles(x86) set PROGRAMS=%ProgramFiles(x86)%
@@ -39,7 +51,7 @@ FOR /F "usebackq tokens=1-3" %%A IN (`REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Mic
 	goto :found
 )
 
-@echo msbuild for at least VS2015 not found, please install a (Community) edition of VS2017 or VS2015
+@echo msbuild for at least VS2015 not found, please install a (Community) edition of VS2019, VS2017 or VS2015
 @echo Not creating compile.bat
 if exist "compile.bat" (
 	del compile.bat
@@ -49,6 +61,6 @@ goto :done
 :found
     @echo Found msbuild at %ValueValue%
     @echo Creating compile.bat
-	@echo %ValueValue%\msbuild opensim.sln > compile.ba
-	@echo %ValueValue%\msbuild opensim.sln /P:Config=Release /m > compilerelease.bat
+	@echo %ValueValue%\msbuild Mobius.sln > compile.bat
+	@echo %ValueValue%\msbuild Mobius.sln /P:Config=Release /m > compilerelease.bat
 :done
