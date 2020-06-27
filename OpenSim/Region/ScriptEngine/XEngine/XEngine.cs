@@ -2530,5 +2530,10 @@ namespace OpenSim.Region.ScriptEngine.XEngine
                 instance.ExecutionTimer.Start();
             }
         }
+
+        public Dictionary<uint, int> GetObjectScriptsBytesUsed()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
