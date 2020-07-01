@@ -276,7 +276,7 @@ namespace OpenSim.Tests.Common
 
         public Dictionary<uint, int> GetObjectScriptsBytesUsed()
         {
-            throw new NotImplementedException();
+            return new Dictionary<uint, int>();
         }
     }
 }
