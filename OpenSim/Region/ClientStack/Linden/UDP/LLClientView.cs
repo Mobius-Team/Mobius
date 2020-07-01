@@ -3554,7 +3554,6 @@ namespace OpenSim.Region.ClientStack.LindenUDP
             }
             else
             {
-                m_log.InfoFormat("The reply will contain {0} entries", lsrpia.Length);
                 StringBuilder sb = eq.StartEvent("LandStatReply");
 
                 LLSDxmlEncode.AddArrayAndMap("RequestData", sb);
