@@ -31,7 +31,7 @@ namespace OpenSim
     {
         public const string VersionNumber = "0.9.1.1";
         public const string AssemblyVersionNumber = "0.9.1.1";
-        public const string MobiusVersionNumber = "1.4.1";
+        public const string MobiusVersionNumber = "1.4.2";
 
         public const Flavour VERSION_FLAVOUR = Flavour.Beta;
 

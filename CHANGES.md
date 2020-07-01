@@ -1,3 +1,12 @@
+## Beta 1.4.2
+\+ Added support for the additional info on the top scripts floater   
+\* Updated prebuild to support vs2019   
+\* Updated .gitignore to core's   
+\* Fixed a minor issue with os_groups_Store.migrations   
+
+### Beta 1.4.2 Notes:
+ - I haven't done the additional filters yet for Top Scripts   
+
 ## Beta 1.4.1
 \+ Added PARCEL_DETAILS_TELEPORT_ROUTING   
 \+ Added PARCEL_DETAILS_OBJECT_RETURN    
