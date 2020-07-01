@@ -75,6 +75,7 @@ namespace OpenSim.Region.CoreModules.World.WorldMap
 
         private IMapImageGenerator m_mapImageGenerator;
         private IMapImageUploadModule m_mapImageServiceModule;
+        private IRegionConsole m_regionConsole;
 
         protected Scene m_scene;
         private List<MapBlockData> cachedMapBlocks = new List<MapBlockData>();
@@ -161,6 +162,12 @@ namespace OpenSim.Region.CoreModules.World.WorldMap
 
             m_mapImageGenerator = m_scene.RequestModuleInterface<IMapImageGenerator>();
             m_mapImageServiceModule = m_scene.RequestModuleInterface<IMapImageUploadModule>();
+            m_regionConsole = scene.RequestModuleInterface<IRegionConsole>();
+
+            if(m_regionConsole != null)
+            {
+                m_regionConsole.AddCommand("Region", false, "regenerate map", "regenerate map", "Regenerate the region's map tile.", HandleRegenerateMap);
+            }
         }
 
         public virtual void Close()
@@ -178,6 +185,16 @@ namespace OpenSim.Region.CoreModules.World.WorldMap
         }
 
         #endregion
+
+        private void HandleRegenerateMap(string module, string[] cmd)
+        {
+            UUID agentID = new UUID(cmd[cmd.Length - 1]);
+            Array.Resize(ref cmd, cmd.Length - 1);
+
+            m_regionConsole.SendConsoleOutput(agentID, "Regenerating map tile...");
+
+            m_scene.RegenerateMaptileAndReregister(this, null);
+        }
 
         // this has to be called with a lock on m_scene
         protected virtual void AddHandlers()

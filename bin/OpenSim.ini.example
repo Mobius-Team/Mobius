@@ -317,6 +317,11 @@
     ; NoVerifyCertHostname = true
     ;; having both options true does provide encryption but with low security
     ;; set both true if you don't care to use SSL, they are needed to contact regions or grids that do use it.
+	
+	;# {OnlyGenerateMapTilesIfMissing} {} { true false } false
+	;; If you would only like the region to generate a map tile if it doesn't already have one set this to true
+	;; However if you would like it to generate a new tile every time it start then set this to false
+	; OnlyGenerateMapTilesIfMissing = false
     
 [AccessControl]
     ;# {AllowedClients} {} {Bar (|) separated list of allowed clients} {}
