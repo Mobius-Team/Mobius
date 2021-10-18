@@ -1,4 +1,4 @@
-# Mobius is a fork of [osCore2](https://github.com/osCore2/osCore2)
+# Mobius is discountied. Please instead use our successor fork [Consortium](https://github.com/Open-Consortium/consortium)
 
 This is our public version of Mobius. Features will be added here once they reach a relatively stable stage in their development.
 
