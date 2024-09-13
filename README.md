@@ -1,5 +1,4 @@
-# Mobius is discontinued. Please instead use our successor fork [Consortium](https://github.com/Open-Consortium/consortium)
-
+# Mobius is discontinued. If you like our features please instead use the fork [NGC](https://github.com/OpenSim-NGC/OpenSim-Sasquatch).
 This is our public version of Mobius. Features will be added here once they reach a relatively stable stage in their development.
 
 Features will be developed on their own branches that are based on master until they are ready for beta. Small patches and changes will go straight to beta. The beta branch will always be up-to-date with master. Once the beta branch is stable it will be remerged into master. In short, master is the stable release, but beta will have more stuff.
